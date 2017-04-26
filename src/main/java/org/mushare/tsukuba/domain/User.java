@@ -30,16 +30,17 @@ public class User implements Serializable {
     private String identifier;
 
     @Column(nullable = false)
-    private  String credential;
+    private String credential;
 
     @Column
     private String contact;
 
     @Column
-    private  String address;
+    private String address;
 
     @Column(nullable = false)
     private Integer level;
+
 
     public String getOid() {
         return oid;
@@ -121,3 +122,5 @@ public class User implements Serializable {
         this.level = level;
     }
 }
+
+
