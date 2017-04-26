@@ -6,13 +6,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "tsukuba_category")
-public class Category implements Serializable {
+@Table(name = "tsukuba_selection")
+public class Selection implements Serializable {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
-    private String oid;
+    private String sid;
 
     @Column(nullable = false)
     private Long createAt;
@@ -20,18 +20,19 @@ public class Category implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @Column
-    private String icon;
-
     @Column(nullable = false)
     private Integer rev;
 
-    public String getOid() {
-        return oid;
+    @ManyToOne
+    @JoinColumn(name = "cid")
+    private Category category;
+
+    public String getSid() {
+        return sid;
     }
 
-    public void setOid(String oid) {
-        this.oid = oid;
+    public void setSid(String sid) {
+        this.sid = sid;
     }
 
     public Long getCreateAt() {
@@ -50,19 +51,19 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
     public Integer getRev() {
         return rev;
     }
 
     public void setRev(Integer rev) {
         this.rev = rev;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
