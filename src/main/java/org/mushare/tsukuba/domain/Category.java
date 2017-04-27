@@ -18,6 +18,9 @@ public class Category implements Serializable {
     private Long createAt;
 
     @Column(nullable = false)
+    private Boolean enable;
+
+    @Column(nullable = false)
     private String name;
 
     @Column
@@ -40,6 +43,14 @@ public class Category implements Serializable {
 
     public void setCreateAt(Long createAt) {
         this.createAt = createAt;
+    }
+
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
     }
 
     public String getName() {
@@ -65,4 +76,5 @@ public class Category implements Serializable {
     public void setRev(Integer rev) {
         this.rev = rev;
     }
+
 }

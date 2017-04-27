@@ -18,6 +18,9 @@ public class Selection implements Serializable {
     private Long createAt;
 
     @Column(nullable = false)
+    private Boolean enable;
+
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
@@ -43,6 +46,14 @@ public class Selection implements Serializable {
         this.createAt = createAt;
     }
 
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
+    }
+
     public String getName() {
         return name;
     }
@@ -66,4 +77,5 @@ public class Selection implements Serializable {
     public void setCategory(Category category) {
         this.category = category;
     }
+
 }
