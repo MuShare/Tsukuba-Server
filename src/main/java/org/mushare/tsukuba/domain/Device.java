@@ -22,7 +22,7 @@ public class Device implements Serializable {
     @Column(nullable = false)
     private String token;
 
-    @Column(nullable = false)
+    @Column
     private String devicetoken;
 
     @Column(nullable = false)
@@ -31,8 +31,11 @@ public class Device implements Serializable {
     @Column(nullable = false)
     private String os;
 
-    @Column(nullable = false)
+    @Column
     private String version;
+
+    @Column
+    private String lan;
 
     @ManyToOne
     @JoinColumn(name = "uid")

@@ -41,7 +41,6 @@ public class User implements Serializable {
     @Column(nullable = false)
     private Integer level;
 
-
     public String getOid() {
         return oid;
     }
