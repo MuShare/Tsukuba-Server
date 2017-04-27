@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "tsukuba_category")
-public class Category implements Serializable {
+@Table(name = "tsukuba_option")
+public class Option implements Serializable {
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -20,11 +20,12 @@ public class Category implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @Column
-    private String icon;
-
     @Column(nullable = false)
     private Integer rev;
+
+    @ManyToOne
+    @JoinColumn(name = "sid")
+    private Selection selection;
 
     public String getOid() {
         return oid;
@@ -50,19 +51,19 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
     public Integer getRev() {
         return rev;
     }
 
     public void setRev(Integer rev) {
         this.rev = rev;
+    }
+
+    public Selection getSelection() {
+        return selection;
+    }
+
+    public void setSelection(Selection selection) {
+        this.selection = selection;
     }
 }

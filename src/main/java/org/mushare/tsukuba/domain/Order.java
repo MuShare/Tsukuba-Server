@@ -33,7 +33,8 @@ public class Order implements Serializable {
     @JoinColumn(name = "cid")
     private Category category;
 
-    @JoinColumn ( name = "uid")
+    @ManyToOne
+    @JoinColumn(name = "uid")
     private User user;
 
 
@@ -84,6 +85,7 @@ public class Order implements Serializable {
     public void setEnable(Boolean enable) {
         this.enable = enable;
     }
+
     public Category getCategory() {
         return category;
     }
