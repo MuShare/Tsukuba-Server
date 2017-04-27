@@ -21,8 +21,8 @@ public class Picture implements Serializable {
     private String path;
 
     @ManyToOne
-    @JoinColumn(name = "oid")
-    private Order order;
+    @JoinColumn(name = "mid")
+    private Message message;
 
     public String getPid() {
         return pid;
@@ -48,11 +48,11 @@ public class Picture implements Serializable {
         this.path = path;
     }
 
-    public Order getOrder() {
-        return order;
+    public Message getMessage() {
+        return message;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setMessage(Message message) {
+        this.message = message;
     }
 }
