@@ -6,13 +6,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "tsukuba_order")
-public class Order implements Serializable {
+@Table(name = "tsukuba_message")
+public class Message implements Serializable {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
-    private String oid;
+    private String mid;
 
     @Column(nullable = false)
     private Long createAt;
@@ -37,13 +37,12 @@ public class Order implements Serializable {
     @JoinColumn(name = "uid")
     private User user;
 
-
-    public String getOid() {
-        return oid;
+    public String getMid() {
+        return mid;
     }
 
-    public void setOid(String oid) {
-        this.oid = oid;
+    public void setMid(String mid) {
+        this.mid = mid;
     }
 
     public Long getCreateAt() {

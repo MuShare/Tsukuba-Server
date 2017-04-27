@@ -18,8 +18,8 @@ public class Answer implements Serializable {
     private Long createAt;
 
     @ManyToOne
-    @JoinColumn(name = "oid")
-    private Order order;
+    @JoinColumn(name = "mid")
+    private Message message;
 
     @ManyToOne
     @JoinColumn(name = "oid")
@@ -41,12 +41,12 @@ public class Answer implements Serializable {
         this.createAt = createAt;
     }
 
-    public Order getOrder() {
-        return order;
+    public Message getMessage() {
+        return message;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setMessage(Message message) {
+        this.message = message;
     }
 
     public Option getOption() {
