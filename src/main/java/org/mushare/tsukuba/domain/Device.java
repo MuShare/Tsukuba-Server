@@ -11,7 +11,7 @@ public class Device implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
-    private String sid;
+    private String did;
 
     @Column(nullable = false)
     private Long createAt;
@@ -41,12 +41,12 @@ public class Device implements Serializable {
     @JoinColumn(name = "uid")
     private User user;
 
-    public String getSid() {
-        return sid;
+    public String getDid() {
+        return did;
     }
 
-    public void setSid(String sid) {
-        this.sid = sid;
+    public void setDid(String did) {
+        this.did = did;
     }
 
     public Long getCreateAt() {
@@ -103,5 +103,21 @@ public class Device implements Serializable {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getLan() {
+        return lan;
+    }
+
+    public void setLan(String lan) {
+        this.lan = lan;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
