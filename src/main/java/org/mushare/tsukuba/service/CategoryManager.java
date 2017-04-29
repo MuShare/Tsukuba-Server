@@ -1,6 +1,9 @@
 package org.mushare.tsukuba.service;
 
+import org.mushare.tsukuba.bean.CategoryBean;
+
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 public interface CategoryManager {
 
@@ -14,5 +17,12 @@ public interface CategoryManager {
      * @return
      */
     boolean createCategory(String identifier, HttpSession session);
+
+    /**
+     * Get all categories order by create date.
+     *
+     * @return
+     */
+    List<CategoryBean> getAll();
 
 }
