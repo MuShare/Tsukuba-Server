@@ -24,7 +24,7 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
         category.setCreateAt(System.currentTimeMillis());
         category.setIdentifier(identifier);
         category.setEnable(false);
-        category.setRev(0);
+        category.setRev(categoryDao.getMaxRev() + 1);
         return categoryDao.save(category) != null;
     }
 
