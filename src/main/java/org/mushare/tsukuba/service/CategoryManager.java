@@ -7,6 +7,13 @@ import java.util.List;
 
 public interface CategoryManager {
 
+    /**
+     * Get all categories order by create date.
+     *
+     * @return
+     */
+    List<CategoryBean> getAll();
+
     //******************* Admin *********************
 
     /**
@@ -19,10 +26,13 @@ public interface CategoryManager {
     boolean createCategory(String identifier, HttpSession session);
 
     /**
-     * Get all categories order by create date.
+     * Admin change enable attribute of a category.
      *
+     * @param cid
+     * @param enable
+     * @param session
      * @return
      */
-    List<CategoryBean> getAll();
+    boolean enable(String cid, boolean enable, HttpSession session);
 
 }

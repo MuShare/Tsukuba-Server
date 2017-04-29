@@ -9,6 +9,13 @@ $(document).ready(function () {
                     createAt: category.createAt.format(DATE_HOUR_MINUTE_SECOND_FORMAT),
                     identifier: category.identifier
                 });
+
+                $("#" + category.cid + " .category-list-enable input").bootstrapSwitch({
+                    state: category.enable
+                }).on("switchChange.bootstrapSwitch", function (event, state) {
+                    var cid = $(this).mengularId();
+                    CategoryManager.enable(cid, state);
+                });
             }
         });
     });

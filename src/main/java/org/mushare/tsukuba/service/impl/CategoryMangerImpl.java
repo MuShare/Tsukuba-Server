@@ -2,6 +2,7 @@ package org.mushare.tsukuba.service.impl;
 
 import org.directwebremoting.annotations.RemoteMethod;
 import org.directwebremoting.annotations.RemoteProxy;
+import org.mushare.common.util.Debug;
 import org.mushare.tsukuba.bean.CategoryBean;
 import org.mushare.tsukuba.domain.Category;
 import org.mushare.tsukuba.service.CategoryManager;
@@ -18,6 +19,15 @@ import java.util.List;
 public class CategoryMangerImpl extends ManagerTemplate implements CategoryManager {
 
     @RemoteMethod
+    public List<CategoryBean> getAll() {
+        List<CategoryBean> categoryBeans = new ArrayList<CategoryBean>();
+        for (Category category : categoryDao.findAll("createAt", true)) {
+            categoryBeans.add(new CategoryBean(category));
+        }
+        return categoryBeans;
+    }
+
+    @RemoteMethod
     @Transactional
     public boolean createCategory(String identifier, HttpSession session) {
         if (!checkAdminSession(session)) {
@@ -32,12 +42,19 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
     }
 
     @RemoteMethod
-    public List<CategoryBean> getAll() {
-        List<CategoryBean> categoryBeans = new ArrayList<CategoryBean>();
-        for (Category category : categoryDao.findAll("createAt", true)) {
-            categoryBeans.add(new CategoryBean(category));
+    @Transactional
+    public boolean enable(String cid, boolean enable, HttpSession session) {
+        if (!checkAdminSession(session)) {
+            return false;
         }
-        return categoryBeans;
+        Category category = categoryDao.get(cid);
+        if (category == null) {
+            Debug.error("Cannot find a category by this cid.");
+            return false;
+        }
+        category.setEnable(enable);
+        categoryDao.update(category);
+        return true;
     }
 
 }

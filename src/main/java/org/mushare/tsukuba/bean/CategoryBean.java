@@ -9,7 +9,7 @@ import java.util.Date;
 @DataTransferObject
 public class CategoryBean {
 
-    private String oid;
+    private String cid;
     private Date createAt;
     private boolean enable;
     private String identifier;
@@ -17,12 +17,12 @@ public class CategoryBean {
     private String icon;
     private int rev;
 
-    public String getOid() {
-        return oid;
+    public String getCid() {
+        return cid;
     }
 
-    public void setOid(String oid) {
-        this.oid = oid;
+    public void setCid(String cid) {
+        this.cid = cid;
     }
 
     public Date getCreateAt() {
@@ -74,7 +74,7 @@ public class CategoryBean {
     }
 
     public CategoryBean(Category category) {
-        this.oid = category.getOid();
+        this.cid = category.getCid();
         this.createAt = new Date(category.getCreateAt());
         this.enable = category.getEnable();
         this.identifier = category.getIdentifier();

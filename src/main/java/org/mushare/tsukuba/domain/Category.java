@@ -12,7 +12,7 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
-    private String oid;
+    private String cid;
 
     @Column(nullable = false)
     private Long createAt;
@@ -32,12 +32,12 @@ public class Category implements Serializable {
     @Column(nullable = false)
     private Integer rev;
 
-    public String getOid() {
-        return oid;
+    public String getCid() {
+        return cid;
     }
 
-    public void setOid(String oid) {
-        this.oid = oid;
+    public void setCid(String cid) {
+        this.cid = cid;
     }
 
     public Long getCreateAt() {
