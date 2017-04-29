@@ -21,6 +21,9 @@ public class Category implements Serializable {
     private Boolean enable;
 
     @Column(nullable = false)
+    private String identifier;
+
+    @Column
     private String name;
 
     @Column
@@ -51,6 +54,14 @@ public class Category implements Serializable {
 
     public void setEnable(Boolean enable) {
         this.enable = enable;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     public String getName() {
