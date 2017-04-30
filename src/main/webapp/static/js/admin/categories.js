@@ -1,23 +1,75 @@
 $(document).ready(function () {
 
     checkAdminSession(function () {
-        CategoryManager.getAll(function (categories) {
-            for (var i in categories) {
-                var category = categories[i];
-                $("#category-list tbody").mengular(".category-list-template", {
-                    cid: category.cid,
-                    createAt: category.createAt.format(DATE_HOUR_MINUTE_SECOND_FORMAT),
-                    identifier: category.identifier
-                });
+        loadCategories();
+    });
+    
+    $("#create-worker-submit").click(function () {
+        var identifier = $("#create-worker-identifier").val();
+        var validate = true;
+        if (identifier == "") {
+            $("#create-worker-identifier").parent().parent().addClass("has-error");
+            validate = false;
+        } else {
+            $("#create-worker-identifier").parent().parent().removeClass("has-error");
+        }
+        if (validate) {
+            CategoryManager.createCategory(identifier, function(result) {
+                if (result == Result.SessionError.name) {
+                    location.href = "session.html";
+                    return;
+                }
+                loadCategories();
+                $("#create-category-modal").modal("hide");
+            });
+        }
 
-                $("#" + category.cid + " .category-list-enable input").bootstrapSwitch({
-                    state: category.enable
-                }).on("switchChange.bootstrapSwitch", function (event, state) {
-                    var cid = $(this).mengularId();
-                    CategoryManager.enable(cid, state);
-                });
-            }
-        });
+    });
+
+    $("#create-category-modal").on("hidden.bs.modal", function (e) {
+        $("#create-category-form .form-group input").val("");
+        $("#create-category-form .form-group").removeClass("has-error");
     });
 
 });
+
+function loadCategories() {
+    CategoryManager.getAll(function (categories) {
+        $("#category-list tbody").mengularClear();
+
+        for (var i in categories) {
+            var category = categories[i];
+            $("#category-list tbody").mengular(".category-list-template", {
+                cid: category.cid,
+                createAt: category.createAt.format(DATE_HOUR_MINUTE_SECOND_FORMAT),
+                identifier: category.identifier
+            });
+
+            $("#" + category.cid + " .category-list-enable input").bootstrapSwitch({
+                state: category.enable
+            }).on("switchChange.bootstrapSwitch", function (event, state) {
+                var cid = $(this).mengularId();
+                CategoryManager.enable(cid, state);
+            });
+            
+            $("#" + category.cid + " .category-list-remove").click(function () {
+                var cid = $(this).mengularId();
+                var identifier = $("#" + cid + " .category-list-identifier").text();
+                $.messager.confirm("Warning", "Are you sure to remove this category " + identifier + " ?", function () {
+                    CategoryManager.removeCategory(cid, function (result) {
+                        if (result == Result.SessionError.name) {
+                            location.href = "session.html";
+                            return;
+                        }
+                        if (result == Result.CategoryRemoveNotAllow.name) {
+                            $.messager.popup(Result.CategoryRemoveNotAllow.message);
+                            return;
+                        }
+                        $.messager.popup("Remove " + identifier + " successfully!");
+                        $("#" + cid).fadeOut().remove();
+                    });
+                });
+            });
+        }
+    });
+}

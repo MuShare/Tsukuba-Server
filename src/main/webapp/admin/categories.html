@@ -19,7 +19,27 @@
     <script src="/dwr/engine.js"></script>
     <script src="/dwr/interface/AdminManager.js"></script>
     <script src="/dwr/interface/CategoryManager.js"></script>
+    <script src="/static/js/admin/result.js"></script>
     <script src="/static/js/admin/categories.js"></script>
+    <style>
+        #create-category {
+            cursor: pointer
+        }
+
+        #create-category-form .form-group {
+            height: 34px;
+            margin-bottom: 10px;
+        }
+
+        #create-category-form .form-group .control-label {
+            line-height:34px;
+            margin-bottom: 0;
+        }
+
+        #category-list .category-list-remove {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -30,24 +50,51 @@
         <div class="panel-heading">
             <h1 class="panel-title">
                 <span>Category List</span>
+                <i id="create-category" class="fa fa-plus pull-right" data-toggle="modal" data-target="#create-category-modal"></i>
             </h1>
         </div>
         <table id="category-list" class="table">
             <thead>
             <tr>
-                <th>create date</th>
-                <th>identifier</th>
-                <th>enable</th>
+                <th>Create date</th>
+                <th>Identifier</th>
+                <th>Enable</th>
+                <th>Remove</th>
             </tr>
             </thead>
             <tbody>
             <tr id="${cid}$" class="mengular-template category-list-template">
                 <td>${createAt}$</td>
-                <td>${identifier}$</td>
+                <td class="category-list-identifier">${identifier}$</td>
                 <td class="category-list-enable"><input type="checkbox" data-size="mini" data-on-text="ON" data-off-text="OFF"></td>
+                <td class="category-list-remove"><i class="fa fa-lg fa-trash-o text-danger"></i></td>
             </tr>
             </tbody>
         </table>
+    </div>
+</div>
+<div id="create-category-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Create a new category</h4>
+            </div>
+            <div id="create-category-form" class="modal-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">identifier</label>
+                    <div class="col-sm-10">
+                        <input id="create-worker-identifier" type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="create-worker-submit" type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
     </div>
 </div>
 </body>
