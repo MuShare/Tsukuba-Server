@@ -7,6 +7,7 @@ import org.mushare.tsukuba.bean.CategoryBean;
 import org.mushare.tsukuba.domain.Category;
 import org.mushare.tsukuba.service.CategoryManager;
 import org.mushare.tsukuba.service.common.ManagerTemplate;
+import org.mushare.tsukuba.service.common.Result;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,32 +30,50 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
 
     @RemoteMethod
     @Transactional
-    public boolean createCategory(String identifier, HttpSession session) {
+    public Result createCategory(String identifier, HttpSession session) {
         if (!checkAdminSession(session)) {
-            return false;
+            return Result.SessionError;
         }
         Category category = new Category();
         category.setCreateAt(System.currentTimeMillis());
         category.setIdentifier(identifier);
         category.setEnable(false);
         category.setRev(categoryDao.getMaxRev() + 1);
-        return categoryDao.save(category) != null;
+        if (categoryDao.save(category) == null) {
+            return Result.SaveInternalError;
+        }
+        return Result.Success;
     }
 
     @RemoteMethod
     @Transactional
-    public boolean enable(String cid, boolean enable, HttpSession session) {
+    public Result enable(String cid, boolean enable, HttpSession session) {
         if (!checkAdminSession(session)) {
-            return false;
+            return Result.SessionError;
         }
         Category category = categoryDao.get(cid);
         if (category == null) {
             Debug.error("Cannot find a category by this cid.");
-            return false;
+            return Result.ObjectIdError;
         }
         category.setEnable(enable);
         categoryDao.update(category);
-        return true;
+        return Result.Success;
+    }
+
+    @RemoteMethod
+    @Transactional
+    public Result removeCategory(String cid, HttpSession session) {
+        if (!checkAdminSession(session)) {
+            return Result.SessionError;
+        }
+        Category category = categoryDao.get(cid);
+        if (category == null) {
+            Debug.error("Cannot find a category by this cid.");
+            return Result.ObjectIdError;
+        }
+        categoryDao.delete(category);
+        return Result.Success;
     }
 
 }
