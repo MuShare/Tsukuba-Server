@@ -1,0 +1,8 @@
+{
+	"mail": {
+		"sender": "test@mushare.cn",
+		"smtp": "smtp.ym.163.com",
+		"username": "test@mushare.cn",
+		"password": "test_account"
+	}
+}

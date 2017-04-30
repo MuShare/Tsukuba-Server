@@ -8,6 +8,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul id="menu-bar" class="nav navbar-nav logined-btn">
                 <li><a href="categories.html">Category</a></li>
+                <li><a href="config.html">Config</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/logout/admin">Logout</a></li>
@@ -17,7 +18,8 @@
 </nav>
 <script type="text/javascript">
     var map = {
-        categories: 0
+        categories: 0,
+        config: 1
     }
     $("#menu-bar>li").eq(map[getPageFullName().split(".")[0]]).addClass("active");
 </script>
