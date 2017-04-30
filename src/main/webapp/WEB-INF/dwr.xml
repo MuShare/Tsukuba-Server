@@ -11,6 +11,8 @@
 	<dwr:controller id="dwrController" debug="true"/>
 	<dwr:url-mapping/>
 	<dwr:annotation-scan base-package="org.mushare.tsukuba" scanDataTransferObject="true" scanRemoteProxy="true"/>
-	<dwr:configuration/>
+	<dwr:configuration>
+		<dwr:convert type="enum" class="org.mushare.tsukuba.service.common.Result"/>
+	</dwr:configuration>
 
 </beans>
