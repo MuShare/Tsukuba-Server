@@ -101,6 +101,13 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
         if (category == null) {
             return null;
         }
+        // If category has icon before, try to delete the old icon at first.
+        if (category.getIcon() != null) {
+            File file = new File(configComponent.rootPath + category.getIcon());
+            if (file.exists()) {
+                file.delete();
+            }
+        }
         String path = configComponent.rootPath + CategoryIconPath;
         String newName = UUID.randomUUID().toString() + "." + FileTool.getFormat(fileName);
         FileTool.modifyFileName(path, fileName, newName);

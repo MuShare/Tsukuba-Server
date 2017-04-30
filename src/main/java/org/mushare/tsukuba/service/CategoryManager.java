@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CategoryManager {
 
-    public static final String CategoryIconPath = "/upload/category";
+    public static final String CategoryIconPath = "/files/category";
 
     /**
      * Get all categories order by create date.

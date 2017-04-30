@@ -83,7 +83,9 @@ function loadCategories() {
             $("#category-list tbody").mengular(".category-list-template", {
                 cid: category.cid,
                 createAt: category.createAt.format(DATE_HOUR_MINUTE_SECOND_FORMAT),
-                identifier: category.identifier
+                identifier: category.identifier,
+                icon: category.icon == null ? "" : category.icon,
+                uploadIcon: category.icon == null ? "fa-upload" : ""
             });
 
             // Show and modify category name.
@@ -105,6 +107,11 @@ function loadCategories() {
             // Show category icon update modal.
             $("#" + category.cid + " .category-list-icon").click(function () {
                 modifyingCid = $(this).mengularId();
+                // If icon is existed, show it.
+                var icon = $("#" + modifyingCid + " .category-list-icon img").attr("src");
+                if (icon != null && icon != "") {
+                    $("#upload-icon-img").attr("src", icon);
+                }
 
                 $("#upload-icon").fileupload({
                     autoUpload: true,
@@ -112,8 +119,10 @@ function loadCategories() {
                     dataType: "json",
                     acceptFileTypes: /^image\/(gif|jpeg|png)$/,
                     done: function (e, data) {
-                        console.log(data.result);
-
+                        var icon = data.result.result.icon;
+                        $("#upload-icon-img").attr("src", icon);
+                        $("#" + modifyingCid + " .category-list-icon img").attr("src", icon);
+                        $("#" + modifyingCid + " .category-list-icon i").removeClass("fa-upload");
                     },
                     progressall: function (e, data) {
 
@@ -131,7 +140,7 @@ function loadCategories() {
                 CategoryManager.enable(cid, state);
             });
 
-            // Remoce category.
+            // Remove category.
             $("#" + category.cid + " .category-list-remove i").click(function () {
                 var cid = $(this).mengularId();
                 var identifier = $("#" + cid + " .category-list-identifier").text();

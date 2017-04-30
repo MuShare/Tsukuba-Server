@@ -49,6 +49,10 @@
         #category-list .category-list-template i {
             cursor: pointer;
         }
+
+        #category-list .category-list-icon img {
+            height: 23px;
+        }
     </style>
 </head>
 <body>
@@ -79,7 +83,7 @@
                 <td>${createAt}$</td>
                 <td class="category-list-identifier">${identifier}$</td>
                 <td class="category-list-name"><i class="fa fa-lg fa-language text-primary"></i></td>
-                <td class="category-list-icon"><i class="fa fa-lg fa-upload text-success"></i></td>
+                <td class="category-list-icon"><i class="fa fa-lg ${uploadIcon}$ text-success"><img src="${icon}$"/></i></td>
                 <td class="category-list-enable"><input type="checkbox" data-size="mini" data-on-text="ON" data-off-text="OFF"></td>
                 <td class="category-list-remove"><i class="fa fa-lg fa-trash-o text-danger"></i></td>
             </tr>
@@ -145,7 +149,7 @@
                 <h4 class="modal-title">Upload icon</h4>
             </div>
             <div class="modal-body">
-
+                <img id="upload-icon-img">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
