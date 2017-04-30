@@ -16,36 +16,30 @@ import java.io.File;
 @RemoteProxy(name = "ConfigManager")
 public class ConfigManagerImpl extends ManagerTemplate implements ConfigManager {
 
-    private JsonTool config = null;
-
-    private JsonTool getConfig() {
-        if (config == null) {
-            loadConfig();
+    @RemoteMethod
+    public boolean refreshConfig(HttpSession session) {
+        if (!checkAdminSession(session)) {
+            return false;
         }
-        return config;
-    }
-
-    private void loadConfig() {
-        String rootPath = this.getClass().getClassLoader().getResource("/").getPath().split("WEB-INF")[0];
-        String pathname = rootPath + File.separator + CONFIG_PATH;
-        config = new JsonTool(pathname);
+        configComponent.load();
+        return true;
     }
 
     @RemoteMethod
     public JSONObject getConfigObject(HttpSession session) {
-        if (session.getAttribute(AdminManager.ADMIN_FLAG) == null) {
+        if (!checkAdminSession(session)) {
             return null;
         }
-        return getConfig().getJSONConfig();
+        return configComponent.configTool.getJSONConfig();
     }
 
     @RemoteMethod
     public boolean saveConfig(String jsonString, HttpSession session) {
-        if (session.getAttribute(AdminManager.ADMIN_FLAG) == null) {
+        if (!checkAdminSession(session)) {
             return false;
         }
-        config.setJSONConfig(JSONObject.fromObject(jsonString));
-        config.writeObject();
+        configComponent.configTool.setJSONConfig(JSONObject.fromObject(jsonString));
+        configComponent.configTool.writeObject();
         return true;
     }
 

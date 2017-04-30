@@ -21,13 +21,11 @@ $(document).ready(function () {
                 }
             }
         });
-
-        loadAdmins();
     });
 
     // Refresh config file.
     $("#refresh-config").click(function () {
-        ConfigManager.loadConfig(function () {
+        ConfigManager.refreshConfig(function (success) {
             location.reload();
         });
     });

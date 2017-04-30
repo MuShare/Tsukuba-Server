@@ -1,40 +1,33 @@
 package org.mushare.tsukuba.component;
 
+import net.sf.json.JSONObject;
+import org.mushare.common.util.JsonTool;
+import org.mushare.tsukuba.component.config.Global;
+import org.mushare.tsukuba.component.config.Mail;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
 
 @Component
 public class ConfigComponent {
 
-    // Http protocal of Httper Web service.
-    private String httpProtocol;
+    public static final String CONFIG_PATH = "WEB-INF/config.json";
 
-    // Domain nane of Httper Web service.
-    private String domain;
+    public JsonTool configTool = null;
 
-    // Period of validity for verfication code, unit is second.
-    private int validity;
+    public Mail mail;
+    public Global global;
 
-    public String getHttpProtocol() {
-        return httpProtocol;
+    public ConfigComponent() {
+        load();
     }
 
-    public void setHttpProtocol(String httpProtocol) {
-        this.httpProtocol = httpProtocol;
+    public void load() {
+        String rootPath = this.getClass().getClassLoader().getResource("/").getPath().split("WEB-INF")[0];
+        String pathname = rootPath + File.separator + CONFIG_PATH;
+        configTool = new JsonTool(pathname);
+        global = new Global(configTool.getJSONObject("global"));
+        mail = new Mail(configTool.getJSONObject("mail"));
     }
 
-    public String getDomain() {
-        return domain;
-    }
-
-    public void setDomain(String domain) {
-        this.domain = domain;
-    }
-
-    public int getValidity() {
-        return validity;
-    }
-
-    public void setValidity(int validity) {
-        this.validity = validity;
-    }
 }

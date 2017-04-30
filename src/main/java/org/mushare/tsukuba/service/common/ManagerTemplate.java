@@ -1,5 +1,7 @@
 package org.mushare.tsukuba.service.common;
 
+import org.mushare.tsukuba.component.ConfigComponent;
+import org.mushare.tsukuba.component.MailComponent;
 import org.mushare.tsukuba.dao.CategoryDao;
 import org.mushare.tsukuba.dao.UserDao;
 import org.mushare.tsukuba.service.AdminManager;
@@ -15,6 +17,12 @@ public class ManagerTemplate {
     @Autowired
     protected CategoryDao categoryDao;
 
+    @Autowired
+    protected ConfigComponent configComponent;
+
+    @Autowired
+    protected MailComponent mailComponent;
+
     public UserDao getUserDao() {
         return userDao;
     }
@@ -29,6 +37,14 @@ public class ManagerTemplate {
 
     public void setCategoryDao(CategoryDao categoryDao) {
         this.categoryDao = categoryDao;
+    }
+
+    public ConfigComponent getConfigComponent() {
+        return configComponent;
+    }
+
+    public void setConfigComponent(ConfigComponent configComponent) {
+        this.configComponent = configComponent;
     }
 
     public boolean checkAdminSession(HttpSession session) {

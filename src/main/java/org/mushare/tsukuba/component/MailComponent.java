@@ -1,5 +1,6 @@
 package org.mushare.tsukuba.component;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.mail.*;
@@ -12,30 +13,8 @@ import java.util.Properties;
 @Component
 public class MailComponent {
 
-    // Senders's email address
-    private String sender;
-    // SMTP server address
-    private String smtp;
-    // User name for SMTP server
-    private String username ;
-    // Password for SMTP server
-    private String password ;
-
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public void setSmtp(String smtp) {
-        this.smtp = smtp;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    @Autowired
+    private ConfigComponent config;
 
     /**
      * Send mail by
@@ -47,7 +26,7 @@ public class MailComponent {
     public boolean send(String receiver, String subject, String content) {
         // Create property object for session
         Properties props = new Properties();
-        props.put("mail.smtp.host", smtp);
+        props.put("mail.smtp.host", config.mail.smtp);
         props.put("mail.smtp.auth", "true");
         // Use SSL to send mail
         props.put("mail.smtp.socketFactory.port", "465");
@@ -57,13 +36,13 @@ public class MailComponent {
         Session session = Session.getDefaultInstance(props, new Authenticator() {
             // Auth by user name and password
             public PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
+                return new PasswordAuthentication(config.mail.username, config.mail.password);
             }
         });
         try {
             MimeMessage message = new MimeMessage(session);
             // Set mail sender and receiver.
-            message.setFrom(new InternetAddress(sender));
+            message.setFrom(new InternetAddress(config.mail.sender));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
             // Set mail subject and content(using html)
             message.setSubject(transferToUTF8(subject));
