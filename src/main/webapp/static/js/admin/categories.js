@@ -51,6 +51,25 @@ function loadCategories() {
                 var cid = $(this).mengularId();
                 CategoryManager.enable(cid, state);
             });
+            
+            $("#" + category.cid + " .category-list-remove").click(function () {
+                var cid = $(this).mengularId();
+                var identifier = $("#" + cid + " .category-list-identifier").text();
+                $.messager.confirm("Warning", "Are you sure to remove this category " + identifier + " ?", function () {
+                    CategoryManager.removeCategory(cid, function (result) {
+                        if (result == Result.SessionError.name) {
+                            location.href = "session.html";
+                            return;
+                        }
+                        if (result == Result.CategoryRemoveNotAllow.name) {
+                            $.messager.popup(Result.CategoryRemoveNotAllow.message);
+                            return;
+                        }
+                        $.messager.popup("Remove " + identifier + " successfully!");
+                        $("#" + cid).fadeOut().remove();
+                    });
+                });
+            });
         }
     });
 }

@@ -56,16 +56,18 @@
         <table id="category-list" class="table">
             <thead>
             <tr>
-                <th>create date</th>
-                <th>identifier</th>
-                <th>enable</th>
+                <th>Create date</th>
+                <th>Identifier</th>
+                <th>Enable</th>
+                <th>Remove</th>
             </tr>
             </thead>
             <tbody>
             <tr id="${cid}$" class="mengular-template category-list-template">
                 <td>${createAt}$</td>
-                <td>${identifier}$</td>
+                <td class="category-list-identifier">${identifier}$</td>
                 <td class="category-list-enable"><input type="checkbox" data-size="mini" data-on-text="ON" data-off-text="OFF"></td>
+                <td class="category-list-remove"><i class="fa fa-lg fa-trash-o text-danger"></i></td>
             </tr>
             </tbody>
         </table>
