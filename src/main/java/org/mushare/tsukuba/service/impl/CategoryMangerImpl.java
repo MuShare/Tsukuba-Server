@@ -76,4 +76,20 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
         return Result.Success;
     }
 
+    @RemoteMethod
+    @Transactional
+    public Result modifyName(String cid, String name, HttpSession session) {
+        if (!checkAdminSession(session)) {
+            return Result.SessionError;
+        }
+        Category category = categoryDao.get(cid);
+        if (category == null) {
+            Debug.error("Cannot find a category by this cid.");
+            return Result.ObjectIdError;
+        }
+        category.setName(name);
+        categoryDao.save(category);
+        return Result.Success;
+    }
+
 }

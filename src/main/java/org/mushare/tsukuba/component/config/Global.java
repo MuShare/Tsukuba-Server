@@ -2,6 +2,8 @@ package org.mushare.tsukuba.component.config;
 
 import net.sf.json.JSONObject;
 
+import java.util.Arrays;
+
 public class Global {
 
     // Supported languages
@@ -17,7 +19,7 @@ public class Global {
     public int validity;
 
     public Global(JSONObject object) {
-        this.languages = object.getString("languages").split("|");
+        this.languages = object.getString("languages").split("/");
         this.httpProtocol = object.getString("httpProtocol");
         this.domain = object.getString("domain");
         this.validity = object.getInt("validity");

@@ -19,6 +19,7 @@
     <script src="/dwr/engine.js"></script>
     <script src="/dwr/interface/AdminManager.js"></script>
     <script src="/dwr/interface/CategoryManager.js"></script>
+    <script src="/dwr/interface/ConfigManager.js"></script>
     <script src="/static/js/admin/result.js"></script>
     <script src="/static/js/admin/categories.js"></script>
     <style>
@@ -26,17 +27,19 @@
             cursor: pointer
         }
 
-        #create-category-form .form-group {
+        #create-category-form .form-group,
+        #modify-name-form .form-group {
             height: 34px;
             margin-bottom: 10px;
         }
 
-        #create-category-form .form-group .control-label {
+        #create-category-form .form-group .control-label,
+        #modify-name-form .form-group .control-label{
             line-height:34px;
             margin-bottom: 0;
         }
 
-        #category-list .category-list-remove {
+        #category-list .category-list-template i {
             cursor: pointer;
         }
     </style>
@@ -58,6 +61,7 @@
             <tr>
                 <th>Create date</th>
                 <th>Identifier</th>
+                <th>Name</th>
                 <th>Enable</th>
                 <th>Remove</th>
             </tr>
@@ -66,6 +70,7 @@
             <tr id="${cid}$" class="mengular-template category-list-template">
                 <td>${createAt}$</td>
                 <td class="category-list-identifier">${identifier}$</td>
+                <td class="category-list-name"><i class="fa fa-lg fa-language text-primary"></i></td>
                 <td class="category-list-enable"><input type="checkbox" data-size="mini" data-on-text="ON" data-off-text="OFF"></td>
                 <td class="category-list-remove"><i class="fa fa-lg fa-trash-o text-danger"></i></td>
             </tr>
@@ -86,13 +91,37 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">identifier</label>
                     <div class="col-sm-10">
-                        <input id="create-worker-identifier" type="text" class="form-control">
+                        <input id="create-category-identifier" type="text" class="form-control">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button id="create-worker-submit" type="button" class="btn btn-primary">Submit</button>
+                <button id="create-category-submit" type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modify-name-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Create a new category</h4>
+            </div>
+            <div id="modify-name-form" class="modal-body">
+                <div id="${lan}$" class="form-group mengular-template modify-name-template">
+                    <label class="col-sm-2 control-label">${lan}$</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" value="${name}$">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="modify-name-submit" type="button" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </div>

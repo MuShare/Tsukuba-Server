@@ -43,4 +43,9 @@ public class ConfigManagerImpl extends ManagerTemplate implements ConfigManager 
         return true;
     }
 
+    @RemoteMethod
+    public String[] languages() {
+        return configComponent.global.languages;
+    }
+
 }

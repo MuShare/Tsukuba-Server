@@ -32,4 +32,11 @@ public interface ConfigManager {
      */
     boolean saveConfig(String jsonString, HttpSession session);
 
+    /**
+     * Get supported languaes.
+     *
+     * @return
+     */
+    String [] languages();
+
 }

@@ -45,4 +45,14 @@ public interface CategoryManager {
      */
     Result removeCategory(String cid, HttpSession session);
 
+    /**
+     * Admin modify the name JSON string of a category.
+     *
+     * @param cid
+     * @param name
+     * @param session
+     * @return
+     */
+    Result modifyName(String cid, String name, HttpSession session);
+
 }
