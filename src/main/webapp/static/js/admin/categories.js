@@ -14,8 +14,8 @@ $(document).ready(function () {
             $("#create-worker-identifier").parent().parent().removeClass("has-error");
         }
         if (validate) {
-            CategoryManager.createCategory(identifier, function(success) {
-                if (!success) {
+            CategoryManager.createCategory(identifier, function(result) {
+                if (result == Result.SessionError.name) {
                     location.href = "session.html";
                     return;
                 }
