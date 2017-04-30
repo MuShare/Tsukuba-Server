@@ -1,4 +1,4 @@
-package org.mushare.tsukuba.controller;
+package org.mushare.tsukuba.controller.api;
 
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
 import org.mushare.tsukuba.controller.common.ErrorCode;

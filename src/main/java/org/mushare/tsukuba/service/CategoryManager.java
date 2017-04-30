@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface CategoryManager {
 
+    public static final String CategoryIconPath = "/upload/category";
+
     /**
      * Get all categories order by create date.
      *
@@ -54,5 +56,14 @@ public interface CategoryManager {
      * @return
      */
     Result modifyName(String cid, String name, HttpSession session);
+
+    /**
+     * Generate UUID name for icon and modify name after icon is uploaded.
+     *
+     * @param cid
+     * @param fileName
+     * @return
+     */
+    String handleUploadedIcon(String cid, String fileName);
 
 }

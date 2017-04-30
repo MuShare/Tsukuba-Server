@@ -10,10 +10,17 @@
     <link href="/static/css/bootstrap-switch.min.css" rel="stylesheet">
     <link href="/static/css/font-awesome.min.css" rel="stylesheet">
     <link href="/static/css/mengular.css" rel="stylesheet">
+    <link href="/static/css/jquery.fileupload-ui.css" rel="stylesheet">
+    <link href="/static/css/jquery.fileupload.css" rel="stylesheet">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/bootstrap-switch.min.js"></script>
     <script src="/static/js/jquery.bootstrap.min.js"></script>
+    <script src="/static/js/jquery.ui.widget.js"></script>
+    <script src="/static/js/jquery.iframe-transport.js"></script>
+    <script src="/static/js/jquery.fileupload.js"></script>
+    <script src="/static/js/jquery.fileupload-process.js"></script>
+    <script src="/static/js/jquery.fileupload-validate.js"></script>
     <script src="/static/js/mengular.js"></script>
     <script src="/static/js/tools.js"></script>
     <script src="/dwr/engine.js"></script>
@@ -62,6 +69,7 @@
                 <th>Create date</th>
                 <th>Identifier</th>
                 <th>Name</th>
+                <th>Icon</th>
                 <th>Enable</th>
                 <th>Remove</th>
             </tr>
@@ -71,6 +79,7 @@
                 <td>${createAt}$</td>
                 <td class="category-list-identifier">${identifier}$</td>
                 <td class="category-list-name"><i class="fa fa-lg fa-language text-primary"></i></td>
+                <td class="category-list-icon"><i class="fa fa-lg fa-upload text-success"></i></td>
                 <td class="category-list-enable"><input type="checkbox" data-size="mini" data-on-text="ON" data-off-text="OFF"></td>
                 <td class="category-list-remove"><i class="fa fa-lg fa-trash-o text-danger"></i></td>
             </tr>
@@ -109,7 +118,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Create a new category</h4>
+                <h4 class="modal-title">Modify name</h4>
             </div>
             <div id="modify-name-form" class="modal-body">
                 <div id="${lan}$" class="form-group mengular-template modify-name-template">
@@ -122,6 +131,28 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <button id="modify-name-submit" type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="upload-icon-modal" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Upload icon</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="upload-icon-button" type="button" class="btn btn-success fileinput-button">
+                    <span>Choose Picture</span>
+                    <input id="upload-icon" type="file" name="files[]">
+                </button>
             </div>
         </div>
     </div>

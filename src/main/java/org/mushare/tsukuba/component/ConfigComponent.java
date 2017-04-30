@@ -11,20 +11,20 @@ import java.io.File;
 @Component
 public class ConfigComponent {
 
-    public static final String CONFIG_PATH = "WEB-INF/config.json";
+    public static final String ConfigPath = "/WEB-INF/config.json";
 
+    public String rootPath;
     public JsonTool configTool = null;
-
     public Mail mail;
     public Global global;
 
     public ConfigComponent() {
+        rootPath = this.getClass().getClassLoader().getResource("/").getPath().split("WEB-INF")[0];
         load();
     }
 
     public void load() {
-        String rootPath = this.getClass().getClassLoader().getResource("/").getPath().split("WEB-INF")[0];
-        String pathname = rootPath + File.separator + CONFIG_PATH;
+        String pathname = rootPath + ConfigPath;
         configTool = new JsonTool(pathname);
         global = new Global(configTool.getJSONObject("global"));
         mail = new Mail(configTool.getJSONObject("mail"));

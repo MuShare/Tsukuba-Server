@@ -48,4 +48,5 @@ public class ConfigManagerImpl extends ManagerTemplate implements ConfigManager 
         return configComponent.global.languages;
     }
 
+
 }

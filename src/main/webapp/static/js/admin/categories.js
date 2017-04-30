@@ -29,7 +29,7 @@ $(document).ready(function () {
             $("#create-category-identifier").parent().parent().removeClass("has-error");
         }
         if (validate) {
-            CategoryManager.createCategory(identifier, function(result) {
+            CategoryManager.createCategory(identifier, function (result) {
                 if (result == Result.SessionError.name) {
                     location.href = "session.html";
                     return;
@@ -87,7 +87,7 @@ function loadCategories() {
             });
 
             // Show and modify category name.
-            $("#" + category.cid + " .category-list-name").click(function() {
+            $("#" + category.cid + " .category-list-name i").click(function () {
                 modifyingCid = $(this).mengularId();
                 // Clear all lan-name form.
                 $("#modify-name-form").mengularClear();
@@ -102,14 +102,37 @@ function loadCategories() {
                 $("#modify-name-modal").modal("show");
             });
 
+            // Show category icon update modal.
+            $("#" + category.cid + " .category-list-icon").click(function () {
+                modifyingCid = $(this).mengularId();
+
+                $("#upload-icon").fileupload({
+                    autoUpload: true,
+                    url: "/upload/icon/category?cid=" + modifyingCid,
+                    dataType: "json",
+                    acceptFileTypes: /^image\/(gif|jpeg|png)$/,
+                    done: function (e, data) {
+                        console.log(data.result);
+
+                    },
+                    progressall: function (e, data) {
+
+                    }
+                });
+
+                $("#upload-icon-modal").modal("show");
+            });
+
+            // Set enable state of a category
             $("#" + category.cid + " .category-list-enable input").bootstrapSwitch({
                 state: category.enable
             }).on("switchChange.bootstrapSwitch", function (event, state) {
                 var cid = $(this).mengularId();
                 CategoryManager.enable(cid, state);
             });
-            
-            $("#" + category.cid + " .category-list-remove").click(function () {
+
+            // Remoce category.
+            $("#" + category.cid + " .category-list-remove i").click(function () {
                 var cid = $(this).mengularId();
                 var identifier = $("#" + cid + " .category-list-identifier").text();
                 $.messager.confirm("Warning", "Are you sure to remove this category " + identifier + " ?", function () {
