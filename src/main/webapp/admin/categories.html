@@ -53,6 +53,10 @@
         #category-list .category-list-icon img {
             height: 23px;
         }
+
+        #upload-icon-progress {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -74,7 +78,9 @@
                 <th>Identifier</th>
                 <th>Name</th>
                 <th>Icon</th>
+                <th>Rev</th>
                 <th>Enable</th>
+                <th>Active</th>
                 <th>Remove</th>
             </tr>
             </thead>
@@ -84,7 +90,9 @@
                 <td class="category-list-identifier">${identifier}$</td>
                 <td class="category-list-name"><i class="fa fa-lg fa-language text-primary"></i></td>
                 <td class="category-list-icon"><i class="fa fa-lg ${uploadIcon}$ text-success"><img src="${icon}$"/></i></td>
+                <td class="category-list-rev">${rev}$</td>
                 <td class="category-list-enable"><input type="checkbox" data-size="mini" data-on-text="ON" data-off-text="OFF"></td>
+                <td class="category-list-active"><button class="btn btn-xs">${active}$</button></td>
                 <td class="category-list-remove"><i class="fa fa-lg fa-trash-o text-danger"></i></td>
             </tr>
             </tbody>
@@ -150,6 +158,9 @@
             </div>
             <div class="modal-body">
                 <img id="upload-icon-img">
+                <div id="upload-icon-progress" class="progress">
+                    <div class="progress-bar progress-bar-striped active"></div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

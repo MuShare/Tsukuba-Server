@@ -32,8 +32,17 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
     }
 
     @RemoteMethod
+    public CategoryBean get(String cid) {
+        Category category = categoryDao.get(cid);
+        if (category == null) {
+            return null;
+        }
+        return new CategoryBean(category);
+    }
+
+    @RemoteMethod
     @Transactional
-    public Result createCategory(String identifier, HttpSession session) {
+    public Result create(String identifier, HttpSession session) {
         if (!checkAdminSession(session)) {
             return Result.SessionError;
         }
@@ -41,10 +50,27 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
         category.setCreateAt(System.currentTimeMillis());
         category.setIdentifier(identifier);
         category.setEnable(false);
-        category.setRev(categoryDao.getMaxRev() + 1);
+        category.setActive(false);
         if (categoryDao.save(category) == null) {
             return Result.SaveInternalError;
         }
+        return Result.Success;
+    }
+
+    @RemoteMethod
+    @Transactional
+    public Result active(String cid, HttpSession session) {
+        if (!checkAdminSession(session)) {
+            return Result.SessionError;
+        }
+        Category category = categoryDao.get(cid);
+        if (category == null) {
+            Debug.error("Cannot find a category by this cid.");
+            return Result.ObjectIdError;
+        }
+        category.setActive(true);
+        category.setRev(categoryDao.getMaxRev() + 1);
+        categoryDao.update(category);
         return Result.Success;
     }
 
@@ -66,7 +92,7 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
 
     @RemoteMethod
     @Transactional
-    public Result removeCategory(String cid, HttpSession session) {
+    public Result remove(String cid, HttpSession session) {
         if (!checkAdminSession(session)) {
             return Result.SessionError;
         }
@@ -74,6 +100,9 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
         if (category == null) {
             Debug.error("Cannot find a category by this cid.");
             return Result.ObjectIdError;
+        }
+        if (category.getActive()) {
+            return Result.CategoryRemoveNotAllow;
         }
         categoryDao.delete(category);
         return Result.Success;

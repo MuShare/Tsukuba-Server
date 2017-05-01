@@ -17,6 +17,14 @@ public interface CategoryManager {
      */
     List<CategoryBean> getAll();
 
+    /**
+     * Get a category by cid.
+     *
+     * @param cid
+     * @return
+     */
+    CategoryBean get(String cid);
+
     //******************* Admin *********************
 
     /**
@@ -26,7 +34,15 @@ public interface CategoryManager {
      * @param session
      * @return
      */
-    Result createCategory(String identifier, HttpSession session);
+    Result create(String identifier, HttpSession session);
+
+    /**
+     *
+     * @param cid
+     * @param session
+     * @return
+     */
+    Result active(String cid, HttpSession session);
 
     /**
      * Admin change enable attribute of a category.
@@ -45,7 +61,7 @@ public interface CategoryManager {
      * @param session
      * @return
      */
-    Result removeCategory(String cid, HttpSession session);
+    Result remove(String cid, HttpSession session);
 
     /**
      * Admin modify the name JSON string of a category.

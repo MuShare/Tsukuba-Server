@@ -12,6 +12,7 @@ public class CategoryBean {
     private String cid;
     private Date createAt;
     private boolean enable;
+    private boolean active;
     private String identifier;
     private JSONObject name;
     private String icon;
@@ -39,6 +40,14 @@ public class CategoryBean {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public String getIdentifier() {
@@ -77,10 +86,11 @@ public class CategoryBean {
         this.cid = category.getCid();
         this.createAt = new Date(category.getCreateAt());
         this.enable = category.getEnable();
+        this.active = category.getActive();
         this.identifier = category.getIdentifier();
         this.name = (category.getName() == null || category.getName().equals("")) ? null : JSONObject.fromObject(category.getName());
         this.icon = category.getIcon();
-        this.rev = category.getRev();
+        this.rev = category.getRev() == null ? 0 : category.getRev();
     }
 
 }

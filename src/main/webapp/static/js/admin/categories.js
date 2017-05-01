@@ -20,7 +20,7 @@ $(document).ready(function () {
 
     // Create new category
     $("#create-category-submit").click(function () {
-        var identifier = $("#create-worker-identifier").val();
+        var identifier = $("#create-category-identifier").val();
         var validate = true;
         if (identifier == "") {
             $("#create-category-identifier").parent().parent().addClass("has-error");
@@ -29,7 +29,7 @@ $(document).ready(function () {
             $("#create-category-identifier").parent().parent().removeClass("has-error");
         }
         if (validate) {
-            CategoryManager.createCategory(identifier, function (result) {
+            CategoryManager.create(identifier, function (result) {
                 if (result == Result.SessionError.name) {
                     location.href = "session.html";
                     return;
@@ -84,8 +84,10 @@ function loadCategories() {
                 cid: category.cid,
                 createAt: category.createAt.format(DATE_HOUR_MINUTE_SECOND_FORMAT),
                 identifier: category.identifier,
+                rev: category.rev,
                 icon: category.icon == null ? "" : category.icon,
-                uploadIcon: category.icon == null ? "fa-upload" : ""
+                uploadIcon: category.icon == null ? "fa-upload" : "",
+                active: category.active ? "Actived" : "Not Active"
             });
 
             // Show and modify category name.
@@ -123,9 +125,15 @@ function loadCategories() {
                         $("#upload-icon-img").attr("src", icon);
                         $("#" + modifyingCid + " .category-list-icon img").attr("src", icon);
                         $("#" + modifyingCid + " .category-list-icon i").removeClass("fa-upload");
+                        setTimeout(function () {
+                            $("#upload-icon-progress").hide(1500);
+                        });
                     },
-                    progressall: function (e, data) {
-
+                    progressall: function (event, data) {
+                        $("#upload-icon-progress").show();
+                        var progress = parseInt(data.loaded / data.total * 100, 10);
+                        $("#upload-icon-progress .progress-bar").css("width", progress + "%");
+                        $("#upload-icon-progress .progress-bar").text(progress + "%");
                     }
                 });
 
@@ -140,12 +148,34 @@ function loadCategories() {
                 CategoryManager.enable(cid, state);
             });
 
+            // Category active related.
+            $("#" + category.cid + " .category-list-active button")
+                .addClass(category.active ? "btn-success" : null)
+                .click(function () {
+                    var cid = $(this).mengularId();
+                    var identifier = $("#" + cid + " .category-list-identifier").text();
+                    $.messager.confirm("Tip", "Are you sure to activie the category " + identifier + "? Actived category cannot turn back.", function () {
+                        CategoryManager.active(cid, function (result) {
+                            if (result == Result.SessionError.name) {
+                                location.href = "session.html";
+                                return;
+                            }
+                            CategoryManager.get(cid, function (category) {
+                                $("#" + cid + " .category-list-rev").text(category.rev);
+                                $("#" + category.cid + " .category-list-active button")
+                                    .text("Actived")
+                                    .addClass("btn-success");
+                            });
+                        });
+                    });
+                });
+
             // Remove category.
             $("#" + category.cid + " .category-list-remove i").click(function () {
                 var cid = $(this).mengularId();
                 var identifier = $("#" + cid + " .category-list-identifier").text();
-                $.messager.confirm("Warning", "Are you sure to remove this category " + identifier + " ?", function () {
-                    CategoryManager.removeCategory(cid, function (result) {
+                $.messager.confirm("Warning", "Are you sure to remove the category " + identifier + " ?", function () {
+                    CategoryManager.remove(cid, function (result) {
                         if (result == Result.SessionError.name) {
                             location.href = "session.html";
                             return;

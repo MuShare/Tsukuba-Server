@@ -21,12 +21,15 @@ public class Selection implements Serializable {
     private Boolean enable;
 
     @Column(nullable = false)
+    private Boolean active;
+
+    @Column(nullable = false)
     private String identifier;
 
     @Column
     private String name;
 
-    @Column(nullable = false)
+    @Column
     private Integer rev;
 
     @ManyToOne
@@ -55,6 +58,14 @@ public class Selection implements Serializable {
 
     public void setEnable(Boolean enable) {
         this.enable = enable;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getIdentifier() {

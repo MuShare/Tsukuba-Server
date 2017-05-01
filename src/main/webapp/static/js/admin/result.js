@@ -23,7 +23,7 @@ if(typeof Result == "undefined"){
         CategoryRemoveNotAllow: {
             code: 901,
             name: "CategoryRemoveNotAllow",
-            message: "This category cannot be removed because it has be referred by a message or a selection."
+            message: "Actived category cannot be removed."
         }
     }
 }

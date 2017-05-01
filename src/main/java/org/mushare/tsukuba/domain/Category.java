@@ -21,6 +21,9 @@ public class Category implements Serializable {
     private Boolean enable;
 
     @Column(nullable = false)
+    private Boolean active;
+
+    @Column(nullable = false)
     private String identifier;
 
     @Column
@@ -29,7 +32,7 @@ public class Category implements Serializable {
     @Column
     private String icon;
 
-    @Column(nullable = false)
+    @Column
     private Integer rev;
 
     public String getCid() {
@@ -54,6 +57,14 @@ public class Category implements Serializable {
 
     public void setEnable(Boolean enable) {
         this.enable = enable;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getIdentifier() {
