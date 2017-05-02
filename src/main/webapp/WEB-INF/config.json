@@ -1,6 +1,6 @@
 {
 	"global": {
-		"languages": "zh,en",
+		"languages": "zh/en",
 		"httpProtocol": "http",
 		"domain": "localhost:8080",
 		"validity": 600
