@@ -1,12 +1,9 @@
 package org.mushare.tsukuba.component;
 
-import net.sf.json.JSONObject;
 import org.mushare.common.util.JsonTool;
 import org.mushare.tsukuba.component.config.Global;
 import org.mushare.tsukuba.component.config.Mail;
 import org.springframework.stereotype.Component;
-
-import java.io.File;
 
 @Component
 public class ConfigComponent {

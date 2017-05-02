@@ -1,9 +1,5 @@
 package org.mushare.tsukuba.controller.web;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
 import org.mushare.tsukuba.controller.common.ErrorCode;
 import org.mushare.tsukuba.service.CategoryManager;
@@ -14,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
 @Controller
 @RequestMapping("/upload")
