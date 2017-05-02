@@ -3,6 +3,7 @@ package org.mushare.tsukuba.service.common;
 import org.mushare.tsukuba.component.ConfigComponent;
 import org.mushare.tsukuba.component.MailComponent;
 import org.mushare.tsukuba.dao.CategoryDao;
+import org.mushare.tsukuba.dao.SelectionDao;
 import org.mushare.tsukuba.dao.UserDao;
 import org.mushare.tsukuba.service.AdminManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class ManagerTemplate {
 
     @Autowired
     protected CategoryDao categoryDao;
+
+    @Autowired
+    protected SelectionDao selectionDao;
+
 
     public boolean checkAdminSession(HttpSession session) {
         return session.getAttribute(AdminManager.AdminFlag) != null;
