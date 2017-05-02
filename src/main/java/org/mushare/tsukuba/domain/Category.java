@@ -12,7 +12,7 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
-    private String oid;
+    private String cid;
 
     @Column(nullable = false)
     private Long createAt;
@@ -21,20 +21,26 @@ public class Category implements Serializable {
     private Boolean enable;
 
     @Column(nullable = false)
-    private String name;
-
-    @Column
-    private String icon;
+    private Boolean active;
 
     @Column(nullable = false)
+    private String identifier;
+
+    @Column
+    private String name;
+
+    @Column(nullable = false)
+    private String icon;
+
+    @Column
     private Integer rev;
 
-    public String getOid() {
-        return oid;
+    public String getCid() {
+        return cid;
     }
 
-    public void setOid(String oid) {
-        this.oid = oid;
+    public void setCid(String cid) {
+        this.cid = cid;
     }
 
     public Long getCreateAt() {
@@ -51,6 +57,22 @@ public class Category implements Serializable {
 
     public void setEnable(Boolean enable) {
         this.enable = enable;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     public String getName() {
