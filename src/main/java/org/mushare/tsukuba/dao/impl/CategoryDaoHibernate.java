@@ -9,6 +9,8 @@ import org.mushare.tsukuba.domain.Category;
 import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class CategoryDaoHibernate extends BaseHibernateDaoSupport<Category> implements CategoryDao {
 
@@ -30,4 +32,10 @@ public class CategoryDaoHibernate extends BaseHibernateDaoSupport<Category> impl
             }
         });
     }
+
+    public List<Category> findActivedByRev(int rev) {
+        String hql = "from Category where active = true and rev > ?";
+        return (List<Category>) getHibernateTemplate().find(hql, rev);
+    }
+
 }

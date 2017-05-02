@@ -18,6 +18,14 @@ public interface CategoryManager {
     List<CategoryBean> getAll();
 
     /**
+     * Get  activied category by revision.
+     *
+     * @param rev
+     * @return
+     */
+    List<CategoryBean> getActivedByRev(int rev);
+
+    /**
      * Get a category by cid.
      *
      * @param cid

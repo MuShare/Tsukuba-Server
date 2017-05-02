@@ -3,6 +3,8 @@ package org.mushare.tsukuba.dao;
 import org.mushare.common.hibernate.BaseDao;
 import org.mushare.tsukuba.domain.Category;
 
+import java.util.List;
+
 public interface CategoryDao extends BaseDao<Category> {
 
     /**
@@ -11,5 +13,13 @@ public interface CategoryDao extends BaseDao<Category> {
      * @return max revision
      */
     int getMaxRev();
+
+    /**
+     * Find actived categories by revision.
+     *
+     * @param rev
+     * @return
+     */
+    List<Category> findActivedByRev(int rev);
 
 }

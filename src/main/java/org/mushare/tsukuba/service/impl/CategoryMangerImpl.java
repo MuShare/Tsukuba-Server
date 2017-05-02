@@ -31,6 +31,14 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
         return categoryBeans;
     }
 
+    public List<CategoryBean> getActivedByRev(int rev) {
+        List<CategoryBean> categoryBeans = new ArrayList<CategoryBean>();
+        for (Category category : categoryDao.findActivedByRev(rev)) {
+            categoryBeans.add(new CategoryBean(category));
+        }
+        return categoryBeans;
+    }
+
     @RemoteMethod
     public CategoryBean get(String cid) {
         Category category = categoryDao.get(cid);
