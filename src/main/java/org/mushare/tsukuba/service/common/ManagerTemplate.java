@@ -12,43 +12,19 @@ import javax.servlet.http.HttpSession;
 public class ManagerTemplate {
 
     @Autowired
-    protected UserDao userDao;
-
-    @Autowired
-    protected CategoryDao categoryDao;
-
-    @Autowired
     protected ConfigComponent configComponent;
 
     @Autowired
     protected MailComponent mailComponent;
 
-    public UserDao getUserDao() {
-        return userDao;
-    }
+    @Autowired
+    protected UserDao userDao;
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
-    public CategoryDao getCategoryDao() {
-        return categoryDao;
-    }
-
-    public void setCategoryDao(CategoryDao categoryDao) {
-        this.categoryDao = categoryDao;
-    }
-
-    public ConfigComponent getConfigComponent() {
-        return configComponent;
-    }
-
-    public void setConfigComponent(ConfigComponent configComponent) {
-        this.configComponent = configComponent;
-    }
+    @Autowired
+    protected CategoryDao categoryDao;
 
     public boolean checkAdminSession(HttpSession session) {
-        return session.getAttribute(AdminManager.ADMIN_FLAG) != null;
+        return session.getAttribute(AdminManager.AdminFlag) != null;
     }
 
 }

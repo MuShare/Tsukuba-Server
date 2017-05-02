@@ -32,6 +32,9 @@ public class ControllerTemplate {
     protected ConfigComponent configComponent;
 
     @Autowired
+    protected AdminManager adminManager;
+
+    @Autowired
     protected UserManager userManager;
 
     @Autowired
@@ -65,7 +68,7 @@ public class ControllerTemplate {
     }
 
     public boolean checkAdminSession(HttpSession session) {
-        return session.getAttribute(AdminManager.ADMIN_FLAG) != null;
+        return session.getAttribute(AdminManager.AdminFlag) != null;
     }
 
     public String upload(HttpServletRequest request, String filepath) {

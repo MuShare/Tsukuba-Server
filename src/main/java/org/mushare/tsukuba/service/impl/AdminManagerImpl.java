@@ -22,7 +22,7 @@ public class AdminManagerImpl extends ManagerTemplate implements AdminManager {
 
     public JsonTool getConfig() {
         if (config == null) {
-            String pathname = WebContextFactory.get().getServletContext().getRealPath("/") + File.separator + ADMIN_CONFIG_PATH;
+            String pathname = configComponent.rootPath + File.separator + AdminConfigPath;
             config = new JsonTool(pathname);
         }
         return config;
@@ -48,7 +48,7 @@ public class AdminManagerImpl extends ManagerTemplate implements AdminManager {
         for (int i = 0; i < admins.size(); i++) {
             JSONObject admin = admins.getJSONObject(i);
             if (username.equals(admin.getString("username")) && password.equals(admin.getString("password"))) {
-                session.setAttribute(ADMIN_FLAG, username);
+                session.setAttribute(AdminFlag, username);
                 return true;
             }
         }
@@ -56,11 +56,16 @@ public class AdminManagerImpl extends ManagerTemplate implements AdminManager {
     }
 
     @RemoteMethod
+    public void logout(HttpSession session) {
+        session.removeAttribute(AdminFlag);
+    }
+
+    @RemoteMethod
     public String checkSession(HttpSession session) {
-        if (session.getAttribute(ADMIN_FLAG) == null) {
+        if (session.getAttribute(AdminFlag) == null) {
             return null;
         }
-        return (String) session.getAttribute(ADMIN_FLAG);
+        return (String) session.getAttribute(AdminFlag);
     }
 
     @RemoteMethod
