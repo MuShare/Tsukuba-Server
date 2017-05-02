@@ -46,7 +46,8 @@
             margin-bottom: 0;
         }
 
-        #category-list .category-list-template i {
+        #category-list .category-list-template i,
+        #category-list .category-list-template .category-list-icon {
             cursor: pointer;
         }
 
@@ -95,7 +96,7 @@
                 <td>${createAt}$</td>
                 <td class="category-list-identifier">${identifier}$</td>
                 <td class="category-list-name"><i class="fa fa-lg fa-language text-primary"></i></td>
-                <td class="category-list-icon"><i class="fa fa-lg ${uploadIcon}$ text-success"><img src="${icon}$"/></i></td>
+                <td class="category-list-icon"><img src="${icon}$"/></td>
                 <td class="category-list-rev">${rev}$</td>
                 <td class="category-list-enable"><input type="checkbox" data-size="mini" data-on-text="ON" data-off-text="OFF"></td>
                 <td class="category-list-active"><button class="btn btn-xs">${active}$</button></td>

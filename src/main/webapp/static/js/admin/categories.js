@@ -85,8 +85,7 @@ function loadCategories() {
                 createAt: category.createAt.format(DATE_HOUR_MINUTE_SECOND_FORMAT),
                 identifier: category.identifier,
                 rev: category.rev,
-                icon: category.icon == null ? "" : category.icon,
-                uploadIcon: category.icon == null ? "fa-upload" : "",
+                icon: category.icon,
                 active: category.active ? "Actived" : "Not Active"
             });
 
@@ -124,7 +123,6 @@ function loadCategories() {
                         var icon = data.result.result.icon;
                         $("#upload-icon-img").attr("src", icon);
                         $("#" + modifyingCid + " .category-list-icon img").attr("src", icon);
-                        $("#" + modifyingCid + " .category-list-icon i").removeClass("fa-upload");
                         setTimeout(function () {
                             $("#upload-icon-progress").hide(1500);
                         });

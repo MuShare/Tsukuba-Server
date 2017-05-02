@@ -29,7 +29,7 @@ public class Category implements Serializable {
     @Column
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String icon;
 
     @Column

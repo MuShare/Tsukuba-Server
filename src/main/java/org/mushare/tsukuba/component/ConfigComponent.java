@@ -10,6 +10,9 @@ public class ConfigComponent {
 
     public static final String ConfigPath = "/WEB-INF/config.json";
 
+    public String DefaultIcon = "/static/images/icon.png";
+    public String CategoryIconPath = "/files/category";
+
     public String rootPath;
     public JsonTool configTool = null;
     public Mail mail;

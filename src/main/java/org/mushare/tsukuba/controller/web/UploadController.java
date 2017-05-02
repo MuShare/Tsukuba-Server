@@ -21,7 +21,7 @@ public class UploadController extends ControllerTemplate {
         if (!checkAdminSession(request.getSession())) {
             return generateBadRequest(ErrorCode.ErrorAdminSession);
         }
-        String fileName = upload(request, configComponent.rootPath + CategoryManager.CategoryIconPath);
+        String fileName = upload(request, configComponent.rootPath + configComponent.CategoryIconPath);
         final String icon = categoryManager.handleUploadedIcon(cid, fileName);
         if (icon == null) {
             return generateBadRequest(ErrorCode.ErrorObjecId);

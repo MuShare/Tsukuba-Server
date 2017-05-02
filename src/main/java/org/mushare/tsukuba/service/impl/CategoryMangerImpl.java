@@ -57,6 +57,7 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
         Category category = new Category();
         category.setCreateAt(System.currentTimeMillis());
         category.setIdentifier(identifier);
+        category.setIcon(configComponent.DefaultIcon);
         category.setEnable(false);
         category.setActive(false);
         if (categoryDao.save(category) == null) {
@@ -112,6 +113,8 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
         if (category.getActive()) {
             return Result.CategoryRemoveNotAllow;
         }
+        // Try to delete icon file.
+        deleteIconFile(category.getIcon());
         categoryDao.delete(category);
         return Result.Success;
     }
@@ -140,17 +143,27 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
         }
         // If category has icon before, try to delete the old icon at first.
         if (category.getIcon() != null) {
-            File file = new File(configComponent.rootPath + category.getIcon());
-            if (file.exists()) {
-                file.delete();
-            }
+            deleteIconFile(category.getIcon());
         }
-        String path = configComponent.rootPath + CategoryIconPath;
+        String path = configComponent.rootPath + configComponent.CategoryIconPath;
         String newName = UUID.randomUUID().toString() + "." + FileTool.getFormat(fileName);
         FileTool.modifyFileName(path, fileName, newName);
-        category.setIcon(CategoryIconPath + File.separator + newName);
+        category.setIcon(configComponent.CategoryIconPath + File.separator + newName);
         categoryDao.update(category);
         return category.getIcon();
     }
 
+    /**
+     * Try to delete icon file if icon is not default,.
+     *
+     * @param icon
+     */
+    private void deleteIconFile(String icon) {
+        if (!icon.equals(configComponent.DefaultIcon)) {
+            File file = new File(configComponent.rootPath + icon);
+            if (file.exists()) {
+                file.delete();
+            }
+        }
+    }
 }
