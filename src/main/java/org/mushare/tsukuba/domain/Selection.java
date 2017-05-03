@@ -29,7 +29,7 @@ public class Selection implements Serializable {
     @Column
     private String name;
 
-    @Column
+    @Column(unique = true)
     private Integer rev;
 
     @ManyToOne

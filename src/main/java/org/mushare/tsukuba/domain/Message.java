@@ -17,6 +17,15 @@ public class Message implements Serializable {
     @Column(nullable = false)
     private Long createAt;
 
+    @Column(nullable = false)
+    private Long updateAt;
+
+    @Column(nullable = false, unique = true)
+    private Long seq;
+
+    @Column(nullable = false)
+    private String title;
+
     @Column(columnDefinition = "TEXT")
     private String introduction;
 
@@ -34,7 +43,7 @@ public class Message implements Serializable {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "uid")
+    @JoinColumn(name = "uid", nullable = false)
     private User user;
 
     public String getMid() {
@@ -51,6 +60,30 @@ public class Message implements Serializable {
 
     public void setCreateAt(Long createAt) {
         this.createAt = createAt;
+    }
+
+    public Long getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Long updateAt) {
+        this.updateAt = updateAt;
+    }
+
+    public Long getSeq() {
+        return seq;
+    }
+
+    public void setSeq(Long seq) {
+        this.seq = seq;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getIntroduction() {

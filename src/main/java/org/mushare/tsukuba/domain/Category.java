@@ -32,7 +32,7 @@ public class Category implements Serializable {
     @Column(nullable = false)
     private String icon;
 
-    @Column
+    @Column(unique = true)
     private Integer rev;
 
     public String getCid() {

@@ -29,11 +29,11 @@ public class Option implements Serializable {
     @Column
     private String name;
 
-    @Column
+    @Column(unique = true)
     private Integer rev;
 
     @ManyToOne
-    @JoinColumn(name = "sid")
+    @JoinColumn(name = "sid", nullable = false)
     private Selection selection;
 
     public String getOid() {
