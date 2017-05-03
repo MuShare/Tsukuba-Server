@@ -10,48 +10,42 @@
     <link href="/static/css/bootstrap-switch.min.css" rel="stylesheet">
     <link href="/static/css/font-awesome.min.css" rel="stylesheet">
     <link href="/static/css/mengular.css" rel="stylesheet">
-    <link href="/static/css/jquery.fileupload-ui.css" rel="stylesheet">
-    <link href="/static/css/jquery.fileupload.css" rel="stylesheet">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/bootstrap-switch.min.js"></script>
     <script src="/static/js/jquery.bootstrap.min.js"></script>
-    <script src="/static/js/jquery.ui.widget.js"></script>
-    <script src="/static/js/jquery.iframe-transport.js"></script>
-    <script src="/static/js/jquery.fileupload.js"></script>
-    <script src="/static/js/jquery.fileupload-process.js"></script>
-    <script src="/static/js/jquery.fileupload-validate.js"></script>
     <script src="/static/js/mengular.js"></script>
     <script src="/static/js/tools.js"></script>
     <script src="/dwr/engine.js"></script>
     <script src="/dwr/interface/AdminManager.js"></script>
+    <script src="/dwr/interface/SelectionManager.js"></script>
     <script src="/dwr/interface/CategoryManager.js"></script>
     <script src="/dwr/interface/ConfigManager.js"></script>
     <script src="/static/js/admin/result.js"></script>
-    <script src="/static/js/admin/categories.js"></script>
+    <script src="/static/js/admin/selections.js"></script>
     <style>
-        #create-category {
+        #create-selection {
             cursor: pointer
         }
 
-        #create-category-form .form-group,
+        #create-selection-form .form-group,
         #modify-name-form .form-group {
             height: 34px;
             margin-bottom: 10px;
         }
 
-        #create-category-form .form-group .control-label,
+        #create-selection-form .form-group .control-label,
         #modify-name-form .form-group .control-label{
             line-height:34px;
             margin-bottom: 0;
         }
 
-        #category-list .category-list-template i,
-        #category-list .category-list-template .category-list-icon {
+        #selection-list .selection-list-template i,
+        #selection-list .selection-list-template .selection-list-icon {
             cursor: pointer;
         }
 
-        #category-list .category-list-icon img {
+        #selection-list .selection-list-icon img {
             height: 23px;
         }
 
@@ -74,18 +68,16 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h1 class="panel-title">
-                <span>Category List</span>
-                <i id="create-category" class="fa fa-plus pull-right" data-toggle="modal" data-target="#create-category-modal"></i>
+                <span>Selection List</span>
+                <i id="create-selection" class="fa fa-plus pull-right" data-toggle="modal" data-target="#create-selection-modal"></i>
             </h1>
         </div>
-        <table id="category-list" class="table">
+        <table id="selection-list" class="table">
             <thead>
             <tr>
                 <th>Create date</th>
                 <th>Identifier</th>
                 <th>Name</th>
-                <th>Icon</th>
-                <th>Selections</th>
                 <th>Rev</th>
                 <th>Enable</th>
                 <th>Active</th>
@@ -93,41 +85,39 @@
             </tr>
             </thead>
             <tbody>
-            <tr id="${cid}$" class="mengular-template category-list-template">
+            <tr id="${sid}$" class="mengular-template selection-list-template">
                 <td>${createAt}$</td>
-                <td class="category-list-identifier">${identifier}$</td>
-                <td class="category-list-name"><i class="fa fa-lg fa-language text-primary"></i></td>
-                <td class="category-list-icon"><img src="${icon}$"/></td>
-                <td><a href="selections.html?cid=${cid}$"><i class="fa fa-lg fa-sliders text-success"></i></a></td>
-                <td class="category-list-rev">${rev}$</td>
-                <td class="category-list-enable"><input type="checkbox" data-size="mini" data-on-text="ON" data-off-text="OFF"></td>
-                <td class="category-list-active"><button class="btn btn-xs">${active}$</button></td>
-                <td class="category-list-remove"><i class="fa fa-lg fa-trash-o text-danger"></i></td>
+                <td class="selection-list-identifier">${identifier}$</td>
+                <td class="selection-list-name"><i class="fa fa-lg fa-language text-primary"></i></td>
+                <td class="selection-list-rev">${rev}$</td>
+                <td class="selection-list-enable"><input type="checkbox" data-size="mini" data-on-text="ON" data-off-text="OFF"></td>
+                <td class="selection-list-active"><button class="btn btn-xs">${active}$</button></td>
+                <td class="selection-list-remove"><i class="fa fa-lg fa-trash-o text-danger"></i></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-<div id="create-category-modal" class="modal fade">
+<div id="create-selection-modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Create a new category</h4>
+                <h4 class="modal-title">Create a new selection</h4>
             </div>
-            <div id="create-category-form" class="modal-body">
+            <div id="create-selection-form" class="modal-body">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">identifier</label>
                     <div class="col-sm-10">
-                        <input id="create-category-identifier" type="text" class="form-control">
+                        <input id="create-selection-identifier" type="text" class="form-control">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button id="create-category-submit" type="button" class="btn btn-primary">Submit</button>
+                <button id="create-selection-submit" type="button" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </div>
