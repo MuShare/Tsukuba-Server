@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RemoteProxy(name = "SelectionManager")
+@RemoteProxy(name = "OptionManager")
 public class OptionManagerImpl extends ManagerTemplate implements OptionManager {
 
     @RemoteMethod
-    public List<OptionBean> getAll(String sid) {
+    public List<OptionBean> getBySid(String sid) {
         List<OptionBean> optionBeans = new ArrayList<OptionBean>();
         for (Option option : optionDao.findAll(sid, "createAt", true)) {
             optionBeans.add(new OptionBean(option));

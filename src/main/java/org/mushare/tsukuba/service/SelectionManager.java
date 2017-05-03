@@ -13,7 +13,7 @@ public interface SelectionManager {
      *
      * @return
      */
-    List<SelectionBean> getAll(String cid);
+    List<SelectionBean> getByCid(String cid);
 
     /**
      * Get activied selections by revision.

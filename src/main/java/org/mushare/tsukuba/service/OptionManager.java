@@ -13,7 +13,7 @@ public interface OptionManager {
      *
      * @return
      */
-    List<OptionBean> getAll(String sid);
+    List<OptionBean> getBySid(String sid);
 
     /**
      * Get activied options by revision.

@@ -12,7 +12,7 @@ $(document).ready(function () {
 
     checkAdminSession(function () {
 
-        SelectionManager.get(cid, function (selection) {
+        SelectionManager.get(sid, function (selection) {
             $("#selection-name").text(selection.identifier);
         });
 
@@ -36,7 +36,7 @@ $(document).ready(function () {
             $("#create-option-identifier").parent().parent().removeClass("has-error");
         }
         if (validate) {
-            OptionManager.create(identifier, cid, function (result) {
+            OptionManager.create(identifier, sid, function (result) {
                 if (result == Result.SessionError.name) {
                     location.href = "session.html";
                     return;
@@ -81,7 +81,7 @@ $(document).ready(function () {
  */
 function loadOptions() {
     names = {};
-    OptionManager.getAll(cid, function (Options) {
+    OptionManager.getBySid(sid, function (options) {
         // Clear all options when option is refreshed.
         $("#option-list tbody").mengularClear();
 
