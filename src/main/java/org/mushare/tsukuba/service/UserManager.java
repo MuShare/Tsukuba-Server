@@ -3,6 +3,8 @@ package org.mushare.tsukuba.service;
 import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.service.common.Result;
 
+import javax.servlet.http.HttpSession;
+
 public interface UserManager {
 
     public static final String UserTypeEmail = "email";
@@ -51,5 +53,20 @@ public interface UserManager {
      * @return
      */
     Result modify(String uid, String name, String contact, String address);
+
+    /**
+     * Send a email with an url to user for modifying password.
+     * @param uid
+     * @return
+     */
+    boolean sendModifyPasswordMail(String uid);
+
+    /**
+     * Reset password, auth by session.
+     * @param password
+     * @param session
+     * @return
+     */
+    boolean resetPassword(String password, HttpSession session);
 
 }
