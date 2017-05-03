@@ -1,6 +1,5 @@
 package org.mushare.tsukuba.service;
 
-
 import org.mushare.tsukuba.bean.OptionBean;
 import org.mushare.tsukuba.service.common.Result;
 
