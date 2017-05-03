@@ -5,6 +5,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.directwebremoting.annotations.RemoteMethod;
+import org.directwebremoting.annotations.RemoteProxy;
 import org.json.JSONObject;
 import org.mushare.common.util.Debug;
 import org.mushare.common.util.MengularDocument;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpSession;
 
 @Service
+@RemoteProxy(name = "UserManager")
 public class UserManagerImpl extends ManagerTemplate implements UserManager {
 
     @Transactional
