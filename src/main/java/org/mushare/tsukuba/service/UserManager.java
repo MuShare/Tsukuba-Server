@@ -25,4 +25,18 @@ public interface UserManager {
      */
     UserBean getByEmail(String email);
 
+    /**
+     * Get a user by facebook's access token. If this user is not existed, create a new one in database.
+     * @param token
+     * @return
+     */
+    UserBean getByFacebookAccessToken(String token);
+
+    /**
+     * User authentication by login token
+     * @param token
+     * @return
+     */
+    UserBean authByToken(String token);
+
 }

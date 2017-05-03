@@ -32,8 +32,7 @@ public class DeviceManagerImpl extends ManagerTemplate implements DeviceManager 
             device.setIp(ip);
             device.setUser(user);
             device.setToken(UUID.randomUUID().toString());
-            String did = deviceDao.save(device);
-            if (did == null) {
+            if (deviceDao.save(device) == null) {
                 return null;
             }
         } else {
@@ -44,7 +43,7 @@ public class DeviceManagerImpl extends ManagerTemplate implements DeviceManager 
             device.setDeviceToken(deviceToken);
             device.setIp(ip);
             device.setUser(user);
-            device.setIp(UUID.randomUUID().toString());
+            device.setToken(UUID.randomUUID().toString());
             deviceDao.update(device);
         }
         return device.getToken();

@@ -19,7 +19,7 @@ public class Device implements Serializable {
     @Column(nullable = false)
     private Long updateAt;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String identifier;
 
     @Column(nullable = false)

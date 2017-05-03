@@ -26,7 +26,7 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String type;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String identifier;
 
     @Column(nullable = false)
@@ -118,6 +118,19 @@ public class User implements Serializable {
     }
 
     public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public User() {
+        super();
+    }
+
+    public User(Long createAt, String type, String identifier, String credential, String name, Integer level) {
+        this.createAt = createAt;
+        this.type = type;
+        this.identifier = identifier;
+        this.credential = credential;
+        this.name = name;
         this.level = level;
     }
 }

@@ -51,4 +51,22 @@ public class UserController extends ControllerTemplate {
         }});
     }
 
+    @RequestMapping(value = "/login/facebook", method = RequestMethod.POST)
+    public ResponseEntity loginByFacebook(@RequestParam String accessToken,
+                                          @RequestParam String identifier, String deviceToken,
+                                          @RequestParam String os, String version, String lan,
+                                          HttpServletRequest request) {
+        final UserBean userBean = userManager.getByFacebookAccessToken(accessToken);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorFacebookAccessTokenInvalid);
+        }
+        //Login success, register device.
+        final String token = deviceManager.registerDevice(identifier, os, version, lan,
+                deviceToken, getRemoteIP(request), userBean.getUid());
+        return generateOK(new HashMap<String, Object>() {{
+            put("token", token);
+            put("name", userBean.getName());
+        }});
+    }
+
 }
