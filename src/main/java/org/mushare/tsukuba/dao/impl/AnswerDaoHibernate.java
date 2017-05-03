@@ -8,5 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class AnswerDaoHibernate extends BaseHibernateDaoSupport<Answer> implements AnswerDao {
-
+  public AnswerDaoHibernate(){
+      super();
+      setClass(Answer.class);
+  }
 }
