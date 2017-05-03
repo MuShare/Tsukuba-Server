@@ -110,7 +110,7 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
             Debug.error("Cannot find a category by this cid.");
             return Result.ObjectIdError;
         }
-        if (category.getActive()) {
+        if (category.getActive() || selectionDao.getCountByCategory(category) > 0) {
             return Result.CategoryRemoveNotAllow;
         }
         // Try to delete icon file.

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Tsukuba Mate</title>
+    <link href="/static/images/favicon.ico" type="image/x-icon" rel="icon">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-switch.min.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/css/mengular.css" rel="stylesheet">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap-switch.min.js"></script>
+    <script src="/static/js/jquery.bootstrap.min.js"></script>
+    <script src="/static/js/mengular.js"></script>
+    <script src="/static/js/tools.js"></script>
+    <script src="/dwr/engine.js"></script>
+    <script src="/dwr/interface/AdminManager.js"></script>
+    <script src="/dwr/interface/SelectionManager.js"></script>
+    <script src="/dwr/interface/OptionManager.js"></script>
+    <script src="/dwr/interface/ConfigManager.js"></script>
+    <script src="/static/js/admin/result.js"></script>
+    <script src="/static/js/admin/options.js"></script>
+    <style>
+        #create-option {
+            cursor: pointer
+        }
+
+        #create-option-form .form-group,
+        #modify-name-form .form-group {
+            height: 34px;
+            margin-bottom: 10px;
+        }
+
+        #create-option-form .form-group .control-label,
+        #modify-name-form .form-group .control-label{
+            line-height:34px;
+            margin-bottom: 0;
+        }
+
+        #option-list .option-list-template i,
+        #option-list .option-list-template {
+            cursor: pointer;
+        }
+
+        #option-list .option-list-icon img {
+            height: 23px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="head">
+        <script>$("#head").load("head.html");</script>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1 class="panel-title">
+                <a id="back"><i class="fa fa-arrow-left text-warning"></i></a>
+                <span id="selection-name"></span>
+                <span> | Option List</span>
+                <i id="create-option" class="fa fa-plus pull-right" data-toggle="modal" data-target="#create-option-modal"></i>
+            </h1>
+        </div>
+        <table id="option-list" class="table">
+            <thead>
+            <tr>
+                <th>Create date</th>
+                <th>Identifier</th>
+                <th>Name</th>
+                <th>Rev</th>
+                <th>Enable</th>
+                <th>Active</th>
+                <th>Remove</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="${oid}$" class="mengular-template option-list-template">
+                <td>${createAt}$</td>
+                <td class="option-list-identifier">${identifier}$</td>
+                <td class="option-list-name"><i class="fa fa-lg fa-language text-primary"></i></td>
+                <td class="option-list-rev">${rev}$</td>
+                <td class="option-list-enable"><input type="checkbox" data-size="mini" data-on-text="ON" data-off-text="OFF"></td>
+                <td class="option-list-active"><button class="btn btn-xs">${active}$</button></td>
+                <td class="option-list-remove"><i class="fa fa-lg fa-trash-o text-danger"></i></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="create-option-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Create a new option</h4>
+            </div>
+            <div id="create-option-form" class="modal-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">identifier</label>
+                    <div class="col-sm-10">
+                        <input id="create-option-identifier" type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="create-option-submit" type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modify-name-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Modify name</h4>
+            </div>
+            <div id="modify-name-form" class="modal-body">
+                <div id="${lan}$" class="form-group mengular-template modify-name-template">
+                    <label class="col-sm-2 control-label">${lan}$</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" value="${name}$">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="modify-name-submit" type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -4,19 +4,28 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.directwebremoting.annotations.RemoteMethod;
+import org.directwebremoting.annotations.RemoteProxy;
 import org.json.JSONObject;
 import org.mushare.common.util.Debug;
+import org.mushare.common.util.MengularDocument;
 import org.mushare.tsukuba.bean.UserBean;
+import org.mushare.tsukuba.bean.VerificationBean;
 import org.mushare.tsukuba.domain.Device;
 import org.mushare.tsukuba.domain.User;
+import org.mushare.tsukuba.domain.Verification;
 import org.mushare.tsukuba.service.UserManager;
+import org.mushare.tsukuba.service.VerificationManager;
 import org.mushare.tsukuba.service.common.ManagerTemplate;
 import org.mushare.tsukuba.service.common.Result;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
+
 @Service
+@RemoteProxy(name = "UserManager")
 public class UserManagerImpl extends ManagerTemplate implements UserManager {
 
     @Transactional
@@ -106,6 +115,68 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
         }
         userDao.update(user);
         return Result.Success;
+    }
+
+    @RemoteMethod
+    @Transactional
+    public boolean sendModifyPasswordMail(String uid) {
+        User user = userDao.get(uid);
+        if (user == null) {
+            return false;
+        }
+        Verification verification = new Verification();
+        verification.setCreateAt(System.currentTimeMillis() / 1000L);
+        verification.setType(Verification.VerificationModifyPassword);
+        verification.setActive(true);
+        verification.setUser(user);
+        String vid = verificationDao.save(verification);
+        if (vid == null) {
+            return false;
+        }
+        String rootPath = this.getClass().getClassLoader().getResource("/").getPath().split("WEB-INF")[0];
+        MengularDocument document = new MengularDocument(rootPath, 0, "mail/password.html", null);
+        document.setValue("username", user.getName());
+        document.setValue("httpProtocol", configComponent.global.httpProtocol);
+        document.setValue("domain", configComponent.global.domain);
+        document.setValue("vid", vid);
+        boolean send =  mailComponent.send(user.getIdentifier(), "Reset yout password", document.getDocument());
+        // If send mail failed, verficiation should be deleted.
+        if (!send) {
+            verificationDao.delete(verification);
+        }
+        return send;
+    }
+
+    @RemoteMethod
+    @Transactional
+    public boolean resetPassword(String password, HttpSession session) {
+        if (password.equals("")) {
+            return false;
+        }
+        VerificationBean verificationBean = (VerificationBean) session.getAttribute(VerificationManager.VerificationFlag);
+        if (verificationBean == null) {
+            return false;
+        }
+        Verification verification = verificationDao.get(verificationBean.getVid());
+        if (verification == null) {
+            return false;
+        }
+        if (verification.getType() != Verification.VerificationModifyPassword) {
+            return false;
+        }
+        if (System.currentTimeMillis() / 1000L - verification.getCreateAt() > configComponent.global.validity) {
+            session.removeAttribute(VerificationManager.VerificationFlag);
+            return false;
+        }
+        User user = verification.getUser();
+        user.setCredential(password);
+        userDao.update(user);
+        // Remove verfication from session.
+        session.removeAttribute(VerificationManager.VerificationFlag);
+        // Set verifivation not active.
+        verification.setActive(false);
+        verificationDao.update(verification);
+        return true;
     }
 
 }

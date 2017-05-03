@@ -1,7 +1,9 @@
 package org.mushare.tsukuba.bean;
 
+import org.directwebremoting.annotations.DataTransferObject;
 import org.mushare.tsukuba.domain.User;
 
+@DataTransferObject
 public class UserBean {
 
     private String uid;

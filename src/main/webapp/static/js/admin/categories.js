@@ -60,6 +60,7 @@ $(document).ready(function () {
                 location.href = "session.html";
                 return;
             }
+            names[modifyingCid] = name;
             $("#modify-name-modal").modal("hide");
             $.messager.popup("Modify name successfully!");
         });

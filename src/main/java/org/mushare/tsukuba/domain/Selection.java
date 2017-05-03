@@ -33,7 +33,7 @@ public class Selection implements Serializable {
     private Integer rev;
 
     @ManyToOne
-    @JoinColumn(name = "cid")
+    @JoinColumn(name = "cid", nullable = false)
     private Category category;
 
     public String getSid() {

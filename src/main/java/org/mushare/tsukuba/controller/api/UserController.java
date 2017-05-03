@@ -83,13 +83,27 @@ public class UserController extends ControllerTemplate {
         }});
     }
 
-    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    @RequestMapping(value = "/modify/info", method = RequestMethod.POST)
     public ResponseEntity modifyUser(String name, String contact, String address, HttpServletRequest request) {
         UserBean userBean = auth(request);
         if (userBean == null) {
             return generateBadRequest(ErrorCode.ErrorToken);
         }
         userManager.modify(userBean.getUid(), name, contact, address);
+        return generateOK(new HashMap<String, Object>() {{
+            put("success", true);
+        }});
+    }
+
+    @RequestMapping(value = "/modify/password", method = RequestMethod.GET)
+    public ResponseEntity sendResetPasswordMail(@RequestParam String email) {
+        final UserBean user = userManager.getByEmail(email);
+        if (user == null) {
+            return generateBadRequest(ErrorCode.ErrorEmailNotExist);
+        }
+        if (!userManager.sendModifyPasswordMail(user.getUid())) {
+            return generateBadRequest(ErrorCode.ErrorSendResetPasswordMail);
+        }
         return generateOK(new HashMap<String, Object>() {{
             put("success", true);
         }});

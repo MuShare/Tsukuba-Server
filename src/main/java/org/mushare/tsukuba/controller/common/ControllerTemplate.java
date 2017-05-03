@@ -37,10 +37,16 @@ public class ControllerTemplate {
     protected DeviceManager deviceManager;
 
     @Autowired
+    protected VerificationManager verificationManager;
+
+    @Autowired
     protected CategoryManager categoryManager;
 
     @Autowired
     protected SelectionManager selectionManager;
+
+    @Autowired
+    protected OptionManager optionManager;
 
     protected ResponseEntity generateOK(Map<String, Object> result) {
         return generateResponseEntity(result, HttpStatus.OK, null, null);

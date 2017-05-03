@@ -13,7 +13,8 @@ public enum ErrorCode {
     ErrorIllegalIDeviceOS(1021, "Device OS should be iOS or Android."),
     ErrorEmailNotExist(1022, "This email is not exsit."),
     ErrorPasswordWrong(1023, "Password is wrong."),
-    ErrorFacebookAccessTokenInvalid(1031, "Facebook access token is invalid");
+    ErrorFacebookAccessTokenInvalid(1031, "Facebook access token is invalid"),
+    ErrorSendResetPasswordMail(1061, "Send reset password email failed.");
 
     public int code;
     public String message;

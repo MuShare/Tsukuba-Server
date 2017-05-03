@@ -13,7 +13,7 @@ import java.io.IOException;
 public class LogoutController extends ControllerTemplate {
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String adminLogout(HttpServletRequest request) throws IOException {
+    public String adminLogout(HttpServletRequest request) {
         adminManager.logout(request.getSession());
         return "redirect:/admin";
     }
