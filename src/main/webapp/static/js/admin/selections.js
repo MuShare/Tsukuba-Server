@@ -81,9 +81,9 @@ $(document).ready(function () {
  */
 function loadSelections() {
     names = {};
-    SelectionManager.getAll(function (selections) {
+    SelectionManager.getAll(cid, function (selections) {
         // Clear all selections when selection is refreshed.
-        $("#selections-list tbody").mengularClear();
+        $("#selection-list tbody").mengularClear();
 
         for (var i in selections) {
             var selection = selections[i];

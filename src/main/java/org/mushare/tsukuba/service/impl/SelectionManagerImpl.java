@@ -21,9 +21,9 @@ import java.util.List;
 public class SelectionManagerImpl extends ManagerTemplate implements SelectionManager {
 
     @RemoteMethod
-    public List<SelectionBean> getAll() {
+    public List<SelectionBean> getAll(String cid) {
         List<SelectionBean> selectionBeans = new ArrayList<SelectionBean>();
-        for (Selection selection : selectionDao.findAll("createAt", true)) {
+        for (Selection selection : selectionDao.findAll(cid, "createAt", true)) {
             selectionBeans.add(new SelectionBean(selection));
         }
         return selectionBeans;

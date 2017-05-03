@@ -36,4 +36,12 @@ public class SelectionDaoHibernate extends BaseHibernateDaoSupport<Selection> im
         String hql = "from Selection where active = true and rev > ?";
         return (List<Selection>) getHibernateTemplate().find(hql, rev);
     }
+
+    public List<Selection> findAll(String cid, String orderby, boolean desc) {
+        String hql = "from Selection where cid = ? order by " + orderby;
+        if (desc) {
+            hql += " desc";
+        }
+        return (List<Selection>) getHibernateTemplate().find(hql, cid);
+    }
 }
