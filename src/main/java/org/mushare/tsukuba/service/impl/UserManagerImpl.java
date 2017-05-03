@@ -11,6 +11,7 @@ import org.mushare.tsukuba.domain.Device;
 import org.mushare.tsukuba.domain.User;
 import org.mushare.tsukuba.service.UserManager;
 import org.mushare.tsukuba.service.common.ManagerTemplate;
+import org.mushare.tsukuba.service.common.Result;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,19 +20,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserManagerImpl extends ManagerTemplate implements UserManager {
 
     @Transactional
-    public boolean registerByEmail(String email, String password, String name) {
+    public Result registerByEmail(String email, String password, String name) {
         // Find this user by email, if the email is existed, do not allow him to register.
         User user = userDao.getByIdentifierWithType(email, UserTypeEmail);
         if (user != null) {
             Debug.error("This email has been registerd.");
-            return false;
+            return Result.UserEmailRegistered;
         }
         user = new User(System.currentTimeMillis(), UserTypeEmail, email, password, name, 0);
         if (userDao.save(user) == null) {
             Debug.error("Error to save user.");
-            return false;
+            return Result.SaveInternalError;
         }
-        return true;
+        return Result.Success;
     }
 
     public UserBean getByEmail(String email) {
@@ -73,7 +74,6 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
             user = new User(System.currentTimeMillis(), UserTypeFacebook, userId, token, name, 0);
             userDao.save(user);
         } else {
-            user.setName(name);
             user.setCredential(token);
             userDao.update(user);
         }
@@ -86,6 +86,26 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
             return null;
         }
         return new UserBean(device.getUser(), false);
+    }
+
+    @Transactional
+    public Result modify(String uid, String name, String contact, String address) {
+        User user = userDao.get(uid);
+        if (user == null) {
+            Debug.error("Cannot find the user by this uid.");
+            return Result.ObjectIdError;
+        }
+        if (name != null && !name.equals("")) {
+            user.setName(name);
+        }
+        if (contact != null && !contact.equals("")) {
+            user.setContact(contact);
+        }
+        if (address != null && !address.equals("")) {
+            user.setAddress(contact);
+        }
+        userDao.update(user);
+        return Result.Success;
     }
 
 }

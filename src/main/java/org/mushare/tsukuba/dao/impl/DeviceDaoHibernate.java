@@ -25,7 +25,7 @@ public class DeviceDaoHibernate extends BaseHibernateDaoSupport<Device> implemen
     }
 
     public Device getByToken(String token) {
-        String hql = "from Device where loginToken =?";
+        String hql = "from Device where token =?";
         List<Device> devices = (List<Device>)getHibernateTemplate().find(hql, token);
         if (devices.size() == 0) {
             return null;

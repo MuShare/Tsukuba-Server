@@ -4,6 +4,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.component.ConfigComponent;
 import org.mushare.tsukuba.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,8 +84,20 @@ public class ControllerTemplate {
      * @param session
      * @return
      */
-    public boolean checkAdminSession(HttpSession session) {
+    protected boolean checkAdminSession(HttpSession session) {
         return session.getAttribute(AdminManager.AdminFlag) != null;
+    }
+
+    /**
+     * User auth by token in request header.
+     *
+     * @param request
+     * @return
+     */
+    protected UserBean auth(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        UserBean user = userManager.authByToken(token);
+        return user;
     }
 
     /**
@@ -94,7 +107,7 @@ public class ControllerTemplate {
      * @param filepath
      * @return
      */
-    public String upload(HttpServletRequest request, String filepath) {
+    protected String upload(HttpServletRequest request, String filepath) {
         String fileName = null;
         // Create factory object.
         DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -138,7 +151,7 @@ public class ControllerTemplate {
      * @param request
      * @return
      */
-    public static String getRemoteIP(HttpServletRequest request) {
+    protected static String getRemoteIP(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");

@@ -98,21 +98,19 @@ public class UserBean {
     public UserBean(User user, boolean safe) {
         this.uid = user.getUid();
         this.createAt = user.getCreateAt();
+        this.type = user.getType();
+        this.identifier = user.getIdentifier();
         this.name = user.getName();
         this.avatar = user.getAvatar();
         this.contact = user.getContact();
         this.address = user.getAddress();
         this.level = user.getLevel();
         if (!safe) {
-            this.type = user.getType();
-            this.identifier = user.getIdentifier();
             this.credential = user.getCredential();
         }
     }
 
     public void safe() {
-        this.type = null;
-        this.identifier = null;
         this.credential = null;
     }
 

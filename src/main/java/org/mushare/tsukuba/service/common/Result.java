@@ -7,7 +7,9 @@ public enum Result {
     ObjectIdError(903),
     SaveInternalError(904),
 
-    CategoryRemoveNotAllow(1041);
+    UserEmailRegistered(1011),
+
+    CategoryRemoveNotAllow(1141);
 
     public int code;
 

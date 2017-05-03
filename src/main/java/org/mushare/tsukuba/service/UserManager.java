@@ -1,6 +1,7 @@
 package org.mushare.tsukuba.service;
 
 import org.mushare.tsukuba.bean.UserBean;
+import org.mushare.tsukuba.service.common.Result;
 
 public interface UserManager {
 
@@ -15,7 +16,7 @@ public interface UserManager {
      * @param name
      * @return
      */
-    boolean registerByEmail(String email, String password, String name);
+    Result registerByEmail(String email, String password, String name);
 
     /**
      * Get user by email.
@@ -38,5 +39,17 @@ public interface UserManager {
      * @return
      */
     UserBean authByToken(String token);
+
+    /**
+     * Modify user name, contact and address.
+     * These 3 params can be null, update an attribute only if it is not null.
+     *
+     * @param uid
+     * @param name
+     * @param contact
+     * @param address
+     * @return
+     */
+    Result modify(String uid, String name, String contact, String address);
 
 }

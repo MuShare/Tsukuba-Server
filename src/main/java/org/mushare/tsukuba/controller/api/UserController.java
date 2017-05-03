@@ -3,6 +3,7 @@ package org.mushare.tsukuba.controller.api;
 import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
 import org.mushare.tsukuba.controller.common.ErrorCode;
+import org.mushare.tsukuba.service.common.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,8 @@ public class UserController extends ControllerTemplate {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity registerByEmail(@RequestParam String email, @RequestParam String name, @RequestParam String password) {
-        if (!userManager.registerByEmail(email, password, name)) {
+        Result result = userManager.registerByEmail(email, password, name);
+        if (result == Result.UserEmailRegistered) {
             return generateBadRequest(ErrorCode.ErrorEmailExist);
         }
         return generateOK(new HashMap<String, Object>() {{
@@ -66,6 +68,30 @@ public class UserController extends ControllerTemplate {
         return generateOK(new HashMap<String, Object>() {{
             put("token", token);
             put("name", userBean.getName());
+        }});
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ResponseEntity getUserInfo(HttpServletRequest request) {
+        final UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
+        userBean.safe();
+        return generateOK(new HashMap<String, Object>() {{
+            put("user", userBean);
+        }});
+    }
+
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public ResponseEntity modifyUser(String name, String contact, String address, HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
+        userManager.modify(userBean.getUid(), name, contact, address);
+        return generateOK(new HashMap<String, Object>() {{
+            put("success", true);
         }});
     }
 
