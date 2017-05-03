@@ -3,6 +3,7 @@ package org.mushare.tsukuba.service.common;
 import org.mushare.tsukuba.component.ConfigComponent;
 import org.mushare.tsukuba.component.MailComponent;
 import org.mushare.tsukuba.dao.CategoryDao;
+import org.mushare.tsukuba.dao.DeviceDao;
 import org.mushare.tsukuba.dao.SelectionDao;
 import org.mushare.tsukuba.dao.UserDao;
 import org.mushare.tsukuba.service.AdminManager;
@@ -20,6 +21,9 @@ public class ManagerTemplate {
 
     @Autowired
     protected UserDao userDao;
+
+    @Autowired
+    protected DeviceDao deviceDao;
 
     @Autowired
     protected CategoryDao categoryDao;

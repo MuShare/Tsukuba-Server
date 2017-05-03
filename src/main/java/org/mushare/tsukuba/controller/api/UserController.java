@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.xml.ws.Response;
 import java.util.HashMap;
 
 @Controller
@@ -22,6 +23,14 @@ public class UserController extends ControllerTemplate {
         return generateOK(new HashMap<String, Object>() {{
             put("success", true);
         }});
+    }
+
+    @RequestMapping(value = "/login/email", method = RequestMethod.POST)
+    public ResponseEntity loginByEmail() {
+
+        return generateOK(new HashMap<String, Object>() {
+
+        });
     }
 
 }

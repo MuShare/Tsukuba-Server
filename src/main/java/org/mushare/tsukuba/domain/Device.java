@@ -23,7 +23,7 @@ public class Device implements Serializable {
     private String token;
 
     @Column
-    private String devicetoken;
+    private String deviceToken;
 
     @Column(nullable = false)
     private String ip;
@@ -73,12 +73,12 @@ public class Device implements Serializable {
         this.token = token;
     }
 
-    public String getDevicetoken() {
-        return devicetoken;
+    public String getDeviceToken() {
+        return deviceToken;
     }
 
-    public void setDevicetoken(String devicetoken) {
-        this.devicetoken = devicetoken;
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 
     public String getIp() {

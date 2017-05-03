@@ -1,8 +1,9 @@
 package org.mushare.tsukuba.dao;
 
+import org.mushare.common.hibernate.BaseDao;
 import org.mushare.tsukuba.domain.Device;
 
-public interface DeviceDao {
+public interface DeviceDao extends BaseDao<Device> {
 
     /**
      * Get a device by identifier.

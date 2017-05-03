@@ -5,9 +5,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.mushare.tsukuba.component.ConfigComponent;
-import org.mushare.tsukuba.service.AdminManager;
-import org.mushare.tsukuba.service.CategoryManager;
-import org.mushare.tsukuba.service.UserManager;
+import org.mushare.tsukuba.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +36,13 @@ public class ControllerTemplate {
     protected UserManager userManager;
 
     @Autowired
+    protected DeviceManager deviceManager;
+
+    @Autowired
     protected CategoryManager categoryManager;
+
+    @Autowired
+    protected SelectionManager selectionManager;
 
     protected ResponseEntity generateOK(Map<String, Object> result) {
         return generateResponseEntity(result, HttpStatus.OK, null, null);
