@@ -21,9 +21,14 @@ if(typeof Result == "undefined"){
             message: "Cannot save the object due to a server internal error."
         },
         CategoryRemoveNotAllow: {
-            code: 901,
+            code: 1111,
             name: "CategoryRemoveNotAllow",
             message: "Actived category cannot be removed."
+        },
+        SelectionRemoveNotAllow: {
+            code: 1211,
+            name: "SelectionRemoveNotAllow",
+            message: "Actived selection cannot be removed."
         }
     }
 }
