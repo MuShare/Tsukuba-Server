@@ -29,6 +29,23 @@ public class SelectionManagerImpl extends ManagerTemplate implements SelectionMa
         return selectionBeans;
     }
 
+    public List<SelectionBean> getActivedByRev(int rev) {
+        List<SelectionBean> selectionBeans = new ArrayList<SelectionBean>();
+        for (Selection selection : selectionDao.findActivedByRev(rev)) {
+            selectionBeans.add(new SelectionBean(selection));
+        }
+        return selectionBeans;
+    }
+
+    @RemoteMethod
+    public SelectionBean get(String sid) {
+        Selection selection = selectionDao.get(sid);
+        if (selection == null) {
+            return null;
+        }
+        return new SelectionBean(selection);
+    }
+
     @RemoteMethod
     @Transactional
     public Result create(String identifier, String cid, HttpSession session) {
@@ -50,6 +67,73 @@ public class SelectionManagerImpl extends ManagerTemplate implements SelectionMa
             Debug.error("Selection save failed");
             return Result.SaveInternalError;
         }
+        return Result.Success;
+    }
+
+    @RemoteMethod
+    @Transactional
+    public Result active(String sid, HttpSession session) {
+        if (!checkAdminSession(session)) {
+            return Result.SessionError;
+        }
+        Selection selection = selectionDao.get(sid);
+        if (selection == null) {
+            Debug.error("Cannot find a selection by this sid.");
+            return Result.ObjectIdError;
+        }
+        selection.setActive(true);
+        selection.setRev(selectionDao.getMaxRev() + 1);
+        selectionDao.update(selection);
+        return Result.Success;
+    }
+
+    @RemoteMethod
+    @Transactional
+    public Result enable(String sid, boolean enable, HttpSession session) {
+        if (!checkAdminSession(session)) {
+            return Result.SessionError;
+        }
+        Selection selection = selectionDao.get(sid);
+        if (selection == null) {
+            Debug.error("Cannot find a selection by this cid.");
+            return Result.ObjectIdError;
+        }
+        selection.setEnable(enable);
+        selectionDao.update(selection);
+        return Result.Success;
+    }
+
+    @RemoteMethod
+    @Transactional
+    public Result remove(String sid, HttpSession session) {
+        if (!checkAdminSession(session)) {
+            return Result.SessionError;
+        }
+        Selection selection = selectionDao.get(sid);
+        if (selection == null) {
+            Debug.error("Cannot find a selection by this sid.");
+            return Result.ObjectIdError;
+        }
+        if (selection.getActive()) {
+            return Result.SelectionRemoveNotAllow;
+        }
+        selectionDao.delete(selection);
+        return Result.Success;
+    }
+
+    @RemoteMethod
+    @Transactional
+    public Result modifyName(String sid, String name, HttpSession session) {
+        if (!checkAdminSession(session)) {
+            return Result.SessionError;
+        }
+        Selection selection = selectionDao.get(sid);
+        if (selection == null) {
+            Debug.error("Cannot find a selection by this sid.");
+            return Result.ObjectIdError;
+        }
+        selection.setName(name);
+        selectionDao.save(selection);
         return Result.Success;
     }
 }

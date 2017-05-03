@@ -9,7 +9,9 @@ public enum Result {
 
     UserEmailRegistered(1011),
 
-    CategoryRemoveNotAllow(1141);
+    CategoryRemoveNotAllow(1111),
+
+    SelectionRemoveNotAllow(1211);
 
     public int code;
 
