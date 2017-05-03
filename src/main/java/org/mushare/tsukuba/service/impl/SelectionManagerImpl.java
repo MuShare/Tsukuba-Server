@@ -95,7 +95,7 @@ public class SelectionManagerImpl extends ManagerTemplate implements SelectionMa
         }
         Selection selection = selectionDao.get(sid);
         if (selection == null) {
-            Debug.error("Cannot find a selection by this cid.");
+            Debug.error("Cannot find a selection by this sid.");
             return Result.ObjectIdError;
         }
         selection.setEnable(enable);

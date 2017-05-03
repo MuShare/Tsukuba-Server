@@ -29,6 +29,11 @@ if(typeof Result == "undefined"){
             code: 1211,
             name: "SelectionRemoveNotAllow",
             message: "Actived selection cannot be removed."
+        },
+        OptionRemoveNotAllow: {
+            code: 1311,
+            name: "OptionRemoveNotAllow",
+            message: "Actived option cannot be removed."
         }
     }
 }

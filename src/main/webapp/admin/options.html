@@ -19,33 +19,33 @@
     <script src="/dwr/engine.js"></script>
     <script src="/dwr/interface/AdminManager.js"></script>
     <script src="/dwr/interface/SelectionManager.js"></script>
-    <script src="/dwr/interface/CategoryManager.js"></script>
+    <script src="/dwr/interface/OptionManager.js"></script>
     <script src="/dwr/interface/ConfigManager.js"></script>
     <script src="/static/js/admin/result.js"></script>
-    <script src="/static/js/admin/selections.js"></script>
+    <script src="/static/js/admin/options.js"></script>
     <style>
-        #create-selection {
+        #create-option {
             cursor: pointer
         }
 
-        #create-selection-form .form-group,
+        #create-option-form .form-group,
         #modify-name-form .form-group {
             height: 34px;
             margin-bottom: 10px;
         }
 
-        #create-selection-form .form-group .control-label,
+        #create-option-form .form-group .control-label,
         #modify-name-form .form-group .control-label{
             line-height:34px;
             margin-bottom: 0;
         }
 
-        #selection-list .selection-list-template i,
-        #selection-list .selection-list-template {
+        #option-list .option-list-template i,
+        #option-list .option-list-template {
             cursor: pointer;
         }
 
-        #selection-list .selection-list-icon img {
+        #option-list .option-list-icon img {
             height: 23px;
         }
     </style>
@@ -58,18 +58,17 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h1 class="panel-title">
-                <span id="category-name"></span>
-                <span> | Selection List</span>
-                <i id="create-selection" class="fa fa-plus pull-right" data-toggle="modal" data-target="#create-selection-modal"></i>
+                <span id="selection-name"></span>
+                <span> | Option List</span>
+                <i id="create-option" class="fa fa-plus pull-right" data-toggle="modal" data-target="#create-option-modal"></i>
             </h1>
         </div>
-        <table id="selection-list" class="table">
+        <table id="option-list" class="table">
             <thead>
             <tr>
                 <th>Create date</th>
                 <th>Identifier</th>
                 <th>Name</th>
-                <th>Options</th>
                 <th>Rev</th>
                 <th>Enable</th>
                 <th>Active</th>
@@ -77,40 +76,39 @@
             </tr>
             </thead>
             <tbody>
-            <tr id="${sid}$" class="mengular-template selection-list-template">
+            <tr id="${sid}$" class="mengular-template option-list-template">
                 <td>${createAt}$</td>
-                <td class="selection-list-identifier">${identifier}$</td>
-                <td class="selection-list-name"><i class="fa fa-lg fa-language text-primary"></i></td>
-                <td><a href="options.html?sid=${sid}$"><i class="fa fa-lg fa-sliders text-success"></i></a></td>
-                <td class="selection-list-rev">${rev}$</td>
-                <td class="selection-list-enable"><input type="checkbox" data-size="mini" data-on-text="ON" data-off-text="OFF"></td>
-                <td class="selection-list-active"><button class="btn btn-xs">${active}$</button></td>
-                <td class="selection-list-remove"><i class="fa fa-lg fa-trash-o text-danger"></i></td>
+                <td class="option-list-identifier">${identifier}$</td>
+                <td class="option-list-name"><i class="fa fa-lg fa-language text-primary"></i></td>
+                <td class="option-list-rev">${rev}$</td>
+                <td class="option-list-enable"><input type="checkbox" data-size="mini" data-on-text="ON" data-off-text="OFF"></td>
+                <td class="option-list-active"><button class="btn btn-xs">${active}$</button></td>
+                <td class="option-list-remove"><i class="fa fa-lg fa-trash-o text-danger"></i></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-<div id="create-selection-modal" class="modal fade">
+<div id="create-option-modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Create a new selection</h4>
+                <h4 class="modal-title">Create a new option</h4>
             </div>
-            <div id="create-selection-form" class="modal-body">
+            <div id="create-option-form" class="modal-body">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">identifier</label>
                     <div class="col-sm-10">
-                        <input id="create-selection-identifier" type="text" class="form-control">
+                        <input id="create-option-identifier" type="text" class="form-control">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button id="create-selection-submit" type="button" class="btn btn-primary">Submit</button>
+                <button id="create-option-submit" type="button" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </div>

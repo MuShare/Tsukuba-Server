@@ -31,6 +31,9 @@ public class ManagerTemplate {
     @Autowired
     protected SelectionDao selectionDao;
 
+    @Autowired
+    protected OptionDao optionDao;
+
 
     public boolean checkAdminSession(HttpSession session) {
         return session.getAttribute(AdminManager.AdminFlag) != null;
