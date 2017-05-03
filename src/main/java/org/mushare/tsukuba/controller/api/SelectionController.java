@@ -20,7 +20,7 @@ public class SelectionController extends ControllerTemplate {
         final List<SelectionBean> selectionBeans = selectionManager.getActivedByRev(rev);
         return generateOK(new HashMap<String, Object>() {{
             put("update", selectionBeans.size() > 0);
-            put("categories", selectionBeans);
+            put("selections", selectionBeans);
         }});
     }
 

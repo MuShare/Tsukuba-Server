@@ -2,6 +2,7 @@ package org.mushare.tsukuba.dao;
 
 import org.mushare.common.hibernate.BaseDao;
 import org.mushare.tsukuba.domain.Option;
+import org.mushare.tsukuba.domain.Selection;
 
 import java.util.List;
 
@@ -22,10 +23,18 @@ public interface OptionDao extends BaseDao<Option> {
     List<Option> findActivedByRev(int rev);
 
     /**
-     * Get all options in the selection of sid.
+     * Get all options by selection.
      *
-     * @param sid
+     * @param selection
      * @return
      */
-    List<Option> findAll(String sid, String orderby, boolean desc);
+    List<Option> findBySelection(Selection selection);
+
+    /**
+     * Return the count of options in the selection.
+     *
+     * @param selection
+     * @return
+     */
+    int getCountBySelection(Selection selection);
 }

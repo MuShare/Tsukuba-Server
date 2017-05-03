@@ -24,11 +24,19 @@ public interface SelectionDao extends BaseDao<Selection> {
     List<Selection> findActivedByRev(int rev);
 
     /**
-     * Get all selections in the category of cid.
+     * Find selections by category.
      *
-     * @param cid
+     * @param category
      * @return
      */
-    List<Selection> findAll(String cid, String orderby, boolean desc);
+    List<Selection> findByCategory(Category category);
+
+    /**
+     * Return the count of selections in the category.
+     *
+     * @param category
+     * @return
+     */
+    int getCountByCategory(Category category);
 }
 

@@ -22,9 +22,13 @@ public class SelectionManagerImpl extends ManagerTemplate implements SelectionMa
 
     @RemoteMethod
     public List<SelectionBean> getByCid(String cid) {
-        Debug.error(cid);
+        Category category = categoryDao.get(cid);
+        if (category == null) {
+            Debug.error("Can not find a category by the cid.");
+            return null;
+        }
         List<SelectionBean> selectionBeans = new ArrayList<SelectionBean>();
-        for (Selection selection : selectionDao.findAll(cid, "createAt", true)) {
+        for (Selection selection : selectionDao.findByCategory(category)) {
             selectionBeans.add(new SelectionBean(selection));
         }
         return selectionBeans;
@@ -115,7 +119,7 @@ public class SelectionManagerImpl extends ManagerTemplate implements SelectionMa
             Debug.error("Cannot find a selection by this sid.");
             return Result.ObjectIdError;
         }
-        if (selection.getActive()) {
+        if (selection.getActive() || optionDao.getCountBySelection(selection) > 0) {
             return Result.SelectionRemoveNotAllow;
         }
         selectionDao.delete(selection);

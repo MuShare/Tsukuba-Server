@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.mushare.common.hibernate.BaseHibernateDaoSupport;
 import org.mushare.tsukuba.dao.OptionDao;
 import org.mushare.tsukuba.domain.Option;
+import org.mushare.tsukuba.domain.Selection;
 import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.stereotype.Repository;
 
@@ -37,11 +38,19 @@ public class OptionDaoHibernate extends BaseHibernateDaoSupport<Option> implemen
         return (List<Option>) getHibernateTemplate().find(hql, rev);
     }
 
-    public List<Option> findAll(String sid, String orderby, boolean desc) {
-        String hql = "from Option where sid = ? order by " + orderby;
-        if (desc) {
-            hql += " desc";
-        }
-        return (List<Option>) getHibernateTemplate().find(hql, sid);
+    public List<Option> findBySelection(Selection selection) {
+        String hql = "from Option where selection = ? order by createAt desc";
+        return (List<Option>) getHibernateTemplate().find(hql, selection);
+    }
+
+    public int getCountBySelection(final Selection selection) {
+        final String hql = "select count(*) from Option where selection = ?";
+        return getHibernateTemplate().execute(new HibernateCallback<Long>() {
+            public Long doInHibernate(Session session) throws HibernateException {
+                Query query = session.createQuery(hql);
+                query.setParameter(0, selection);
+                return (Long) query.uniqueResult();
+            }
+        }).intValue();
     }
 }

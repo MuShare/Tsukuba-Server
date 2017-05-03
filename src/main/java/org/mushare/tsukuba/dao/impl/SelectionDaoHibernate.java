@@ -5,6 +5,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.mushare.common.hibernate.BaseHibernateDaoSupport;
 import org.mushare.tsukuba.dao.SelectionDao;
+import org.mushare.tsukuba.domain.Category;
 import org.mushare.tsukuba.domain.Selection;
 import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.stereotype.Repository;
@@ -37,11 +38,19 @@ public class SelectionDaoHibernate extends BaseHibernateDaoSupport<Selection> im
         return (List<Selection>) getHibernateTemplate().find(hql, rev);
     }
 
-    public List<Selection> findAll(String cid, String orderby, boolean desc) {
-        String hql = "from Selection where cid = ? order by " + orderby;
-        if (desc) {
-            hql += " desc";
-        }
-        return (List<Selection>) getHibernateTemplate().find(hql, cid);
+    public List<Selection> findByCategory(Category category) {
+        String hql = "from Selection where category = ? order by createAt desc";
+        return (List<Selection>) getHibernateTemplate().find(hql, category);
+    }
+
+    public int getCountByCategory(final Category category) {
+        final String hql = "select count(*) from Selection where category = ?";
+        return getHibernateTemplate().execute(new HibernateCallback<Long>() {
+            public Long doInHibernate(Session session) throws HibernateException {
+                Query query = session.createQuery(hql);
+                query.setParameter(0, category);
+                return (Long) query.uniqueResult();
+            }
+        }).intValue();
     }
 }

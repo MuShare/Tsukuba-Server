@@ -23,12 +23,12 @@ if(typeof Result == "undefined"){
         CategoryRemoveNotAllow: {
             code: 1111,
             name: "CategoryRemoveNotAllow",
-            message: "Actived category cannot be removed."
+            message: "Actived category or category with selections cannot be removed."
         },
         SelectionRemoveNotAllow: {
             code: 1211,
             name: "SelectionRemoveNotAllow",
-            message: "Actived selection cannot be removed."
+            message: "Actived selection or selection with options cannot be removed."
         },
         OptionRemoveNotAllow: {
             code: 1311,

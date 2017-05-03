@@ -25,8 +25,13 @@ public class OptionManagerImpl extends ManagerTemplate implements OptionManager 
 
     @RemoteMethod
     public List<OptionBean> getBySid(String sid) {
+        Selection selection=selectionDao.get(sid);
+        if(selection==null){
+            Debug.error("Can not find a selection by the sid.");
+            return null;
+        }
         List<OptionBean> optionBeans = new ArrayList<OptionBean>();
-        for (Option option : optionDao.findAll(sid, "createAt", true)) {
+        for (Option option : optionDao.findBySelection(selection)) {
             optionBeans.add(new OptionBean(option));
         }
         return optionBeans;

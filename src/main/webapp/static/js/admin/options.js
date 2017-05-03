@@ -13,6 +13,7 @@ $(document).ready(function () {
     checkAdminSession(function () {
 
         SelectionManager.get(sid, function (selection) {
+            $("#back").attr("href", "selections.html?cid=" + selection.cid);
             $("#selection-name").text(selection.identifier);
         });
 
