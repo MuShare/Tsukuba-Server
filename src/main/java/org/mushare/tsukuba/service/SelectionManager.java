@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface SelectionManager {
     /**
-     * Get all selections
+     * Get all selections in the category of cid.
      *
      * @return
      */
-    List<SelectionBean> getAll();
+    List<SelectionBean> getAll(String cid);
 
     /**
      * Get activied selections by revision.

@@ -7,7 +7,7 @@ import org.mushare.tsukuba.domain.Selection;
 
 import java.util.List;
 
-public interface SelectionDao extends BaseDao<Selection>{
+public interface SelectionDao extends BaseDao<Selection> {
     /**
      * Get max revision number of Selection entity.
      *
@@ -22,5 +22,13 @@ public interface SelectionDao extends BaseDao<Selection>{
      * @return
      */
     List<Selection> findActivedByRev(int rev);
+
+    /**
+     * Get all selections in the category of cid.
+     *
+     * @param cid
+     * @return
+     */
+    List<Selection> findAll(String cid, String orderby, boolean desc);
 }
 

@@ -37,6 +37,9 @@ public class ControllerTemplate {
     protected DeviceManager deviceManager;
 
     @Autowired
+    protected VerificationManager verificationManager;
+
+    @Autowired
     protected CategoryManager categoryManager;
 
     @Autowired
