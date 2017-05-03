@@ -20,9 +20,6 @@ import java.util.Map;
 
 public class ControllerTemplate {
 
-    // Default file upload folder.
-    public static final String UploadFolder = "/upload";
-
     // Limitation of uploaded file.
     private static final int FileMaxSize = 512 * 1024 * 1024;
 
@@ -56,6 +53,15 @@ public class ControllerTemplate {
         return generateBadRequest(errorCode.code, errorCode.message);
     }
 
+    /**
+     * Generate response entity.
+     *
+     * @param result
+     * @param status
+     * @param errCode
+     * @param errMsg
+     * @return
+     */
     protected ResponseEntity generateResponseEntity(Map<String, Object> result, HttpStatus status, Integer errCode, String errMsg) {
         Map<String, Object> data = new HashMap<String, Object>();
         if (result != null) {
@@ -71,10 +77,23 @@ public class ControllerTemplate {
         return new ResponseEntity(data, status);
     }
 
+    /**
+     * Check admin session.
+     *
+     * @param session
+     * @return
+     */
     public boolean checkAdminSession(HttpSession session) {
         return session.getAttribute(AdminManager.AdminFlag) != null;
     }
 
+    /**
+     * Upload file to a file path.
+     *
+     * @param request
+     * @param filepath
+     * @return
+     */
     public String upload(HttpServletRequest request, String filepath) {
         String fileName = null;
         // Create factory object.
@@ -112,4 +131,25 @@ public class ControllerTemplate {
         }
         return fileName;
     }
+
+    /**
+     * Get device remote IP by HttpServletRequest.
+     *
+     * @param request
+     * @return
+     */
+    public static String getRemoteIP(HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
+    }
+
 }

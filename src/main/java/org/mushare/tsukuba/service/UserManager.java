@@ -1,5 +1,7 @@
 package org.mushare.tsukuba.service;
 
+import org.mushare.tsukuba.bean.UserBean;
+
 public interface UserManager {
 
     public static final String UserTypeEmail = "email";
@@ -14,5 +16,13 @@ public interface UserManager {
      * @return
      */
     boolean registerByEmail(String email, String password, String name);
+
+    /**
+     * Get user by email.
+     *
+     * @param email
+     * @return
+     */
+    UserBean getByEmail(String email);
 
 }

@@ -9,7 +9,10 @@ public enum ErrorCode {
     ErrorToken(901, "Token is wrong."),
 
     // User
-    ErrorEmailExist(1011, "This email has been registered.");
+    ErrorEmailExist(1011, "This email has been registered."),
+    ErrorIllegalIDeviceOS(1021, "Device OS should be iOS or Android."),
+    ErrorEmailNotExist(1022, "This email is not exsit."),
+    ErrorPasswordWrong(1023, "Password is wrong.");
 
     public int code;
     public String message;

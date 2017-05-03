@@ -1,6 +1,7 @@
 package org.mushare.tsukuba.service.impl;
 
 import org.mushare.common.util.Debug;
+import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.domain.User;
 import org.mushare.tsukuba.service.UserManager;
 import org.mushare.tsukuba.service.common.ManagerTemplate;
@@ -32,4 +33,11 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
         return true;
     }
 
+    public UserBean getByEmail(String email) {
+        User user = userDao.getByIdentifierWithType(email, UserTypeEmail);
+        if (user == null) {
+            return null;
+        }
+        return new UserBean(user, false);
+    }
 }

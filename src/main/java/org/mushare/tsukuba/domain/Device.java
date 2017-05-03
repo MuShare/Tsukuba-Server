@@ -17,6 +17,9 @@ public class Device implements Serializable {
     private Long createAt;
 
     @Column(nullable = false)
+    private Long updateAt;
+
+    @Column(nullable = false)
     private String identifier;
 
     @Column(nullable = false)
@@ -55,6 +58,14 @@ public class Device implements Serializable {
 
     public void setCreateAt(Long createAt) {
         this.createAt = createAt;
+    }
+
+    public Long getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Long updateAt) {
+        this.updateAt = updateAt;
     }
 
     public String getIdentifier() {
