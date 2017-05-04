@@ -48,6 +48,10 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
         return new CategoryBean(category);
     }
 
+    public int getGlobalRev() {
+        return categoryDao.getMaxRev();
+    }
+
     @RemoteMethod
     @Transactional
     public Result create(String identifier, HttpSession session) {

@@ -31,6 +31,13 @@ public interface CategoryManager {
      */
     CategoryBean get(String cid);
 
+    /**
+     * Get current global rev.
+     *
+     * @return
+     */
+    int getGlobalRev();
+
     //******************* Admin *********************
 
     /**

@@ -18,8 +18,10 @@ public class CategoryController extends ControllerTemplate {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ResponseEntity getCategoryList(@RequestParam(defaultValue = "0") int rev) {
         final List<CategoryBean> categoryBeans = categoryManager.getActivedByRev(rev);
+        final int globalRev = categoryManager.getGlobalRev();
         return generateOK(new HashMap<String, Object>() {{
             put("update", categoryBeans.size() > 0);
+            put("rev", globalRev);
             put("categories", categoryBeans);
         }});
     }
