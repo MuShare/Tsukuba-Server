@@ -39,7 +39,7 @@ public class Message implements Serializable {
     private Boolean enable;
 
     @ManyToOne
-    @JoinColumn(name = "cid")
+    @JoinColumn(name = "cid", nullable = false)
     private Category category;
 
     @ManyToOne
