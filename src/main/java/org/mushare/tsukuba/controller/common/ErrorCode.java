@@ -7,6 +7,8 @@ public enum ErrorCode {
 
     // Basic
     ErrorToken(901, "Token is wrong."),
+    ErrorSaveFailed(902, "Save failed."),
+    ErrorInvalidParameter(902, "Invalide parameter."),
 
     // User
     ErrorEmailExist(1011, "This email has been registered."),
@@ -17,8 +19,6 @@ public enum ErrorCode {
     ErrorSendResetPasswordMail(1061, "Send reset password email failed."),
 
     // Message
-    ErrorInvalidPrice(2011, "Invalid price."),
-    ErrorSaveFailed(2012, "Save failed."),
     ErrorModifyMessageMidError(2022, "Message id is wrong!"),
     ErrorModifyMessageNoPrivilege(2023, "You do not have previlege to modify this message");
 

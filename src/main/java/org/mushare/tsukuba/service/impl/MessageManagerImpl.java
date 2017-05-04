@@ -44,7 +44,7 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
         Message message = new Message();
         message.setCreateAt(System.currentTimeMillis());
         message.setUpdateAt(message.getCreateAt());
-        message.setSeq(messageDao.getMaxSeq());
+        message.setSeq(messageDao.getMaxSeq() + 1);
         message.setTitle(title);
         message.setPrice(price);
         message.setSell(sell);
