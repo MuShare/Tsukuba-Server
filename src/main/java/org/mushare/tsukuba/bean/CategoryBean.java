@@ -17,6 +17,7 @@ public class CategoryBean {
     private JSONObject name;
     private String icon;
     private int rev;
+    private int priority;
 
     public String getCid() {
         return cid;
@@ -82,6 +83,14 @@ public class CategoryBean {
         this.rev = rev;
     }
 
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
     public CategoryBean(Category category) {
         this.cid = category.getCid();
         this.createAt = new Date(category.getCreateAt());
@@ -91,6 +100,7 @@ public class CategoryBean {
         this.name = (category.getName() == null || category.getName().equals("")) ? null : JSONObject.fromObject(category.getName());
         this.icon = category.getIcon();
         this.rev = category.getRev() == null ? 0 : category.getRev();
+        this.priority = category.getPriority();
     }
 
 }

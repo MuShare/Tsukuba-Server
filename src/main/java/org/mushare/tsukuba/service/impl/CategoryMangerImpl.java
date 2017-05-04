@@ -64,6 +64,7 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
         category.setIcon(configComponent.DefaultIcon);
         category.setEnable(false);
         category.setActive(false);
+        category.setPriority(0);
         if (categoryDao.save(category) == null) {
             return Result.SaveInternalError;
         }

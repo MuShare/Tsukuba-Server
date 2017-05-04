@@ -70,6 +70,7 @@ public class OptionManagerImpl extends ManagerTemplate implements OptionManager 
         option.setIdentifier(identifier);
         option.setActive(false);
         option.setEnable(false);
+        option.setPriority(0);
         option.setSelection(selection);
         if (optionDao.save(option) == null) {
             Debug.error("Option save failed");
