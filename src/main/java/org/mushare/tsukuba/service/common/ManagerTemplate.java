@@ -34,6 +34,11 @@ public class ManagerTemplate {
     @Autowired
     protected OptionDao optionDao;
 
+    @Autowired
+    protected MessageDao messageDao;
+
+    @Autowired
+    protected AnswerDao answerDao;
 
     public boolean checkAdminSession(HttpSession session) {
         return session.getAttribute(AdminManager.AdminFlag) != null;

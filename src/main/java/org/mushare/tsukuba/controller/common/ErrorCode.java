@@ -14,7 +14,11 @@ public enum ErrorCode {
     ErrorEmailNotExist(1022, "This email is not exsit."),
     ErrorPasswordWrong(1023, "Password is wrong."),
     ErrorFacebookAccessTokenInvalid(1031, "Facebook access token is invalid"),
-    ErrorSendResetPasswordMail(1061, "Send reset password email failed.");
+    ErrorSendResetPasswordMail(1061, "Send reset password email failed."),
+
+    // Message
+    ErrorInvalidPrice(1101, "Invalid price."),
+    ErrorSaveFailed(1102, "Save failed.");
 
     public int code;
     public String message;

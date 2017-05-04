@@ -1,6 +1,9 @@
 package org.mushare.tsukuba.controller.api;
 
+import org.mushare.common.util.Debug;
+import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
+import org.mushare.tsukuba.controller.common.ErrorCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,16 +13,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
+import static org.mushare.tsukuba.controller.common.ErrorCode.*;
+
 @Controller
 @RequestMapping("/api/message")
 public class MessageController extends ControllerTemplate {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity createMessage(@RequestParam String cid, @RequestParam String title,
-                                        @RequestParam String oids, @RequestParam int price ,
+                                        @RequestParam String oids, @RequestParam int price,
                                         @RequestParam boolean sell, HttpServletRequest request) {
+        if (price < 0) {
+            Debug.error("Invalid price.");
+            return generateBadRequest(ErrorInvalidPrice);
+        }
+        UserBean userBean;
+        if ((userBean = auth(request)) == null) {
+            Debug.error("User not found.");
+            return generateBadRequest(ErrorToken);
+        }
+        String[] oidArray = oids.split(" *, *");
+        final String mid;
+        if ((mid = messageManager.create(cid, userBean.getUid(), title, oidArray, price, sell)) == null) {
+            Debug.error("Save failed");
+            return generateBadRequest(ErrorCode.ErrorSaveFailed);
+        }
         return generateOK(new HashMap<String, Object>() {{
-
+            put("mid", mid);
         }});
     }
 
@@ -33,7 +53,7 @@ public class MessageController extends ControllerTemplate {
     }
 
     @RequestMapping(value = "/enable", method = RequestMethod.POST)
-    public ResponseEntity enableMessgae(@RequestParam String mid, @RequestParam boolean enable, HttpServletRequest request) {
+    public ResponseEntity enableMessage(@RequestParam String mid, @RequestParam boolean enable, HttpServletRequest request) {
         return generateOK(new HashMap<String, Object>() {{
 
         }});
