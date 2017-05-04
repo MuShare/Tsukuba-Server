@@ -17,8 +17,10 @@ public enum ErrorCode {
     ErrorSendResetPasswordMail(1061, "Send reset password email failed."),
 
     // Message
-    ErrorInvalidPrice(1101, "Invalid price."),
-    ErrorSaveFailed(1102, "Save failed.");
+    ErrorInvalidPrice(2011, "Invalid price."),
+    ErrorSaveFailed(2012, "Save failed."),
+    ErrorModifyMessageMidError(2022, "Message id is wrong!"),
+    ErrorModifyMessageNoPrivilege(2023, "You do not have previlege to modify this message");
 
     public int code;
     public String message;

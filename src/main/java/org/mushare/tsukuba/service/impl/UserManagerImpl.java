@@ -179,4 +179,8 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
         return true;
     }
 
+    public String handleUploadedAvatar(String uid, String fileName) {
+        return null;
+    }
+
 }

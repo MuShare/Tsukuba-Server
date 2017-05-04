@@ -133,6 +133,15 @@ public class User implements Serializable {
         this.name = name;
         this.level = level;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof User)) {
+            return false;
+        }
+        User user = (User)obj;
+        return this.uid.equals(user.getUid());
+    }
 }
 
 

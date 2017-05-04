@@ -6,6 +6,7 @@ import org.mushare.tsukuba.service.common.Result;
 import javax.servlet.http.HttpSession;
 
 public interface MessageManager {
+
     /**
      * Create a message
      *
@@ -17,5 +18,19 @@ public interface MessageManager {
      * @param sell
      * @return
      */
-    String create(String cid, String uid, String title, String[] oids, int price, boolean sell);
+    String create(String cid, String uid, String title, String [] oids, int price, boolean sell);
+
+    /**
+     * Modify a message.
+     *
+     * @param mid
+     * @param title
+     * @param oids
+     * @param introduction
+     * @param price
+     * @param uid
+     * @return
+     */
+    Result modify(String mid, String title, String [] oids, String introduction, int price, String uid);
+
 }

@@ -37,4 +37,13 @@ public interface OptionDao extends BaseDao<Option> {
      * @return
      */
     int getCountBySelection(Selection selection);
+
+    /**
+     * Find in oids array.
+     *
+     * @param oids
+     * @return
+     */
+    List<Option> findInOids(String [] oids);
+
 }

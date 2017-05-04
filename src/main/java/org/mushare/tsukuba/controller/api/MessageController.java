@@ -4,6 +4,7 @@ import org.mushare.common.util.Debug;
 import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
 import org.mushare.tsukuba.controller.common.ErrorCode;
+import org.mushare.tsukuba.service.common.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,11 +46,21 @@ public class MessageController extends ControllerTemplate {
 
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public ResponseEntity modifyMessage(@RequestParam String mid, String title, String oids,
-                                        String introduction, int price, HttpServletRequest request) {
-
-        return generateOK(new HashMap<String, Object>() {
-
-        });
+                                        String introduction, @RequestParam(defaultValue = "-1") int price, HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
+        Result result = messageManager.modify(mid, title, oids.split(" *, *"), introduction, price, userBean.getUid());
+        if (result == Result.ObjectIdError) {
+            return generateBadRequest(ErrorCode.ErrorModifyMessageMidError);
+        }
+        if (result == Result.MessageModifyNoPrevilege) {
+            return generateBadRequest(ErrorCode.ErrorModifyMessageNoPrivilege);
+        }
+        return generateOK(new HashMap<String, Object>() {{
+            put("success", true);
+        }});
     }
 
     @RequestMapping(value = "/enable", method = RequestMethod.POST)

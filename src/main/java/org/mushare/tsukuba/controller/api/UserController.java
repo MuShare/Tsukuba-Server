@@ -109,4 +109,17 @@ public class UserController extends ControllerTemplate {
         }});
     }
 
+    @RequestMapping(value = "/avatar", method = RequestMethod.POST)
+    public ResponseEntity uploadAvatar(HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
+        String fileName = upload(request, configComponent.rootPath + configComponent.AvatarPath);
+
+        return generateOK(new HashMap<String, Object>() {{
+            
+        }});
+    }
+
 }

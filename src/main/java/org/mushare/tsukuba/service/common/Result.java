@@ -10,12 +10,13 @@ public enum Result {
     ObjectIdError(903),
     SaveInternalError(904),
 
-    UserEmailRegistered(1011),
-    CategoryRemoveNotAllow(1111),
-    SelectionRemoveNotAllow(1211),
-    OptionRemoveNotAllow(1311),
+    UserEmailRegistered(1001),
+    CategoryRemoveNotAllow(1002),
+    SelectionRemoveNotAllow(1003),
+    OptionRemoveNotAllow(1004),
+    OptionNotInCategory(1005),
+    MessageModifyNoPrevilege(1006);
 
-    OptionNotInCategory(1411);
 
     public int code;
 

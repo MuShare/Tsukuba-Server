@@ -1,12 +1,15 @@
 package org.mushare.tsukuba.service.impl;
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.mushare.common.util.Debug;
 import org.mushare.tsukuba.domain.*;
 import org.mushare.tsukuba.service.MessageManager;
 import org.mushare.tsukuba.service.common.ManagerTemplate;
+import org.mushare.tsukuba.service.common.Result;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,12 +51,12 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
         message.setEnable(true);
         message.setCategory(category);
         message.setUser(user);
-        String mid;
-        if ((mid = messageDao.save(message)) == null) {
+        String mid = messageDao.save(message);
+        if (mid == null) {
             Debug.error("Message save failed");
             return null;
         }
-        for (Option option : options) {
+        for (Option option : optionDao.findInOids(oids)) {
             Answer answer = new Answer();
             answer.setCreateAt(System.currentTimeMillis());
             answer.setMessage(message);
@@ -65,4 +68,48 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
         }
         return mid;
     }
+
+    @Transactional
+    public Result modify(String mid, String title, String [] oids, String introduction, int price, String uid) {
+        Message message = messageDao.get(mid);
+        if (message == null) {
+            Debug.error("Cannot find the message by this mid.");
+            return Result.ObjectIdError;
+        }
+        User user = userDao.get(uid);
+        if (user == null) {
+            Debug.error("Cannot find the user by this uid.");
+            return Result.ObjectIdError;
+        }
+        if (!message.getUser().equals(user)) {
+            return Result.MessageModifyNoPrevilege;
+        }
+        if (title != null && !title.equals("")) {
+            message.setTitle(title);
+        }
+        if (introduction != null && !introduction.equals("")) {
+            message.setIntroduction(introduction);
+        }
+        if (price >= 0) {
+            message.setPrice(price);
+        }
+        messageDao.update(message);
+        if (oids.length > 0) {
+            // Delete old answers.
+            answerDao.deleteByMessage(message);
+            // Create new answers
+            for (Option option : optionDao.findInOids(oids)) {
+                Answer answer = new Answer();
+                answer.setCreateAt(System.currentTimeMillis());
+                answer.setMessage(message);
+                answer.setOption(option);
+                if (answerDao.save(answer) == null) {
+                    return Result.SaveInternalError;
+                }
+            }
+        }
+
+        return Result.Success;
+    }
+
 }

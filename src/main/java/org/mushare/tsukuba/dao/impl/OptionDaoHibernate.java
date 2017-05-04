@@ -53,4 +53,16 @@ public class OptionDaoHibernate extends BaseHibernateDaoSupport<Option> implemen
             }
         }).intValue();
     }
+
+    public List<Option> findInOids(final String[] oids) {
+        final String hql = "from Option where oid in(:parameters)";
+        return (List<Option>) getHibernateTemplate().execute(new HibernateCallback<List<Option>>() {
+            public List<Option> doInHibernate(Session session) throws HibernateException {
+                Query query = session.createQuery(hql);
+                query.setParameterList("parameters", oids);
+                return query.list();
+            }
+        });
+    }
+
 }
