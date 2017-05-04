@@ -67,6 +67,7 @@ public class SelectionManagerImpl extends ManagerTemplate implements SelectionMa
         selection.setIdentifier(identifier);
         selection.setActive(false);
         selection.setEnable(false);
+        selection.setPriority(0);
         selection.setCategory(category);
         if (selectionDao.save(selection) == null) {
             Debug.error("Selection save failed");

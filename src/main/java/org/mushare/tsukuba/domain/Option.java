@@ -32,6 +32,9 @@ public class Option implements Serializable {
     @Column(unique = true)
     private Integer rev;
 
+    @Column(nullable = false)
+    private Integer priority;
+
     @ManyToOne
     @JoinColumn(name = "sid", nullable = false)
     private Selection selection;
@@ -90,6 +93,14 @@ public class Option implements Serializable {
 
     public void setRev(Integer rev) {
         this.rev = rev;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
     }
 
     public Selection getSelection() {
