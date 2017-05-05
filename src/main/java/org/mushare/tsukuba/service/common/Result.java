@@ -1,5 +1,8 @@
 package org.mushare.tsukuba.service.common;
 
+import org.mushare.tsukuba.domain.Category;
+import org.mushare.tsukuba.domain.User;
+
 public enum Result {
 
     Success(901),
@@ -7,13 +10,13 @@ public enum Result {
     ObjectIdError(903),
     SaveInternalError(904),
 
-    UserEmailRegistered(1011),
+    UserEmailRegistered(1001),
+    CategoryRemoveNotAllow(1002),
+    SelectionRemoveNotAllow(1003),
+    OptionRemoveNotAllow(1004),
+    OptionNotInCategory(1005),
+    MessageModifyNoPrevilege(1006);
 
-    CategoryRemoveNotAllow(1111),
-
-    SelectionRemoveNotAllow(1211),
-
-    OptionRemoveNotAllow(1311);
 
     public int code;
 

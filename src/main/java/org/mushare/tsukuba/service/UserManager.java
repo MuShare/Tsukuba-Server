@@ -69,4 +69,12 @@ public interface UserManager {
      */
     boolean resetPassword(String password, HttpSession session);
 
+    /**
+     *
+     * @param uid
+     * @param fileName
+     * @return
+     */
+    String handleUploadedAvatar(String uid, String fileName);
+
 }

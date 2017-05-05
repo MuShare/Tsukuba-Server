@@ -7,6 +7,8 @@ public enum ErrorCode {
 
     // Basic
     ErrorToken(901, "Token is wrong."),
+    ErrorSaveFailed(902, "Save failed."),
+    ErrorInvalidParameter(902, "Invalide parameter."),
 
     // User
     ErrorEmailExist(1011, "This email has been registered."),
@@ -14,7 +16,11 @@ public enum ErrorCode {
     ErrorEmailNotExist(1022, "This email is not exsit."),
     ErrorPasswordWrong(1023, "Password is wrong."),
     ErrorFacebookAccessTokenInvalid(1031, "Facebook access token is invalid"),
-    ErrorSendResetPasswordMail(1061, "Send reset password email failed.");
+    ErrorSendResetPasswordMail(1061, "Send reset password email failed."),
+
+    // Message
+    ErrorModifyMessageMidError(2022, "Message id is wrong!"),
+    ErrorModifyMessageNoPrivilege(2023, "You do not have previlege to modify this message");
 
     public int code;
     public String message;

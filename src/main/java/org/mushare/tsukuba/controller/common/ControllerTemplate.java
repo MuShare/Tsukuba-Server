@@ -48,6 +48,9 @@ public class ControllerTemplate {
     @Autowired
     protected OptionManager optionManager;
 
+    @Autowired
+    protected MessageManager messageManager;
+
     protected ResponseEntity generateOK(Map<String, Object> result) {
         return generateResponseEntity(result, HttpStatus.OK, null, null);
     }

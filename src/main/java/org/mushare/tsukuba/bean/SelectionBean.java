@@ -12,15 +12,17 @@ public class SelectionBean {
 
     private Date createAt;
 
-    private Boolean enable;
+    private boolean enable;
 
-    private Boolean active;
+    private boolean active;
 
     private String identifier;
 
     private JSONObject name;
 
-    private Integer rev;
+    private int rev;
+
+    private int priority;
 
     private String cid;
 
@@ -40,19 +42,19 @@ public class SelectionBean {
         this.createAt = createAt;
     }
 
-    public Boolean getEnable() {
+    public boolean getEnable() {
         return enable;
     }
 
-    public void setEnable(Boolean enable) {
+    public void setEnable(boolean enable) {
         this.enable = enable;
     }
 
-    public Boolean getActive() {
+    public boolean getActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
@@ -72,12 +74,20 @@ public class SelectionBean {
         this.name = name;
     }
 
-    public Integer getRev() {
+    public int getRev() {
         return rev;
     }
 
-    public void setRev(Integer rev) {
+    public void setRev(int rev) {
         this.rev = rev;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     public String getCid() {
@@ -96,6 +106,7 @@ public class SelectionBean {
         this.identifier = selection.getIdentifier();
         this.name = (selection.getName() == null || selection.getName().equals("")) ? null : JSONObject.fromObject(selection.getName());
         this.rev = selection.getRev() == null ? 0 : selection.getRev();
+        this.priority = selection.getPriority();
         this.cid = selection.getCategory().getCid();
     }
 }

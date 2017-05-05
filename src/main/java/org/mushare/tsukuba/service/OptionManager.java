@@ -78,5 +78,4 @@ public interface OptionManager {
      * @return
      */
     Result modifyName(String oid, String name, HttpSession session);
-
 }

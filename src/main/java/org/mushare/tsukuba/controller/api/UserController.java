@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.Response;
@@ -106,6 +107,21 @@ public class UserController extends ControllerTemplate {
         }
         return generateOK(new HashMap<String, Object>() {{
             put("success", true);
+        }});
+    }
+
+    @RequestMapping(value = "/avatar", method = RequestMethod.POST)
+    public ResponseEntity uploadAvatar(HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
+        // Reveive avatar and get file name.
+        String fileName = upload(request, configComponent.rootPath + configComponent.AvatarPath);
+        // Handle uploaded user avatar.
+        final String avatar = userManager.handleUploadedAvatar(userBean.getUid(), fileName);
+        return generateOK(new HashMap<String, Object>() {{
+            put("avatar", avatar);
         }});
     }
 
