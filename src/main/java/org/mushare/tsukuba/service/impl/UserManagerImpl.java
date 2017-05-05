@@ -200,9 +200,9 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
         String path = configComponent.rootPath + configComponent.AvatarPath;
         String newName = UUID.randomUUID().toString() + ".jpg";
         FileTool.modifyFileName(path, fileName, newName);
-        user.setAvatar(configComponent.CategoryIconPath + File.separator + newName);
+        user.setAvatar(configComponent.AvatarPath + File.separator + newName);
         userDao.update(user);
-        return newName;
+        return user.getAvatar();
     }
 
 }
