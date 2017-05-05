@@ -144,12 +144,14 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
     public String handleUploadedIcon(String cid, String fileName) {
         Category category = categoryDao.get(cid);
         if (category == null) {
+            Debug.error("Cannot find the category by this cid.");
             return null;
         }
         // If category has icon before, try to delete the old icon at first.
         if (category.getIcon() != null) {
             deleteIconFile(category.getIcon());
         }
+        // Modify icon name.
         String path = configComponent.rootPath + configComponent.CategoryIconPath;
         String newName = UUID.randomUUID().toString() + "." + FileTool.getFormat(fileName);
         FileTool.modifyFileName(path, fileName, newName);
@@ -171,4 +173,5 @@ public class CategoryMangerImpl extends ManagerTemplate implements CategoryManag
             }
         }
     }
+
 }

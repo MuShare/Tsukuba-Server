@@ -8,6 +8,7 @@ import org.directwebremoting.annotations.RemoteMethod;
 import org.directwebremoting.annotations.RemoteProxy;
 import org.json.JSONObject;
 import org.mushare.common.util.Debug;
+import org.mushare.common.util.FileTool;
 import org.mushare.common.util.MengularDocument;
 import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.bean.VerificationBean;
@@ -23,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.util.UUID;
 
 @Service
 @RemoteProxy(name = "UserManager")
@@ -179,8 +182,27 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
         return true;
     }
 
+    @Transactional
     public String handleUploadedAvatar(String uid, String fileName) {
-        return null;
+        User user = userDao.get(uid);
+        if (user == null) {
+            Debug.error("Cannot find the user by this uid.");
+            return null;
+        }
+        // If user has icon before, try to delete the old icon at first.
+        if (user.getAvatar() != null) {
+            File file = new File(configComponent.rootPath + user.getAvatar());
+            if (file.exists()) {
+                file.delete();
+            }
+        }
+        // Modify avatar name.
+        String path = configComponent.rootPath + configComponent.AvatarPath;
+        String newName = UUID.randomUUID().toString() + ".jpg";
+        FileTool.modifyFileName(path, fileName, newName);
+        user.setAvatar(configComponent.CategoryIconPath + File.separator + newName);
+        userDao.update(user);
+        return newName;
     }
 
 }
