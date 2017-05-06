@@ -50,7 +50,7 @@ public class UserController extends ControllerTemplate {
                 deviceToken, getRemoteIP(request), userBean.getUid());
         return generateOK(new HashMap<String, Object>() {{
             put("token", token);
-            put("name", userBean.getName());
+            put("user", userBean);
         }});
     }
 
@@ -68,7 +68,7 @@ public class UserController extends ControllerTemplate {
                 deviceToken, getRemoteIP(request), userBean.getUid());
         return generateOK(new HashMap<String, Object>() {{
             put("token", token);
-            put("name", userBean.getName());
+            put("user", userBean);
         }});
     }
 
