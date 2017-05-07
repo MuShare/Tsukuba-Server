@@ -70,6 +70,7 @@ public interface UserManager {
     boolean resetPassword(String password, HttpSession session);
 
     /**
+     * Handle uploaded user avatar. Generate UUID file name and return new name.
      *
      * @param uid
      * @param fileName

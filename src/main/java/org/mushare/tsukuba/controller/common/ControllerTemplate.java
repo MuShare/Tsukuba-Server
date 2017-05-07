@@ -4,6 +4,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.mushare.common.util.FileTool;
 import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.component.ConfigComponent;
 import org.mushare.tsukuba.service.*;
@@ -107,6 +108,19 @@ public class ControllerTemplate {
         String token = request.getHeader("token");
         UserBean user = userManager.authByToken(token);
         return user;
+    }
+
+    /**
+     * Create upload directory if it is not existed.
+     *
+     * @param directory
+     * @return
+     */
+    public String createUploadDirectory(String directory) {
+        String filepath = configComponent.rootPath + directory;
+        // If directory is not existed, create the directory at first.
+        FileTool.createDirectoryIfNotExsit(filepath);
+        return filepath;
     }
 
     /**

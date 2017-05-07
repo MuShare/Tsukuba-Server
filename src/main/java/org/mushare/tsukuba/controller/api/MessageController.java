@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -74,6 +75,19 @@ public class MessageController extends ControllerTemplate {
 
     @RequestMapping(value = "/picture", method = RequestMethod.POST)
     public ResponseEntity uploadPictureToMessage(@RequestParam String mid, HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
+        Result result = messageManager.hasPrevilege(mid, userBean.getUid());
+        if (result == Result.ObjectIdError) {
+            return generateBadRequest(ErrorCode.ErrorObjecId);
+        }
+        if (result == Result.MessageModifyNoPrevilege) {
+            return generateBadRequest(ErrorCode.ErrorModifyMessageNoPrivilege);
+        }
+        String fileNname = upload(request, configComponent.rootPath + configComponent.PicturePath + File.separator + mid);
+
         return generateOK(new HashMap<String, Object>() {{
 
         }});

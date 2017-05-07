@@ -2,6 +2,7 @@ package org.mushare.tsukuba.service.impl;
 
 import com.sun.org.apache.regexp.internal.RE;
 import org.mushare.common.util.Debug;
+import org.mushare.common.util.FileTool;
 import org.mushare.tsukuba.domain.*;
 import org.mushare.tsukuba.service.MessageManager;
 import org.mushare.tsukuba.service.common.ManagerTemplate;
@@ -10,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.soap.SOAPBinding;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class MessageManagerImpl extends ManagerTemplate implements MessageManager {
@@ -113,6 +116,48 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
         }
 
         return Result.Success;
+    }
+
+    public Result hasPrevilege(String mid, String uid) {
+        Message message = messageDao.get(mid);
+        if (message == null) {
+            Debug.error("Cannot find the message by this mid.");
+            return Result.ObjectIdError;
+        }
+        User user = userDao.get(uid);
+        if (user == null) {
+            Debug.error("Cannot find the user by this uid.");
+            return Result.ObjectIdError;
+        }
+        if (!message.getUser().equals(user)) {
+            return Result.MessageModifyNoPrevilege;
+        }
+        return Result.Success;
+    }
+
+    public String handleUploadedPicture(String mid, String fileName) {
+        Message message = messageDao.get(mid);
+        if (message == null) {
+            Debug.error("Cannot find the message by this mid.");
+            return null;
+        }
+        // Modify file name.
+        String path = configComponent.rootPath + configComponent.PicturePath + File.separator + mid;
+        String newName = UUID.randomUUID().toString() + ".jpg";
+        FileTool.modifyFileName(path, fileName, newName);
+        Picture picture = new Picture();
+        picture.setCreateAt(System.currentTimeMillis());
+        picture.setPath(configComponent.PicturePath + File.separator + mid + File.separator + newName);
+        picture.setMessage(message);
+        if (pictureDao.save(picture) == null) {
+            // Delete picture file if save to persistent store failed.
+            File file = new File(path + File.separator + newName);
+            if (file.exists()) {
+                file.delete();
+            }
+            return null;
+        }
+        return picture.getPath();
     }
 
 }

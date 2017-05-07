@@ -17,7 +17,7 @@ public interface MessageManager {
      * @param oids
      * @param price
      * @param sell
-     * @return
+     * @return mid
      */
     String create(String cid, String uid, String title, String introduction, String [] oids, int price, boolean sell);
 
@@ -33,5 +33,24 @@ public interface MessageManager {
      * @return
      */
     Result modify(String mid, String title, String [] oids, String introduction, int price, String uid);
+
+    /**
+     * Test the message is belong to the user or not.
+     *
+     * @param mid
+     * @param uid
+     * @return
+     */
+    Result hasPrevilege(String mid, String uid);
+
+    /**
+     * Handle uploaded picture.
+     * Generate UUID file name and return new name.
+     *
+     * @param mid
+     * @param fileName
+     * @return new file name
+     */
+    String handleUploadedPicture(String mid, String fileName);
 
 }
