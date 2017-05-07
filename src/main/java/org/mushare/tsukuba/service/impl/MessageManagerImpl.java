@@ -57,14 +57,16 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
             Debug.error("Message save failed");
             return null;
         }
-        for (Option option : optionDao.findInOids(oids)) {
-            Answer answer = new Answer();
-            answer.setCreateAt(System.currentTimeMillis());
-            answer.setMessage(message);
-            answer.setOption(option);
-            if (answerDao.save(answer) == null) {
-                Debug.error("Answer save failed");
-                return null;
+        if (oids.length > 0) {
+            for (Option option : optionDao.findInOids(oids)) {
+                Answer answer = new Answer();
+                answer.setCreateAt(System.currentTimeMillis());
+                answer.setMessage(message);
+                answer.setOption(option);
+                if (answerDao.save(answer) == null) {
+                    Debug.error("Answer save failed");
+                    return null;
+                }
             }
         }
         return mid;
