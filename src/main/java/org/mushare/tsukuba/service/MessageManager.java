@@ -13,12 +13,13 @@ public interface MessageManager {
      * @param cid
      * @param uid
      * @param title
+     * @param introduction
      * @param oids
      * @param price
      * @param sell
      * @return
      */
-    String create(String cid, String uid, String title, String [] oids, int price, boolean sell);
+    String create(String cid, String uid, String title, String introduction, String [] oids, int price, boolean sell);
 
     /**
      * Modify a message.

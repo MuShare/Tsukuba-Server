@@ -17,7 +17,7 @@ import java.util.List;
 public class MessageManagerImpl extends ManagerTemplate implements MessageManager {
 
     @Transactional
-    public String create(String cid, String uid, String title, String[] oids, int price, boolean sell) {
+    public String create(String cid, String uid, String title, String introduction ,String[] oids, int price, boolean sell) {
         Category category = categoryDao.get(cid);
         if (category == null) {
             Debug.error("Category not found");
@@ -46,6 +46,7 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
         message.setUpdateAt(message.getCreateAt());
         message.setSeq(messageDao.getMaxSeq() + 1);
         message.setTitle(title);
+        message.setIntroduction(introduction);
         message.setPrice(price);
         message.setSell(sell);
         message.setEnable(true);

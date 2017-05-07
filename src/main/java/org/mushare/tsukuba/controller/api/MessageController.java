@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class MessageController extends ControllerTemplate {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity createMessage(@RequestParam String cid, @RequestParam String title,
+    public ResponseEntity createMessage(@RequestParam String cid, @RequestParam String title, @RequestParam String introduction,
                                         @RequestParam String oids, @RequestParam int price,
                                         @RequestParam boolean sell, HttpServletRequest request) {
         UserBean userBean = auth(request);
@@ -32,7 +32,7 @@ public class MessageController extends ControllerTemplate {
         if (price < 0 || oidsArray == null) {
             return generateBadRequest(ErrorCode.ErrorInvalidParameter);
         }
-        final String mid = messageManager.create(cid, userBean.getUid(), title, oidsArray, price, sell);
+        final String mid = messageManager.create(cid, userBean.getUid(), title, introduction, oidsArray, price, sell);
         if (mid == null) {
             Debug.error("Save failed");
             return generateBadRequest(ErrorCode.ErrorSaveFailed);
