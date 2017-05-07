@@ -1,6 +1,5 @@
 package org.mushare.tsukuba.service;
 
-
 import org.mushare.tsukuba.bean.SelectionBean;
 import org.mushare.tsukuba.service.common.Result;
 
@@ -8,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface SelectionManager {
+
     /**
      * Get all selections in the category of cid.
      *
@@ -30,6 +30,13 @@ public interface SelectionManager {
      * @return
      */
     SelectionBean get(String sid);
+
+    /**
+     * Get current global rev.
+     *
+     * @return
+     */
+    int getGlobalRev();
 
     //******************* Admin *********************
 

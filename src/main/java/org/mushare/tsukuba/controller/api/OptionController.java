@@ -19,8 +19,10 @@ public class OptionController extends ControllerTemplate {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ResponseEntity getOptionList(@RequestParam(defaultValue = "0") int rev) {
         final List<OptionBean> optionBeans = optionManager.getActivedByRev(rev);
+        final int globalRev = optionManager.getGlobalRev();
         return generateOK(new HashMap<String, Object>() {{
             put("update", optionBeans.size() > 0);
+            put("rev", globalRev);
             put("options", optionBeans);
         }});
     }

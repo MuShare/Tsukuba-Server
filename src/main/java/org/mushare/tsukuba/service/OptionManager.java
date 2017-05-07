@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface OptionManager {
+
     /**
      * Get all options in the selection of sid.
      *
@@ -29,6 +30,13 @@ public interface OptionManager {
      * @return
      */
     OptionBean get(String oid);
+
+    /**
+     * Get current global rev.
+     *
+     * @return
+     */
+    int getGlobalRev();
 
     //******************* Admin *********************
 
@@ -78,4 +86,5 @@ public interface OptionManager {
      * @return
      */
     Result modifyName(String oid, String name, HttpSession session);
+
 }

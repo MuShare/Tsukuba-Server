@@ -51,6 +51,10 @@ public class SelectionManagerImpl extends ManagerTemplate implements SelectionMa
         return new SelectionBean(selection);
     }
 
+    public int getGlobalRev() {
+        return selectionDao.getMaxRev();
+    }
+
     @RemoteMethod
     @Transactional
     public Result create(String identifier, String cid, HttpSession session) {

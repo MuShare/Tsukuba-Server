@@ -54,6 +54,10 @@ public class OptionManagerImpl extends ManagerTemplate implements OptionManager 
         return new OptionBean(option);
     }
 
+    public int getGlobalRev() {
+        return optionDao.getMaxRev();
+    }
+
     @RemoteMethod
     @Transactional
     public Result create(String identifier, String sid, HttpSession session) {

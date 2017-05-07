@@ -18,8 +18,10 @@ public class SelectionController extends ControllerTemplate {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ResponseEntity getSelectionList(@RequestParam(defaultValue = "0") int rev) {
         final List<SelectionBean> selectionBeans = selectionManager.getActivedByRev(rev);
+        final int globalRev = selectionManager.getGlobalRev();
         return generateOK(new HashMap<String, Object>() {{
             put("update", selectionBeans.size() > 0);
+            put("rev", globalRev);
             put("selections", selectionBeans);
         }});
     }
