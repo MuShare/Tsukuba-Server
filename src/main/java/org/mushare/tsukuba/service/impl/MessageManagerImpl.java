@@ -1,6 +1,7 @@
 package org.mushare.tsukuba.service.impl;
 
 import org.mushare.common.util.Debug;
+import org.mushare.tsukuba.bean.MessageBean;
 import org.mushare.tsukuba.domain.*;
 import org.mushare.tsukuba.service.MessageManager;
 import org.mushare.tsukuba.service.common.ManagerTemplate;
@@ -15,7 +16,7 @@ import java.util.List;
 public class MessageManagerImpl extends ManagerTemplate implements MessageManager {
 
     @Transactional
-    public String create(String cid, String uid, String title, String introduction ,String[] oids, int price, boolean sell) {
+    public String create(String cid, String uid, String title, String introduction, String[] oids, int price, boolean sell) {
         Category category = categoryDao.get(cid);
         if (category == null) {
             Debug.error("Category not found");
@@ -71,7 +72,7 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
     }
 
     @Transactional
-    public Result modify(String mid, String title, String [] oids, String introduction, int price, String uid) {
+    public Result modify(String mid, String title, String[] oids, String introduction, int price, String uid) {
         Message message = messageDao.get(mid);
         if (message == null) {
             Debug.error("Cannot find the message by this mid.");
@@ -130,6 +131,32 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
         return Result.Success;
     }
 
+    public List<MessageBean> getMessagesByUid(String uid, boolean sell) {
+        User user = userDao.get(uid);
+        if (user == null) {
+            Debug.error("Cannot find the user by this uid.");
+            return null;
+        }
+        List<MessageBean> messageBeans = new ArrayList<MessageBean>();
+        for (Message message : messageDao.findByUser(user, sell)) {
+            messageBeans.add(new MessageBean(message));
+        }
+        return messageBeans;
+    }
 
+    public List<MessageBean> searchMessages(long seq, boolean sell, String cid, int size) {
+        Category category = null;
+        if (cid != null && !cid.equals("")) {
+            category = categoryDao.get(cid);
+        }
+        // Get offset, offset is the number of messages whose sequence is larger or equal than the given sequence number.
+        int offset = messageDao.getCountWithSeqLargerThan(seq, sell, category);
+        List<MessageBean> messageBeans = new ArrayList<MessageBean>();
+        // Find (size) messages from offset position.
+        for (Message message : messageDao.findWithSellInCategoryByPage(sell, category, offset, size)) {
+            messageBeans.add(new MessageBean(message));
+        }
+        return messageBeans;
+    }
 
 }
