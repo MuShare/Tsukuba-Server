@@ -4,6 +4,8 @@ package org.mushare.tsukuba.service;
 import org.mushare.tsukuba.bean.PictureBean;
 import org.mushare.tsukuba.service.common.Result;
 
+import java.util.List;
+
 public interface PictureManager {
 
     /**
@@ -24,5 +26,13 @@ public interface PictureManager {
      * @return
      */
     Result remove(String pid, String uid);
+
+    /**
+     * Get pictures of a message by mid.
+     *
+     * @param mid
+     * @return
+     */
+    List<PictureBean> getPicturesByMid(String mid);
 
 }

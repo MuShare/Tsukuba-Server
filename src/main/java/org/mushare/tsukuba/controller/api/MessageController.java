@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/message")
@@ -109,6 +110,25 @@ public class MessageController extends ControllerTemplate {
         }
         return generateOK(new HashMap<String, Object>() {{
             put("success", true);
+        }});
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public ResponseEntity getMessages(@RequestParam(defaultValue = "true") boolean sell, String cid,
+                                      long seq, @RequestParam(defaultValue = "20") int size) {
+        return generateOK(new HashMap<String, Object>() {{
+
+        }});
+    }
+
+    @RequestMapping(value = "/pictures", method = RequestMethod.GET)
+    public ResponseEntity getPicturesOfMessage(@RequestParam String mid) {
+        final List<PictureBean> pictureBeans = pictureManager.getPicturesByMid(mid);
+        if (pictureBeans == null) {
+            generateBadRequest(ErrorCode.ErrorObjecId);
+        }
+        return generateOK(new HashMap<String, Object>() {{
+            put("pictures", pictureBeans);
         }});
     }
 

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -64,4 +66,18 @@ public class PictureManagerImpl extends ManagerTemplate implements PictureManage
         pictureDao.delete(picture);
         return Result.Success;
     }
+
+    public List<PictureBean> getPicturesByMid(String mid) {
+        Message message = messageDao.get(mid);
+        if (message == null) {
+            Debug.error("Cannot find the message by this mid.");
+            return null;
+        }
+        List<PictureBean> pictureBeans = new ArrayList<PictureBean>();
+        for (Picture picture : pictureDao.findByMessage(message)) {
+            pictureBeans.add(new PictureBean(picture));
+        }
+        return pictureBeans;
+    }
+
 }
