@@ -86,10 +86,13 @@ public class MessageController extends ControllerTemplate {
         if (result == Result.MessageModifyNoPrevilege) {
             return generateBadRequest(ErrorCode.ErrorModifyMessageNoPrivilege);
         }
-        String fileNname = upload(request, configComponent.rootPath + configComponent.PicturePath + File.separator + mid);
-
+        String fileNname = upload(request, createUploadDirectory(configComponent.PicturePath + File.separator + mid));
+        final String path = pictureManager.handleUploadedPicture(mid, fileNname);
+        if (path == null) {
+            return generateBadRequest(ErrorCode.ErrorSavePicture);
+        }
         return generateOK(new HashMap<String, Object>() {{
-
+            put("path", path);
         }});
     }
 

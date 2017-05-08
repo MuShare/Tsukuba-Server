@@ -20,7 +20,8 @@ public enum ErrorCode {
 
     // Message
     ErrorModifyMessageMidError(2022, "Message id is wrong!"),
-    ErrorModifyMessageNoPrivilege(2023, "You do not have previlege to modify this message");
+    ErrorModifyMessageNoPrivilege(2023, "You do not have previlege to modify this message"),
+    ErrorSavePicture(2041, "Save picture error.");
 
     public int code;
     public String message;
