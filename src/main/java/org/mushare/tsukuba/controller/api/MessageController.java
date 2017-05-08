@@ -2,6 +2,7 @@ package org.mushare.tsukuba.controller.api;
 
 import net.sf.json.JSONArray;
 import org.mushare.common.util.Debug;
+import org.mushare.tsukuba.bean.PictureBean;
 import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
 import org.mushare.tsukuba.controller.common.ErrorCode;
@@ -87,19 +88,27 @@ public class MessageController extends ControllerTemplate {
             return generateBadRequest(ErrorCode.ErrorModifyMessageNoPrivilege);
         }
         String fileNname = upload(request, createUploadDirectory(configComponent.PicturePath + File.separator + mid));
-        final String path = pictureManager.handleUploadedPicture(mid, fileNname);
-        if (path == null) {
+        final PictureBean pictureBean = pictureManager.handleUploadedPicture(mid, fileNname);
+        if (pictureBean == null) {
             return generateBadRequest(ErrorCode.ErrorSavePicture);
         }
         return generateOK(new HashMap<String, Object>() {{
-            put("path", path);
+            put("picture", pictureBean);
         }});
     }
 
     @RequestMapping(value = "/picture", method = RequestMethod.DELETE)
     public ResponseEntity deletePictureFromMessage(@RequestParam String pid, HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
+        Result result = pictureManager.remove(pid, userBean.getUid());
+        if (result == Result.ObjectIdError) {
+            return generateBadRequest(ErrorCode.ErrorObjecId);
+        }
         return generateOK(new HashMap<String, Object>() {{
-
+            put("success", true);
         }});
     }
 

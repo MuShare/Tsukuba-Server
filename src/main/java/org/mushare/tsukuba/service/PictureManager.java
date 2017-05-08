@@ -1,6 +1,9 @@
 package org.mushare.tsukuba.service;
 
 
+import org.mushare.tsukuba.bean.PictureBean;
+import org.mushare.tsukuba.service.common.Result;
+
 public interface PictureManager {
 
     /**
@@ -9,8 +12,17 @@ public interface PictureManager {
      *
      * @param mid
      * @param fileName
-     * @return new file name
+     * @return picture
      */
-    String handleUploadedPicture(String mid, String fileName);
+    PictureBean handleUploadedPicture(String mid, String fileName);
+
+    /**
+     * Remove uploaded message picture
+     *
+     * @param pid
+     * @param uid
+     * @return
+     */
+    Result remove(String pid, String uid);
 
 }
