@@ -38,6 +38,10 @@ public class Message implements Serializable {
     @Column(nullable = false)
     private Boolean enable;
 
+    @OneToOne
+    @JoinColumn(name = "pid")
+    private Picture cover;
+
     @ManyToOne
     @JoinColumn(name = "cid", nullable = false)
     private Category category;
@@ -118,6 +122,14 @@ public class Message implements Serializable {
         this.enable = enable;
     }
 
+    public Picture getCover() {
+        return cover;
+    }
+
+    public void setCover(Picture cover) {
+        this.cover = cover;
+    }
+
     public Category getCategory() {
         return category;
     }
@@ -133,4 +145,14 @@ public class Message implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Message)) {
+            return false;
+        }
+        Message message = (Message)obj;
+        return this.mid.equals(message.getMid());
+    }
+
 }

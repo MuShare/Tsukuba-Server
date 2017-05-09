@@ -55,4 +55,14 @@ public class Picture implements Serializable {
     public void setMessage(Message message) {
         this.message = message;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Picture)) {
+            return false;
+        }
+        Picture picture = (Picture)obj;
+        return this.pid.equals(picture.getPid());
+    }
+
 }

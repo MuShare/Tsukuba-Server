@@ -17,4 +17,12 @@ public interface PictureDao extends BaseDao<Picture> {
      */
     List<Picture> findByMessage(Message message);
 
+    /**
+     * Find an oldest picture by message.
+     *
+     * @param message
+     * @return
+     */
+    Picture getOldestByMessage(Message message);
+
 }

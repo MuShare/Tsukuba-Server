@@ -144,7 +144,7 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
         return messageBeans;
     }
 
-    public List<MessageBean> searchMessages(long seq, boolean sell, String cid, int size) {
+    public List<MessageBean> searchEnableMessages(long seq, boolean sell, String cid, int size) {
         Category category = null;
         if (cid != null && !cid.equals("")) {
             category = categoryDao.get(cid);
@@ -152,7 +152,7 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
         // Get offset, offset is the number of messages whose sequence is larger or equal than the given sequence number.
         int offset = messageDao.getCountWithSeqLargerThan(seq, sell, category);
         List<MessageBean> messageBeans = new ArrayList<MessageBean>();
-        // Find (size) messages from offset position.
+        // Find limited messages from offset position.
         for (Message message : messageDao.findWithSellInCategoryByPage(sell, category, offset, size)) {
             messageBeans.add(new MessageBean(message));
         }

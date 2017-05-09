@@ -2,10 +2,12 @@ package org.mushare.tsukuba.controller.api;
 
 import net.sf.json.JSONArray;
 import org.mushare.common.util.Debug;
+import org.mushare.tsukuba.bean.MessageBean;
 import org.mushare.tsukuba.bean.PictureBean;
 import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
 import org.mushare.tsukuba.controller.common.ErrorCode;
+import org.mushare.tsukuba.domain.User;
 import org.mushare.tsukuba.service.common.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -114,10 +116,27 @@ public class MessageController extends ControllerTemplate {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponseEntity getMessages(@RequestParam(defaultValue = "true") boolean sell, String cid,
-                                      long seq, @RequestParam(defaultValue = "20") int size) {
+    public ResponseEntity getMessages(@RequestParam(defaultValue = "-1") long seq,
+                                      @RequestParam(defaultValue = "true") boolean sell,
+                                      String cid, @RequestParam(defaultValue = "20") int size) {
+        if (seq < 0) {
+            seq = Long.MAX_VALUE;
+        }
+        final List<MessageBean> messageBeans = messageManager.searchEnableMessages(seq, sell, cid, size);
         return generateOK(new HashMap<String, Object>() {{
+            put("messages", messageBeans);
+        }});
+    }
 
+    @RequestMapping(value = "/list/user", method = RequestMethod.GET)
+    public ResponseEntity getMessages(@RequestParam(defaultValue = "true") boolean sell, HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
+        final List<MessageBean> messageBeans = messageManager.getMessagesByUid(userBean.getUid(), sell);
+        return generateOK(new HashMap<String, Object>() {{
+            put("messages", messageBeans);
         }});
     }
 
