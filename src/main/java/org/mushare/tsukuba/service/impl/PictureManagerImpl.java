@@ -64,4 +64,7 @@ public class PictureManagerImpl extends ManagerTemplate implements PictureManage
         pictureDao.delete(picture);
         return Result.Success;
     }
+
+
+
 }

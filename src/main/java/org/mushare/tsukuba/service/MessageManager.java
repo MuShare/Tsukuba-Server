@@ -43,4 +43,14 @@ public interface MessageManager {
      */
     Result hasPrevilege(String mid, String uid);
 
+    /**
+     * Enable and disable message.
+     *
+     * @param mid
+     * @param enable
+     * @param uid
+     * @return
+     */
+    Result enable(String mid, boolean enable, String uid);
+
 }

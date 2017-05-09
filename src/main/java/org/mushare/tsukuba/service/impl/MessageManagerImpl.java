@@ -130,6 +130,23 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
         return Result.Success;
     }
 
-
+    public Result enable(String mid, boolean enable, String uid) {
+        Message message = messageDao.get(mid);
+        if (message == null) {
+            Debug.error("Cannot find the message by this mid");
+            return Result.ObjectIdError;
+        }
+        User user = userDao.get(uid);
+        if (user == null) {
+            Debug.error("Cannot find the user by this uid.");
+            return Result.ObjectIdError;
+        }
+        if (!message.getUser().equals(user)) {
+            return Result.MessageModifyNoPrevilege;
+        }
+        message.setEnable(enable);
+        messageDao.update(message);
+        return Result.Success;
+    }
 
 }
