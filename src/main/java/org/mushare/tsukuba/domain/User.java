@@ -142,6 +142,7 @@ public class User implements Serializable {
         User user = (User)obj;
         return this.uid.equals(user.getUid());
     }
+
 }
 
 
