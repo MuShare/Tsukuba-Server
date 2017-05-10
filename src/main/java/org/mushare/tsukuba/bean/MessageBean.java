@@ -13,6 +13,7 @@ public class MessageBean {
     private String title;
     private String introduction;
     private int price;
+    private String cover;
     private boolean sell;
     private boolean enable;
     private String cid;
@@ -94,6 +95,14 @@ public class MessageBean {
         this.enable = enable;
     }
 
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
     public String getCid() {
         return cid;
     }
@@ -119,6 +128,7 @@ public class MessageBean {
         this.introduction = message.getIntroduction();
         this.price = message.getPrice();
         this.sell = message.getSell();
+        this.cover = message.getCover() == null ? "/static/images/picture.png" : message.getCover().getPath();
         this.enable = message.getEnable();
         this.cid = message.getCategory().getCid();
         this.uid = message.getUser().getUid();
