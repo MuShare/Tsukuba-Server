@@ -128,7 +128,7 @@ public class DetailMessageBean {
         this.price = message.getPrice();
         this.cover = message.getCover() == null ? "/static/images/picture.png" : message.getCover().getPath();
         this.enable = message.getEnable();
-        this.introduction = getIntroduction();
+        this.introduction = message.getIntroduction();
         this.author = message.getUser().getName();
         this.avatar = message.getUser().getAvatar();
         this.pictures = new ArrayList<PictureBean>();
