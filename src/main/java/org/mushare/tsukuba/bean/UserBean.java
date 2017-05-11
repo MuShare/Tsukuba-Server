@@ -16,6 +16,7 @@ public class UserBean {
     private String contact;
     private String address;
     private int level;
+    private int rev;
 
     public String getUid() {
         return uid;
@@ -97,6 +98,14 @@ public class UserBean {
         this.level = level;
     }
 
+    public int getRev() {
+        return rev;
+    }
+
+    public void setRev(int rev) {
+        this.rev = rev;
+    }
+
     public UserBean(User user, boolean safe) {
         this.uid = user.getUid();
         this.createAt = user.getCreateAt();
@@ -107,6 +116,7 @@ public class UserBean {
         this.contact = user.getContact();
         this.address = user.getAddress();
         this.level = user.getLevel();
+        this.rev = user.getRev();
         if (!safe) {
             this.credential = user.getCredential();
         }

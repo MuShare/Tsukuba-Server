@@ -73,14 +73,19 @@ public class UserController extends ControllerTemplate {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity getUserInfo(HttpServletRequest request) {
+    public ResponseEntity getUserInfo(@RequestParam(defaultValue = "0") final int rev, HttpServletRequest request) {
         final UserBean userBean = auth(request);
         if (userBean == null) {
             return generateBadRequest(ErrorCode.ErrorToken);
         }
         userBean.safe();
         return generateOK(new HashMap<String, Object>() {{
-            put("user", userBean);
+            if (rev < userBean.getRev()) {
+                put("update", true);
+                put("user", userBean);
+            } else {
+                put("update", false);
+            }
         }});
     }
 

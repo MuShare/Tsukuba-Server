@@ -41,6 +41,9 @@ public class User implements Serializable {
     @Column(nullable = false)
     private Integer level;
 
+    @Column(nullable = false)
+    private Integer rev;
+
     public String getUid() {
         return uid;
     }
@@ -121,17 +124,26 @@ public class User implements Serializable {
         this.level = level;
     }
 
+    public Integer getRev() {
+        return rev;
+    }
+
+    public void setRev(Integer rev) {
+        this.rev = rev;
+    }
+
     public User() {
         super();
     }
 
-    public User(Long createAt, String type, String identifier, String credential, String name, Integer level) {
+    public User(Long createAt, String type, String identifier, String credential, String name, Integer level, Integer rev) {
         this.createAt = createAt;
         this.type = type;
         this.identifier = identifier;
         this.credential = credential;
         this.name = name;
         this.level = level;
+        this.rev = 0;
     }
 
     @Override

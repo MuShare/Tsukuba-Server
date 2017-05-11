@@ -39,7 +39,7 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
             Debug.error("This email has been registerd.");
             return Result.UserEmailRegistered;
         }
-        user = new User(System.currentTimeMillis(), UserTypeEmail, email, password, name, 0);
+        user = new User(System.currentTimeMillis(), UserTypeEmail, email, password, name, 0, 0);
         if (userDao.save(user) == null) {
             Debug.error("Error to save user.");
             return Result.SaveInternalError;
@@ -83,10 +83,11 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
         String name = userInfo.getString("name");
         User user = userDao.getByIdentifierWithType(userId, UserTypeFacebook);
         if (user == null) {
-            user = new User(System.currentTimeMillis(), UserTypeFacebook, userId, token, name, 0);
+            user = new User(System.currentTimeMillis(), UserTypeFacebook, userId, token, name, 0, 0);
             userDao.save(user);
         } else {
             user.setCredential(token);
+            user.setRev(user.getRev() + 1);
             userDao.update(user);
         }
         return new UserBean(user, false);
@@ -116,6 +117,7 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
         if (address != null && !address.equals("")) {
             user.setAddress(contact);
         }
+        user.setRev(user.getRev() + 1);
         userDao.update(user);
         return Result.Success;
     }
@@ -200,7 +202,9 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
         String path = configComponent.rootPath + configComponent.AvatarPath;
         String newName = UUID.randomUUID().toString() + ".jpg";
         FileTool.modifyFileName(path, fileName, newName);
+        // Update avatar path and rev.
         user.setAvatar(configComponent.AvatarPath + File.separator + newName);
+        user.setRev(user.getRev() + 1);
         userDao.update(user);
         return user.getAvatar();
     }
