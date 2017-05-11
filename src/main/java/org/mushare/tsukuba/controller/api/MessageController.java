@@ -2,6 +2,7 @@ package org.mushare.tsukuba.controller.api;
 
 import net.sf.json.JSONArray;
 import org.mushare.common.util.Debug;
+import org.mushare.tsukuba.bean.DetailMessageBean;
 import org.mushare.tsukuba.bean.MessageBean;
 import org.mushare.tsukuba.bean.PictureBean;
 import org.mushare.tsukuba.bean.UserBean;
@@ -11,6 +12,7 @@ import org.mushare.tsukuba.domain.User;
 import org.mushare.tsukuba.service.common.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -151,14 +153,14 @@ public class MessageController extends ControllerTemplate {
         }});
     }
 
-    @RequestMapping(value = "/pictures", method = RequestMethod.GET)
-    public ResponseEntity getPicturesOfMessage(@RequestParam String mid) {
-        final List<PictureBean> pictureBeans = pictureManager.getPicturesByMid(mid);
-        if (pictureBeans == null) {
-            generateBadRequest(ErrorCode.ErrorObjecId);
+    @RequestMapping(value = "/detail/{mid}", method = RequestMethod.GET)
+    public ResponseEntity getPicturesOfMessage(@PathVariable String mid) {
+        final DetailMessageBean messageBean = messageManager.getDetail(mid);
+        if (messageBean == null) {
+            return generateBadRequest(ErrorCode.ErrorObjecId);
         }
         return generateOK(new HashMap<String, Object>() {{
-            put("pictures", pictureBeans);
+            put("message", messageBean);
         }});
     }
 

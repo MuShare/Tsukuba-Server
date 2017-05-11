@@ -9,7 +9,6 @@ public class PictureBean {
     private String pid;
     private Date createAt;
     private String path;
-    private String mid;
 
     public String getPid() {
         return pid;
@@ -35,19 +34,10 @@ public class PictureBean {
         this.path = path;
     }
 
-    public String getMid() {
-        return mid;
-    }
-
-    public void setMid(String mid) {
-        this.mid = mid;
-    }
-
     public PictureBean(Picture picture) {
         this.pid = picture.getPid();
         this.createAt = new Date(picture.getCreateAt());
         this.path = picture.getPath();
-        this.mid = picture.getMessage().getMid();
     }
 
 }

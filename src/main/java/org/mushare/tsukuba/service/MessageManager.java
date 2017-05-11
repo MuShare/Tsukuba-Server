@@ -1,6 +1,7 @@
 package org.mushare.tsukuba.service;
 
 
+import org.mushare.tsukuba.bean.DetailMessageBean;
 import org.mushare.tsukuba.bean.MessageBean;
 import org.mushare.tsukuba.service.common.Result;
 
@@ -54,6 +55,14 @@ public interface MessageManager {
      * @return
      */
     Result enable(String mid, boolean enable, String uid);
+
+    /**
+     * Get message by mid.
+     *
+     * @param mid
+     * @return
+     */
+    DetailMessageBean getDetail(String mid);
 
     /**
      * Get messages of a user by uid.

@@ -1,6 +1,7 @@
 package org.mushare.tsukuba.service.impl;
 
 import org.mushare.common.util.Debug;
+import org.mushare.tsukuba.bean.DetailMessageBean;
 import org.mushare.tsukuba.bean.MessageBean;
 import org.mushare.tsukuba.domain.*;
 import org.mushare.tsukuba.service.MessageManager;
@@ -148,6 +149,15 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
         message.setEnable(enable);
         messageDao.update(message);
         return Result.Success;
+    }
+
+    public DetailMessageBean getDetail(String mid) {
+        Message message = messageDao.get(mid);
+        if (message == null) {
+            Debug.error("Cannot find the message by this mid.");
+            return null;
+        }
+        return new DetailMessageBean(message, pictureDao.findByMessage(message));
     }
 
     public List<MessageBean> getMessagesByUid(String uid, boolean sell) {
