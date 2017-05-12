@@ -4,6 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.apache.commons.io.FileUtils;
 import org.directwebremoting.annotations.RemoteMethod;
 import org.directwebremoting.annotations.RemoteProxy;
 import org.json.JSONObject;
@@ -25,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.UUID;
 
 @Service
@@ -74,6 +77,10 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
             Debug.error("Cannot get user info from facebook, bad request.");
             return null;
         }
+        if (!appAuth(token)) {
+            Debug.error("Access token belongs to another app.");
+            return null;
+        }
         JSONObject userInfo = response.getBody().getObject();
         if (userInfo.has("error")) {
             Debug.error("Malformed access token.");
@@ -84,6 +91,8 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
         User user = userDao.getByIdentifierWithType(userId, UserTypeFacebook);
         if (user == null) {
             user = new User(System.currentTimeMillis(), UserTypeFacebook, userId, token, name, 0, 0);
+            // Download avatar from facebook when user login at first.
+            user.setAvatar(downloadAvatarFromFacebook(token));
             userDao.save(user);
         } else {
             user.setCredential(token);
@@ -207,6 +216,42 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
         user.setRev(user.getRev() + 1);
         userDao.update(user);
         return user.getAvatar();
+    }
+
+    private boolean appAuth(String token) {
+        HttpResponse<JsonNode> response = null;
+        try {
+            response = Unirest.get("https://graph.facebook.com/app")
+                    .header("accept", "application/json")
+                    .queryString("access_token", token)
+                    .asJson();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
+        if (response == null) {
+            return false;
+        }
+        JSONObject userInfo = response.getBody().getObject();
+        String appId = userInfo.getString("id");
+        return configComponent.facebook.appId.equals(appId);
+    }
+
+    private String downloadAvatarFromFacebook(String token) {
+        HttpResponse<InputStream> response = null;
+        try {
+            response = Unirest.get("https://graph.facebook.com/me/picture")
+                    .header("accept", "image/jpeg")
+                    .queryString("width", 480)
+                    .queryString("access_token", token)
+                    .asBinary();
+            String avatar = configComponent.AvatarPath + File.separator + UUID.randomUUID().toString() + ".jpg";
+            File file = new File(configComponent.rootPath +  avatar);
+            FileUtils.copyInputStreamToFile(response.getBody(), file);
+            return avatar;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "/static/images/avatar.jpg";
+        }
     }
 
 }
