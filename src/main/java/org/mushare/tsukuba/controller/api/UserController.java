@@ -91,13 +91,14 @@ public class UserController extends ControllerTemplate {
 
     @RequestMapping(value = "/modify/info", method = RequestMethod.POST)
     public ResponseEntity modifyUser(String name, String contact, String address, HttpServletRequest request) {
-        UserBean userBean = auth(request);
+        final UserBean userBean = auth(request);
         if (userBean == null) {
             return generateBadRequest(ErrorCode.ErrorToken);
         }
-        userManager.modify(userBean.getUid(), name, contact, address);
+        final int rev = userManager.modify(userBean.getUid(), name, contact, address);
         return generateOK(new HashMap<String, Object>() {{
-            put("success", true);
+            put("success", rev > userBean.getRev());
+            put("rev", rev);
         }});
     }
 

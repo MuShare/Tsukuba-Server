@@ -111,11 +111,11 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
     }
 
     @Transactional
-    public Result modify(String uid, String name, String contact, String address) {
+    public int modify(String uid, String name, String contact, String address) {
         User user = userDao.get(uid);
         if (user == null) {
             Debug.error("Cannot find the user by this uid.");
-            return Result.ObjectIdError;
+            return -1;
         }
         if (name != null && !name.equals("")) {
             user.setName(name);
@@ -124,11 +124,11 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
             user.setContact(contact);
         }
         if (address != null && !address.equals("")) {
-            user.setAddress(contact);
+            user.setAddress(address);
         }
         user.setRev(user.getRev() + 1);
         userDao.update(user);
-        return Result.Success;
+        return user.getRev();
     }
 
     @RemoteMethod

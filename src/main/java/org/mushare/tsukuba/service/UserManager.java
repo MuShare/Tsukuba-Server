@@ -50,9 +50,9 @@ public interface UserManager {
      * @param name
      * @param contact
      * @param address
-     * @return
+     * @return rev
      */
-    Result modify(String uid, String name, String contact, String address);
+    int modify(String uid, String name, String contact, String address);
 
     /**
      * Send a email with an url to user for modifying password.
