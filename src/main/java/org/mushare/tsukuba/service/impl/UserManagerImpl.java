@@ -43,6 +43,7 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
             return Result.UserEmailRegistered;
         }
         user = new User(System.currentTimeMillis(), UserTypeEmail, email, password, name, 0, 0);
+        user.setAvatar("/static/images/avatar.png");
         if (userDao.save(user) == null) {
             Debug.error("Error to save user.");
             return Result.SaveInternalError;

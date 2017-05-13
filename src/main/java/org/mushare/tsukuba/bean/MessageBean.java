@@ -14,6 +14,7 @@ public class MessageBean {
     private int price;
     private String cover;
     private boolean enable;
+    private String cid;
 
     public String getMid() {
         return mid;
@@ -83,6 +84,14 @@ public class MessageBean {
         this.cover = cover;
     }
 
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
+
     public MessageBean(Message message) {
         this.mid = message.getMid();
         this.createAt = new Date(message.getCreateAt());
@@ -92,6 +101,7 @@ public class MessageBean {
         this.price = message.getPrice();
         this.cover = message.getCover() == null ? "/static/images/picture.png" : message.getCover().getPath();
         this.enable = message.getEnable();
+        this.cid = message.getCategory().getCid();
     }
 
 }

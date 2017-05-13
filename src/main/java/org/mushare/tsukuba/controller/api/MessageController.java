@@ -62,7 +62,7 @@ public class MessageController extends ControllerTemplate {
         }
         Result result = messageManager.modify(mid, title, oidsArray, introduction, price, userBean.getUid());
         if (result == Result.ObjectIdError) {
-            return generateBadRequest(ErrorCode.ErrorModifyMessageMidError);
+            return generateBadRequest(ErrorCode.ErrorObjecId);
         }
         if (result == Result.MessageModifyNoPrevilege) {
             return generateBadRequest(ErrorCode.ErrorModifyMessageNoPrivilege);
@@ -80,7 +80,7 @@ public class MessageController extends ControllerTemplate {
         }
         Result result = messageManager.enable(mid, enable, userBean.getUid());
         if (result == Result.ObjectIdError) {
-            return generateBadRequest(ErrorCode.ErrorModifyMessageMidError);
+            return generateBadRequest(ErrorCode.ErrorObjecId);
         }
         if (result == Result.MessageModifyNoPrevilege) {
             return generateBadRequest(ErrorCode.ErrorModifyMessageNoPrivilege);
