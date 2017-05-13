@@ -157,7 +157,9 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
             Debug.error("Cannot find the message by this mid.");
             return null;
         }
-        return new DetailMessageBean(message, pictureDao.findByMessage(message));
+        return new DetailMessageBean(message,
+                pictureDao.findByMessage(message),
+                answerDao.findByMessage(message));
     }
 
     public List<MessageBean> getMessagesByUid(String uid, boolean sell) {

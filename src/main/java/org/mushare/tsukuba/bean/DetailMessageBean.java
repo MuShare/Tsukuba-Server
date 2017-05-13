@@ -1,5 +1,6 @@
 package org.mushare.tsukuba.bean;
 
+import org.mushare.tsukuba.domain.Answer;
 import org.mushare.tsukuba.domain.Message;
 import org.mushare.tsukuba.domain.Picture;
 import org.mushare.tsukuba.domain.User;
@@ -22,6 +23,7 @@ public class DetailMessageBean {
     private String author;
     private String avatar;
     private List<PictureBean> pictures;
+    private List<String> options;
 
     public String getMid() {
         return mid;
@@ -119,7 +121,15 @@ public class DetailMessageBean {
         this.pictures = pictures;
     }
 
-    public DetailMessageBean(Message message, List<Picture> pictures) {
+    public List<String> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<String> options) {
+        this.options = options;
+    }
+
+    public DetailMessageBean(Message message, List<Picture> pictures, List<Answer> answers) {
         this.mid = message.getMid();
         this.createAt = new Date(message.getCreateAt());
         this.updateAt = new Date(message.getUpdateAt());
@@ -135,6 +145,9 @@ public class DetailMessageBean {
         for (Picture picture : pictures) {
             this.pictures.add(new PictureBean(picture));
         }
-
+        this.options = new ArrayList<String>();
+        for (Answer answer: answers) {
+            this.options.add(answer.getOption().getOid());
+        }
     }
 }
