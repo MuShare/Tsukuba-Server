@@ -19,6 +19,7 @@ public class DetailMessageBean {
     private int price;
     private String cover;
     private boolean enable;
+    private String cid;
     private String introduction;
     private String author;
     private String avatar;
@@ -97,6 +98,14 @@ public class DetailMessageBean {
         this.enable = enable;
     }
 
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
+
     public List<PictureBean> getPictures() {
         return pictures;
     }
@@ -139,6 +148,7 @@ public class DetailMessageBean {
         this.cover = message.getCover() == null ? "/static/images/picture.png" : message.getCover().getPath();
         this.enable = message.getEnable();
         this.introduction = message.getIntroduction();
+        this.cid = message.getCategory().getCid();
         this.author = message.getUser().getName();
         this.avatar = message.getUser().getAvatar();
         this.pictures = new ArrayList<PictureBean>();
