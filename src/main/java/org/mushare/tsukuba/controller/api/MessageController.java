@@ -72,13 +72,13 @@ public class MessageController extends ControllerTemplate {
         }});
     }
 
-    @RequestMapping(value = "/enable", method = RequestMethod.POST)
-    public ResponseEntity enableMessage(@RequestParam String mid, @RequestParam boolean enable, HttpServletRequest request) {
+    @RequestMapping(value = "/close", method = RequestMethod.POST)
+    public ResponseEntity enableMessage(@RequestParam String mid, HttpServletRequest request) {
         UserBean userBean = auth(request);
         if (userBean == null) {
             return generateBadRequest(ErrorCode.ErrorToken);
         }
-        Result result = messageManager.enable(mid, enable, userBean.getUid());
+        Result result = messageManager.enable(mid, false, userBean.getUid());
         if (result == Result.ObjectIdError) {
             return generateBadRequest(ErrorCode.ErrorObjecId);
         }

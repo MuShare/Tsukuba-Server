@@ -132,6 +132,7 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
         return Result.Success;
     }
 
+    @Transactional
     public Result enable(String mid, boolean enable, String uid) {
         Message message = messageDao.get(mid);
         if (message == null) {
