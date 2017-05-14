@@ -21,7 +21,7 @@ public class PictureDaoHibernate extends BaseHibernateDaoSupport<Picture> implem
    }
 
     public List<Picture> findByMessage(Message message) {
-        String hql = "from Picture where message = ? order by createAt desc";
+        String hql = "from Picture where message = ? order by createAt";
         return (List<Picture>) getHibernateTemplate().find(hql, message);
     }
 

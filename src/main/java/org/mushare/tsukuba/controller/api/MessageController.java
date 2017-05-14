@@ -154,13 +154,21 @@ public class MessageController extends ControllerTemplate {
     }
 
     @RequestMapping(value = "/detail/{mid}", method = RequestMethod.GET)
-    public ResponseEntity getPicturesOfMessage(@PathVariable String mid) {
+    public ResponseEntity getDetailMessage(@PathVariable String mid) {
         final DetailMessageBean messageBean = messageManager.getDetail(mid);
         if (messageBean == null) {
             return generateBadRequest(ErrorCode.ErrorObjecId);
         }
         return generateOK(new HashMap<String, Object>() {{
             put("message", messageBean);
+        }});
+    }
+
+    @RequestMapping(value = "/pictures/{mid}", method = RequestMethod.GET)
+    public ResponseEntity getPicturesOfMessage(@PathVariable String mid) {
+        final List<PictureBean> pictureBeans = pictureManager.getPicturesByMid(mid);
+        return generateOK(new HashMap<String, Object>() {{
+            put("pictures", pictureBeans);
         }});
     }
 
