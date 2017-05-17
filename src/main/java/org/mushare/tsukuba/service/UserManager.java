@@ -21,6 +21,14 @@ public interface UserManager {
     Result registerByEmail(String email, String password, String name);
 
     /**
+     * Get user info by uid.
+     *
+     * @param uid
+     * @return
+     */
+    UserBean getByUid(String uid);
+
+    /**
      * Get user by email.
      *
      * @param email

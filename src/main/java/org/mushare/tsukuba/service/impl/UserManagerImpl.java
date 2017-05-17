@@ -51,6 +51,14 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
         return Result.Success;
     }
 
+    public UserBean getByUid(String uid) {
+        User user = userDao.get(uid);
+        if (user == null) {
+            return null;
+        }
+        return new UserBean(user, true);
+    }
+
     public UserBean getByEmail(String email) {
         User user = userDao.getByIdentifierWithType(email, UserTypeEmail);
         if (user == null) {

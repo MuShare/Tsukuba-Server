@@ -6,6 +6,7 @@ import org.mushare.tsukuba.controller.common.ErrorCode;
 import org.mushare.tsukuba.service.common.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,7 +74,7 @@ public class UserController extends ControllerTemplate {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity getUserInfo(@RequestParam(defaultValue = "0") final int rev, HttpServletRequest request) {
+    public ResponseEntity pullMyUserInfo(@RequestParam(defaultValue = "0") final int rev, HttpServletRequest request) {
         final UserBean userBean = auth(request);
         if (userBean == null) {
             return generateBadRequest(ErrorCode.ErrorToken);
@@ -86,6 +87,17 @@ public class UserController extends ControllerTemplate {
             } else {
                 put("update", false);
             }
+        }});
+    }
+
+    @RequestMapping(value = "/{uid}", method = RequestMethod.GET)
+    public ResponseEntity getUserInfo(@PathVariable String uid) {
+        final UserBean userBean = userManager.getByUid(uid);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorObjecId);
+        }
+        return generateOK(new HashMap<String, Object>() {{
+            put("user", userBean);
         }});
     }
 

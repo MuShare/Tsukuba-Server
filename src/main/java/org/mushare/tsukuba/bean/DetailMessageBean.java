@@ -21,8 +21,7 @@ public class DetailMessageBean {
     private boolean enable;
     private String cid;
     private String introduction;
-    private String author;
-    private String avatar;
+    private SimpleUserBean author;
     private List<PictureBean> pictures;
     private List<String> options;
 
@@ -110,20 +109,12 @@ public class DetailMessageBean {
         return pictures;
     }
 
-    public String getAuthor() {
+    public SimpleUserBean getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(SimpleUserBean author) {
         this.author = author;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     public void setPictures(List<PictureBean> pictures) {
@@ -149,8 +140,7 @@ public class DetailMessageBean {
         this.enable = message.getEnable();
         this.introduction = message.getIntroduction();
         this.cid = message.getCategory().getCid();
-        this.author = message.getUser().getName();
-        this.avatar = message.getUser().getAvatar();
+        this.author = new SimpleUserBean(message.getUser());
         this.pictures = new ArrayList<PictureBean>();
         for (Picture picture : pictures) {
             this.pictures.add(new PictureBean(picture));
