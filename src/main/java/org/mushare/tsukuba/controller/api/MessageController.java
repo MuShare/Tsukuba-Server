@@ -131,7 +131,7 @@ public class MessageController extends ControllerTemplate {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ResponseEntity getMessages(@RequestParam(defaultValue = "-1") long seq,
                                       @RequestParam(defaultValue = "true") boolean sell,
-                                      String cid, @RequestParam(defaultValue = "20") int size) {
+                                      String cid, @RequestParam(defaultValue = "24") int size) {
         if (seq < 0) {
             seq = Long.MAX_VALUE;
         }

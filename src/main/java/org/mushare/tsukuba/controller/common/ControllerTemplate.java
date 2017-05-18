@@ -55,6 +55,9 @@ public class ControllerTemplate {
     @Autowired
     protected PictureManager pictureManager;
 
+    @Autowired
+    protected FavoriteManager favoriteManager;
+
     protected ResponseEntity generateOK(Map<String, Object> result) {
         return generateResponseEntity(result, HttpStatus.OK, null, null);
     }

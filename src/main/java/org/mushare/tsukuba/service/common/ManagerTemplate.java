@@ -43,6 +43,9 @@ public class ManagerTemplate {
     @Autowired
     protected PictureDao pictureDao;
 
+    @Autowired
+    protected FavoriteDao favoriteDao;
+
     public boolean checkAdminSession(HttpSession session) {
         return session.getAttribute(AdminManager.AdminFlag) != null;
     }
