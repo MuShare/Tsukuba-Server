@@ -18,7 +18,7 @@ import java.util.HashMap;
 public class FavoriteController extends ControllerTemplate {
 
     @RequestMapping(value = "/like", method = RequestMethod.POST)
-    public ResponseEntity favoriteMessage(@RequestParam String mid, HttpServletRequest request) {
+    public ResponseEntity favorite(@RequestParam String mid, HttpServletRequest request) {
         UserBean userBean = auth(request);
         if (userBean == null) {
             return generateBadRequest(ErrorCode.ErrorToken);
@@ -32,6 +32,20 @@ public class FavoriteController extends ControllerTemplate {
         }
         return generateOK(new HashMap<String, Object>() {{
             put("success", true);
+        }});
+    }
+
+    @RequestMapping(value = "/unlike", method = RequestMethod.POST)
+    public ResponseEntity cancelFavorite(@RequestParam String mid, HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
+        Result result = favoriteManager.cancelFavoriteMessage(mid, userBean.getUid());
+        // If favorite cannot be found by message and user, return false.
+        final boolean success = result != Result.FavoriteNotExisted;
+        return generateOK(new HashMap<String, Object>() {{
+            put("success", success);
         }});
     }
 

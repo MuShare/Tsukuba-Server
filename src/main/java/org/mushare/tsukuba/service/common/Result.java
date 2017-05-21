@@ -15,8 +15,8 @@ public enum Result {
     SelectionRemoveNotAllow(1003),
     OptionRemoveNotAllow(1004),
     OptionNotInCategory(1005),
-    MessageModifyNoPrevilege(1006);
-
+    MessageModifyNoPrevilege(1006),
+    FavoriteNotExisted(1007);
 
     public int code;
 

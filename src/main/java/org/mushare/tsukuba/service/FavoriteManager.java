@@ -14,4 +14,13 @@ public interface FavoriteManager {
      */
     Result favoriteMessage(String mid, String uid);
 
+    /**
+     * User cancel favorite a message.
+     *
+     * @param mid
+     * @param uid
+     * @return
+     */
+    Result cancelFavoriteMessage(String mid, String uid);
+
 }

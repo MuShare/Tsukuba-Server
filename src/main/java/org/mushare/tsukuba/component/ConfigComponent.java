@@ -12,6 +12,7 @@ public class ConfigComponent {
     public static final String ConfigPath = "/WEB-INF/config.json";
 
     public String DefaultIcon = "/static/images/icon.png";
+    public String DefaultAvatar = "/static/images/avatar.png";
     public String CategoryIconPath = "/files/category";
     public String AvatarPath = "/files/avatar";
     public String PicturePath = "/files/picture";

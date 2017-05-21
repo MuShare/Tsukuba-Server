@@ -259,7 +259,7 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
             return avatar;
         } catch (Exception e) {
             e.printStackTrace();
-            return "/static/images/avatar.jpg";
+            return configComponent.DefaultAvatar;
         }
     }
 
