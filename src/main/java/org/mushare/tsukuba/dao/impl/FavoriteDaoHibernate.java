@@ -1,10 +1,14 @@
 package org.mushare.tsukuba.dao.impl;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.mushare.common.hibernate.BaseHibernateDaoSupport;
 import org.mushare.tsukuba.dao.FavoriteDao;
 import org.mushare.tsukuba.domain.Favorite;
 import org.mushare.tsukuba.domain.Message;
 import org.mushare.tsukuba.domain.User;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,4 +30,14 @@ public class FavoriteDaoHibernate extends BaseHibernateDaoSupport<Favorite> impl
         return favorites.get(0);
     }
 
+    public int getFavoritesCountOfMessage(final Message message) {
+        final String hql = "select count(*) from Favorite where message = ?";
+        return getHibernateTemplate().execute(new HibernateCallback<Long>() {
+            public Long doInHibernate(Session session) throws HibernateException {
+                Query query = session.createQuery(hql);
+                query.setParameter(0, message);
+                return (Long) query.uniqueResult();
+            }
+        }).intValue();
+    }
 }

@@ -24,6 +24,7 @@ public class DetailMessageBean {
     private SimpleUserBean author;
     private List<PictureBean> pictures;
     private List<String> options;
+    private boolean favorite;
 
     public String getMid() {
         return mid;
@@ -129,7 +130,15 @@ public class DetailMessageBean {
         this.options = options;
     }
 
-    public DetailMessageBean(Message message, List<Picture> pictures, List<Answer> answers) {
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public DetailMessageBean(Message message, List<Picture> pictures, List<Answer> answers, boolean favorite) {
         this.mid = message.getMid();
         this.createAt = new Date(message.getCreateAt());
         this.updateAt = new Date(message.getUpdateAt());
@@ -149,5 +158,6 @@ public class DetailMessageBean {
         for (Answer answer: answers) {
             this.options.add(answer.getOption().getOid());
         }
+        this.favorite = favorite;
     }
 }

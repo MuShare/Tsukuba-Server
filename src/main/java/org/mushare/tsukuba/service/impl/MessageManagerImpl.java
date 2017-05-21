@@ -152,15 +152,24 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
         return Result.Success;
     }
 
-    public DetailMessageBean getDetail(String mid) {
+    public DetailMessageBean getDetail(String mid, String uid) {
         Message message = messageDao.get(mid);
         if (message == null) {
             Debug.error("Cannot find the message by this mid.");
             return null;
         }
+        boolean favorite = false;
+        User user = null;
+        if (uid != null && !uid.equals("")) {
+            user = userDao.get(uid);
+        }
+        if (user != null) {
+            favorite = favoriteDao.getByMessageForUser(message, user) != null;
+        }
         return new DetailMessageBean(message,
                 pictureDao.findByMessage(message),
-                answerDao.findByMessage(message));
+                answerDao.findByMessage(message),
+                favorite);
     }
 
     public List<MessageBean> getMessagesByUid(String uid, boolean sell) {

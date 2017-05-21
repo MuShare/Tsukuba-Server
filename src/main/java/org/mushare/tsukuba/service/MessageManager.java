@@ -57,12 +57,12 @@ public interface MessageManager {
     Result enable(String mid, boolean enable, String uid);
 
     /**
-     * Get message by mid.
+     * Get message by mid, if uid is existed, get favorite status for this user.
      *
      * @param mid
      * @return
      */
-    DetailMessageBean getDetail(String mid);
+    DetailMessageBean getDetail(String mid, String uid);
 
     /**
      * Get messages of a user by uid.

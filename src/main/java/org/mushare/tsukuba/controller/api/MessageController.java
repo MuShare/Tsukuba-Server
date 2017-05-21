@@ -154,8 +154,10 @@ public class MessageController extends ControllerTemplate {
     }
 
     @RequestMapping(value = "/detail/{mid}", method = RequestMethod.GET)
-    public ResponseEntity getDetailMessage(@PathVariable String mid) {
-        final DetailMessageBean messageBean = messageManager.getDetail(mid);
+    public ResponseEntity getDetailMessage(@PathVariable String mid, HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        String uid = userBean == null ? null : userBean.getUid();
+        final DetailMessageBean messageBean = messageManager.getDetail(mid, uid);
         if (messageBean == null) {
             return generateBadRequest(ErrorCode.ErrorObjecId);
         }

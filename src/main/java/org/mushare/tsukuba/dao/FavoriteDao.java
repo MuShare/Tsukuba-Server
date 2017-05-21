@@ -16,4 +16,12 @@ public interface FavoriteDao extends BaseDao<Favorite> {
      */
     Favorite getByMessageForUser(Message message, User user);
 
+    /**
+     * Get favorite's number of a message.
+     *
+     * @param message
+     * @return
+     */
+    int getFavoritesCountOfMessage(Message message);
+
 }
