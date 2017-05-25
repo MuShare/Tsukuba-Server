@@ -40,4 +40,10 @@ public class FavoriteDaoHibernate extends BaseHibernateDaoSupport<Favorite> impl
             }
         }).intValue();
     }
+
+    public List<Favorite> findByUser(User user) {
+        String hql = "from Favorite where user = ?";
+        return (List<Favorite>) getHibernateTemplate().find(hql, user);
+    }
+
 }

@@ -5,6 +5,8 @@ import org.mushare.tsukuba.domain.Favorite;
 import org.mushare.tsukuba.domain.Message;
 import org.mushare.tsukuba.domain.User;
 
+import java.util.List;
+
 public interface FavoriteDao extends BaseDao<Favorite> {
 
     /**
@@ -23,5 +25,13 @@ public interface FavoriteDao extends BaseDao<Favorite> {
      * @return
      */
     int getFavoritesCountOfMessage(Message message);
+
+    /**
+     * Find favorites by user.
+     *
+     * @param user
+     * @return
+     */
+    List<Favorite> findByUser(User user);
 
 }

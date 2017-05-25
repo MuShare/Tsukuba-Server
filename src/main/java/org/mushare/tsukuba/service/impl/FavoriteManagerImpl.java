@@ -1,5 +1,6 @@
 package org.mushare.tsukuba.service.impl;
 
+import org.mushare.tsukuba.bean.MessageBean;
 import org.mushare.tsukuba.domain.Favorite;
 import org.mushare.tsukuba.domain.Message;
 import org.mushare.tsukuba.domain.User;
@@ -8,6 +9,9 @@ import org.mushare.tsukuba.service.common.ManagerTemplate;
 import org.mushare.tsukuba.service.common.Result;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FavoriteManagerImpl extends ManagerTemplate implements FavoriteManager {
@@ -46,6 +50,18 @@ public class FavoriteManagerImpl extends ManagerTemplate implements FavoriteMana
         }
         favoriteDao.delete(favorite);
         return Result.Success;
+    }
+
+    public List<MessageBean> getFavoriteMessageByUid(String uid) {
+        User user = userDao.get(uid);
+        if (user == null) {
+            return null;
+        }
+        List<MessageBean> messageBeans = new ArrayList<MessageBean>();
+        for (Favorite favorite : favoriteDao.findByUser(user)) {
+            messageBeans.add(new MessageBean(favorite.getMessage()));
+        }
+        return messageBeans;
     }
 
 }
