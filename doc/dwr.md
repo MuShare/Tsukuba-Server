@@ -3,6 +3,7 @@
 ### 1.CategoryManager
 
 (1)`getAll`
+
 Get all categories.
 
 - params: 
