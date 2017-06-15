@@ -34,6 +34,11 @@ public class FavoriteManagerImpl extends ManagerTemplate implements FavoriteMana
         if (favoriteDao.save(favorite) == null) {
             return Result.SaveInternalError;
         }
+        // Update number of favorites for its message.
+        message.setFavorites(favoriteDao.getFavoritesCountOfMessage(message));
+        messageDao.update(message);
+        Result result = Result.Success;
+        result.object = message.getFavorites();
         return Result.Success;
     }
 
@@ -49,6 +54,11 @@ public class FavoriteManagerImpl extends ManagerTemplate implements FavoriteMana
             return Result.FavoriteNotExisted;
         }
         favoriteDao.delete(favorite);
+        // Update number of favorites for its message.
+        message.setFavorites(favoriteDao.getFavoritesCountOfMessage(message));
+        messageDao.update(message);
+        Result result = Result.Success;
+        result.object = message.getFavorites();
         return Result.Success;
     }
 

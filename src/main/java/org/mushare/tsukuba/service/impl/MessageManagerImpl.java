@@ -48,6 +48,7 @@ public class MessageManagerImpl extends ManagerTemplate implements MessageManage
         message.setTitle(title);
         message.setIntroduction(introduction);
         message.setPrice(price);
+        message.setFavorites(0);
         message.setSell(sell);
         message.setEnable(true);
         message.setCategory(category);

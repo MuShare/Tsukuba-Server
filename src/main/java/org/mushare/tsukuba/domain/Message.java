@@ -36,6 +36,9 @@ public class Message implements Serializable {
     private Boolean sell;
 
     @Column(nullable = false)
+    private Integer favorites;
+
+    @Column(nullable = false)
     private Boolean enable;
 
     @OneToOne
@@ -112,6 +115,14 @@ public class Message implements Serializable {
 
     public void setSell(Boolean sell) {
         this.sell = sell;
+    }
+
+    public Integer getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(Integer favorites) {
+        this.favorites = favorites;
     }
 
     public Boolean getEnable() {

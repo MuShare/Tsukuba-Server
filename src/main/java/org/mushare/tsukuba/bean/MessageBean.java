@@ -13,6 +13,7 @@ public class MessageBean {
     private String title;
     private int price;
     private String cover;
+    private int favorites;
     private boolean enable;
     private String cid;
 
@@ -40,10 +41,6 @@ public class MessageBean {
         this.updateAt = updateAt;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public long getSeq() {
         return seq;
     }
@@ -60,20 +57,12 @@ public class MessageBean {
         this.title = title;
     }
 
-    public Integer getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(int price) {
         this.price = price;
-    }
-
-    public boolean isEnable() {
-        return enable;
-    }
-
-    public void setEnable(boolean enable) {
-        this.enable = enable;
     }
 
     public String getCover() {
@@ -82,6 +71,22 @@ public class MessageBean {
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public int getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(int favorites) {
+        this.favorites = favorites;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 
     public String getCid() {
@@ -100,6 +105,7 @@ public class MessageBean {
         this.title = message.getTitle();
         this.price = message.getPrice();
         this.cover = message.getCover() == null ? "/static/images/picture.png" : message.getCover().getPath();
+        this.favorites = message.getFavorites();
         this.enable = message.getEnable();
         this.cid = message.getCategory().getCid();
     }

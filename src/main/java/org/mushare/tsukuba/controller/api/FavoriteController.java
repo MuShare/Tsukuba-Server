@@ -25,7 +25,7 @@ public class FavoriteController extends ControllerTemplate {
         if (userBean == null) {
             return generateBadRequest(ErrorCode.ErrorToken);
         }
-        Result result = favoriteManager.favoriteMessage(mid, userBean.getUid());
+        final Result result = favoriteManager.favoriteMessage(mid, userBean.getUid());
         if (result == Result.ObjectIdError) {
             return generateBadRequest(ErrorCode.ErrorObjecId);
         }
@@ -34,6 +34,7 @@ public class FavoriteController extends ControllerTemplate {
         }
         return generateOK(new HashMap<String, Object>() {{
             put("success", true);
+            put("favorites", result.object);
         }});
     }
 
@@ -43,11 +44,12 @@ public class FavoriteController extends ControllerTemplate {
         if (userBean == null) {
             return generateBadRequest(ErrorCode.ErrorToken);
         }
-        Result result = favoriteManager.cancelFavoriteMessage(mid, userBean.getUid());
+        final Result result = favoriteManager.cancelFavoriteMessage(mid, userBean.getUid());
         // If favorite cannot be found by message and user, return false.
         final boolean success = result != Result.FavoriteNotExisted;
         return generateOK(new HashMap<String, Object>() {{
             put("success", success);
+            put("favorites", result.object);
         }});
     }
 
