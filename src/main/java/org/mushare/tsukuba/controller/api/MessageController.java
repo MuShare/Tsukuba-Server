@@ -142,12 +142,24 @@ public class MessageController extends ControllerTemplate {
     }
 
     @RequestMapping(value = "/list/user", method = RequestMethod.GET)
-    public ResponseEntity getMessages(@RequestParam(defaultValue = "true") boolean sell, HttpServletRequest request) {
+    public ResponseEntity getMyMessages(@RequestParam(defaultValue = "true") boolean sell, HttpServletRequest request) {
         UserBean userBean = auth(request);
         if (userBean == null) {
             return generateBadRequest(ErrorCode.ErrorToken);
         }
         final List<MessageBean> messageBeans = messageManager.getMessagesByUid(userBean.getUid(), sell);
+        return generateOK(new HashMap<String, Object>() {{
+            put("messages", messageBeans);
+        }});
+    }
+
+    @RequestMapping(value = "list/favorites", method = RequestMethod.GET)
+    public ResponseEntity getMyFavorites(@RequestParam(defaultValue = "true") boolean sell, HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
+        final List<MessageBean> messageBeans = favoriteManager.getFavoriteMessageByUid(userBean.getUid());
         return generateOK(new HashMap<String, Object>() {{
             put("messages", messageBeans);
         }});

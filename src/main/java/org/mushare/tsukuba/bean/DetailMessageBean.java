@@ -19,6 +19,7 @@ public class DetailMessageBean {
     private int price;
     private String cover;
     private boolean enable;
+    private int favorites;
     private String cid;
     private String introduction;
     private SimpleUserBean author;
@@ -82,20 +83,20 @@ public class DetailMessageBean {
         this.cover = cover;
     }
 
-    public String getIntroduction() {
-        return introduction;
-    }
-
-    public void setIntroduction(String introduction) {
-        this.introduction = introduction;
-    }
-
     public boolean isEnable() {
         return enable;
     }
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public int getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(int favorites) {
+        this.favorites = favorites;
     }
 
     public String getCid() {
@@ -106,8 +107,12 @@ public class DetailMessageBean {
         this.cid = cid;
     }
 
-    public List<PictureBean> getPictures() {
-        return pictures;
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
 
     public SimpleUserBean getAuthor() {
@@ -116,6 +121,10 @@ public class DetailMessageBean {
 
     public void setAuthor(SimpleUserBean author) {
         this.author = author;
+    }
+
+    public List<PictureBean> getPictures() {
+        return pictures;
     }
 
     public void setPictures(List<PictureBean> pictures) {
@@ -148,6 +157,7 @@ public class DetailMessageBean {
         this.cover = message.getCover() == null ? "/static/images/picture.png" : message.getCover().getPath();
         this.enable = message.getEnable();
         this.introduction = message.getIntroduction();
+        this.favorites = message.getFavorites();
         this.cid = message.getCategory().getCid();
         this.author = new SimpleUserBean(message.getUser());
         this.pictures = new ArrayList<PictureBean>();
