@@ -34,7 +34,7 @@ public class CategoryDaoHibernate extends BaseHibernateDaoSupport<Category> impl
     }
 
     public List<Category> findActivedByRev(int rev) {
-        String hql = "from Category where active = true and rev > ?";
+        String hql = "from Category where active = true and rev > ? order by priority";
         return (List<Category>) getHibernateTemplate().find(hql, rev);
     }
 
