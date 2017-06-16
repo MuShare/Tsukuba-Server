@@ -34,7 +34,7 @@ public class SelectionDaoHibernate extends BaseHibernateDaoSupport<Selection> im
     }
 
     public List<Selection> findActivedByRev(int rev) {
-        String hql = "from Selection where active = true and rev > ?";
+        String hql = "from Selection where active = true and rev > ? order by priority";
         return (List<Selection>) getHibernateTemplate().find(hql, rev);
     }
 
