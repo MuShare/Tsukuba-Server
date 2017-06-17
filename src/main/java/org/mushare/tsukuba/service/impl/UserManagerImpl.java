@@ -142,7 +142,7 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
 
     @RemoteMethod
     @Transactional
-    public boolean sendModifyPasswordMail(String uid) {
+    public boolean sendModifyPasswordMail(String uid, String lan) {
         User user = userDao.get(uid);
         if (user == null) {
             return false;
@@ -156,13 +156,28 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
         if (vid == null) {
             return false;
         }
-        String rootPath = this.getClass().getClassLoader().getResource("/").getPath().split("WEB-INF")[0];
-        MengularDocument document = new MengularDocument(rootPath, 0, "mail/password.html", null);
+        // If lan is not existed in supported languages list, set English as default.
+        String [] lans = configComponent.global.languages;
+        String [] titles = configComponent.global.resetTitles;
+        String title = null;
+        for (int i = 0; i < lans.length; i++) {
+            if (lans[i].equals(lan)) {
+                title = titles[i];
+                break;
+            }
+        }
+        if (title == null) {
+            lan = lans[0];
+            title = titles[0];
+        }
+        // Send mail
+        MengularDocument document = new MengularDocument(configComponent.rootPath, 0,
+                "mail/" + lan + "/password.html", null);
         document.setValue("username", user.getName());
         document.setValue("httpProtocol", configComponent.global.httpProtocol);
         document.setValue("domain", configComponent.global.domain);
         document.setValue("vid", vid);
-        boolean send =  mailComponent.send(user.getIdentifier(), "Reset yout password", document.getDocument());
+        boolean send =  mailComponent.send(user.getIdentifier(), title, document.getDocument());
         // If send mail failed, verficiation should be deleted.
         if (!send) {
             verificationDao.delete(verification);

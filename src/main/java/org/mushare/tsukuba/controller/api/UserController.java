@@ -115,12 +115,12 @@ public class UserController extends ControllerTemplate {
     }
 
     @RequestMapping(value = "/modify/password", method = RequestMethod.GET)
-    public ResponseEntity sendResetPasswordMail(@RequestParam String email) {
+    public ResponseEntity sendResetPasswordMail(@RequestParam String email, @RequestParam(defaultValue = "en") String lan) {
         final UserBean user = userManager.getByEmail(email);
         if (user == null) {
             return generateBadRequest(ErrorCode.ErrorEmailNotExist);
         }
-        if (!userManager.sendModifyPasswordMail(user.getUid())) {
+        if (!userManager.sendModifyPasswordMail(user.getUid(), lan)) {
             return generateBadRequest(ErrorCode.ErrorSendResetPasswordMail);
         }
         return generateOK(new HashMap<String, Object>() {{

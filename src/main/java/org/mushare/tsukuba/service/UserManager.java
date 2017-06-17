@@ -38,6 +38,7 @@ public interface UserManager {
 
     /**
      * Get a user by facebook's access token. If this user is not existed, create a new one in database.
+     *
      * @param token
      * @return
      */
@@ -45,6 +46,7 @@ public interface UserManager {
 
     /**
      * User authentication by login token
+     *
      * @param token
      * @return
      */
@@ -64,13 +66,16 @@ public interface UserManager {
 
     /**
      * Send a email with an url to user for modifying password.
+     *
      * @param uid
+     * @param lan
      * @return
      */
-    boolean sendModifyPasswordMail(String uid);
+    boolean sendModifyPasswordMail(String uid, String lan);
 
     /**
      * Reset password, auth by session.
+     *
      * @param password
      * @param session
      * @return

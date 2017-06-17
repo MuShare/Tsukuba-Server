@@ -1,9 +1,10 @@
 {
   "global": {
-    "languages": "zh/en",
+    "languages": "en/zh",
     "httpProtocol": "http",
     "domain": "localhost:8080",
-    "validity": 600
+    "validity": 600,
+    "resetTitles": "Reset your password/重置密码"
   },
   "mail": {
     "sender": "test@mushare.cn",
