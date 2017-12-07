@@ -46,6 +46,12 @@ public class ManagerTemplate {
     @Autowired
     protected FavoriteDao favoriteDao;
 
+    @Autowired
+    protected RoomDao roomDao;
+
+    @Autowired
+    protected ChatDao chatDao;
+
     public boolean checkAdminSession(HttpSession session) {
         return session.getAttribute(AdminManager.AdminFlag) != null;
     }
