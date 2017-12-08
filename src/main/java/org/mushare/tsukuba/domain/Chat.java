@@ -24,6 +24,9 @@ public class Chat implements Serializable {
     private Integer type;
 
     @Column(nullable = false)
+    private Integer seq;
+
+    @Column(nullable = false)
     private Boolean direction;
 
     @ManyToOne
@@ -60,6 +63,14 @@ public class Chat implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Integer getSeq() {
+        return seq;
+    }
+
+    public void setSeq(Integer seq) {
+        this.seq = seq;
     }
 
     public Boolean getDirection() {

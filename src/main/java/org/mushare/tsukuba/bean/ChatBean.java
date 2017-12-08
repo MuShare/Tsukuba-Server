@@ -10,6 +10,7 @@ public class ChatBean {
     private Date createAt;
     private String content;
     private int type;
+    private int seq;
     private boolean direction;
     private RoomBean room;
 
@@ -45,6 +46,14 @@ public class ChatBean {
         this.type = type;
     }
 
+    public int getSeq() {
+        return seq;
+    }
+
+    public void setSeq(int seq) {
+        this.seq = seq;
+    }
+
     public boolean isDirection() {
         return direction;
     }
@@ -66,6 +75,7 @@ public class ChatBean {
         this.createAt = new Date(chat.getCreateAt());
         this.content = withContent ? chat.getContent() : null;
         this.type = chat.getType();
+        this.seq = chat.getSeq();
         this.direction = chat.getDirection();
         this.room = withRoom ? new RoomBean(chat.getRoom()) : null;
     }

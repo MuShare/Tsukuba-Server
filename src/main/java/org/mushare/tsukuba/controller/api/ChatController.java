@@ -41,7 +41,11 @@ public class ChatController extends ControllerTemplate {
     }
 
     @RequestMapping(value = "/list/{rid}", method = RequestMethod.GET)
-    public ResponseEntity getChatList(@PathVariable String rid, @RequestParam(defaultValue = "0") Long last, HttpServletRequest request) {
+    public ResponseEntity getChatList(@PathVariable String rid, @RequestParam(defaultValue = "0") int seq, HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
         return generateOK(new HashMap<String, Object>(){{
 
         }});
