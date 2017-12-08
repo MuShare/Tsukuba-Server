@@ -58,6 +58,9 @@ public class ControllerTemplate {
     @Autowired
     protected FavoriteManager favoriteManager;
 
+    @Autowired
+    protected ChatManager chatManager;
+
     protected ResponseEntity generateOK(Map<String, Object> result) {
         return generateResponseEntity(result, HttpStatus.OK, null, null);
     }

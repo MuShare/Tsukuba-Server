@@ -20,7 +20,10 @@ public enum ErrorCode {
 
     // Message
     ErrorModifyMessageNoPrivilege(2021, "You do not have previlege to modify this message"),
-    ErrorSavePicture(2041, "Save picture error.");
+    ErrorSavePicture(2041, "Save picture error."),
+
+    // Chat
+    ErrorSendPlainText(3011, "Plain text cannot be sent, check the id of sender and receiver");
 
     public int code;
     public String message;

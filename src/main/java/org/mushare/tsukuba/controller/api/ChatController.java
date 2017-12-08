@@ -1,6 +1,9 @@
 package org.mushare.tsukuba.controller.api;
 
+import org.mushare.tsukuba.bean.ChatBean;
+import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
+import org.mushare.tsukuba.controller.common.ErrorCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +19,17 @@ import java.util.HashMap;
 public class ChatController extends ControllerTemplate {
 
     @RequestMapping(value = "/text", method = RequestMethod.POST)
-    public ResponseEntity sendPlainText(@RequestParam String uid, @RequestParam String content, HttpServletRequest request) {
+    public ResponseEntity sendPlainText(@RequestParam String receiver, @RequestParam String content, HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
+        final ChatBean chatBean = chatManager.sendPlainText(userBean.getUid(), receiver, content);
+        if (chatBean == null) {
+            return generateBadRequest(ErrorCode.ErrorSendPlainText);
+        }
         return generateOK(new HashMap<String, Object>(){{
-
+            put("chat", chatBean);
         }});
     }
 
