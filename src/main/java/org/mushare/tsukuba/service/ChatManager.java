@@ -2,6 +2,8 @@ package org.mushare.tsukuba.service;
 
 import org.mushare.tsukuba.bean.ChatBean;
 
+import java.util.List;
+
 public interface ChatManager {
 
     public static final int ChatTypePlainText = 0;
@@ -16,5 +18,14 @@ public interface ChatManager {
      * @return
      */
     ChatBean sendPlainText(String senderId, String receiverId, String content);
+
+    /**
+     * Get chats of a room with squence number larger than seq.
+     * 
+     * @param rid
+     * @param seq
+     * @return
+     */
+    List<ChatBean> getByRidWithSeq(String rid, int seq);
 
 }

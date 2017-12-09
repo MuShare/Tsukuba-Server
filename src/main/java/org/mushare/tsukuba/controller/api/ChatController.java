@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("api/chat")
@@ -33,7 +34,7 @@ public class ChatController extends ControllerTemplate {
         }});
     }
 
-    @RequestMapping(value = "/text", method = RequestMethod.POST)
+    @RequestMapping(value = "/picture", method = RequestMethod.POST)
     public ResponseEntity sendPicture(@RequestParam String uid, HttpServletRequest request) {
         return generateOK(new HashMap<String, Object>(){{
 
@@ -46,8 +47,9 @@ public class ChatController extends ControllerTemplate {
         if (userBean == null) {
             return generateBadRequest(ErrorCode.ErrorToken);
         }
+        final List<ChatBean> chatBeans = chatManager.getByRidWithSeq(rid, seq);
         return generateOK(new HashMap<String, Object>(){{
-
+            put("chats", chatBeans);
         }});
     }
 

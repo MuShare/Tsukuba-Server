@@ -10,6 +10,9 @@ import org.mushare.tsukuba.service.common.ManagerTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
 
@@ -54,6 +57,19 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
         room.setChats(room.getChats() + 1);
         roomDao.update(room);
         return new ChatBean(chat, true, false);
+    }
+
+    public List<ChatBean> getByRidWithSeq(String rid, int seq) {
+        Room room = roomDao.get(rid);
+        if (room == null) {
+            Debug.error("Cannot find a room by this rid.");
+            return null;
+        }
+        List<ChatBean> chatBeans = new ArrayList<ChatBean>();
+        for (Chat chat : chatDao.findInRoomBySeq(room, seq)) {
+            chatBeans.add(new ChatBean(chat, false, true));
+        }
+        return chatBeans;
     }
 
 }
