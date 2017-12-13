@@ -224,7 +224,7 @@
   - param: 
     - sell(boolean): the sell flag to distinguish sell message and buy message, default value is true
   - return:
-    - messages(List\<MessageBean>): updated messages
+    - messages(List\<MessageBean>): messages of this user
 
 (8)`api/message/list/favorites`
    
@@ -235,7 +235,7 @@
   - param: 
     - sell(boolean): the sell flag to distinguish sell message and buy message, default value is true
   - return:
-    - messages(List\<MessageBean>): updated messages
+    - messages(List\<MessageBean>): favorite messages
 
 (9)`api/detail/{mid}`
    
@@ -260,3 +260,63 @@
     - pictures(List\<PictureBean>): pictures information of this message.
 
 ### 6. Favorite
+
+(1)`api/favorite/like`
+   
+  - Like a message. 
+  - method: GET
+  - header: 
+    - token(String): access token
+  - param: 
+    - mid(String): message id
+  - return:
+    - success(boolean): success flag.
+    - favorites(int): the number of users who liked this message
+
+(2)`api/favorite/unlike`
+   
+  - Unlike a message. 
+  - method: GET
+  - header: 
+    - token(String): access token
+  - param: 
+    - mid(String): message id
+  - return:
+    - success(boolean): success flag.
+    - favorites(int): the number of users who liked this message
+
+(3)`api/favorite/list`
+   
+  - Get all favorite messages of a user.
+  - method: GET
+  - header: 
+    - token(String): access token
+  - return:
+    - messages(List\<MessageBean>): favorite messages
+
+### 7. Chat
+
+(1)`api/chat/text`
+   
+  - Send a plain text message to an other user. Chat room will be created if there is no existing one between the sender and the receiver.
+  - method: POST
+  - header: 
+    - token(String): access token
+  - param: 
+    - receiver(String): the user id of the message receiver
+    - content(String): content of the plain text message
+  - return:
+    - chat(ChatBean): the chat information of this plain text message
+
+(2)`api/chat/list/{rid}`
+   
+  - Get chats information of a chat room. 
+  - method: GET
+  - header: 
+    - token(String): access token
+  - path variables: 
+    - rid(String): room id of the chat room
+  - param: 
+    - seq(String): the sequence number of the newest chat message
+  - return:
+    - chats(List\<ChatBean>): the chats with the larger sequence number than seq of this chat room 
