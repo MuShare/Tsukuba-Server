@@ -21,6 +21,9 @@ public class Chat implements Serializable {
     private String content;
 
     @Column(nullable = false)
+    private Boolean downloaded;
+
+    @Column(nullable = false)
     private Integer type;
 
     @Column(nullable = false)
@@ -47,6 +50,14 @@ public class Chat implements Serializable {
 
     public void setCreateAt(Long createAt) {
         this.createAt = createAt;
+    }
+
+    public Boolean getDownloaded() {
+        return downloaded;
+    }
+
+    public void setDownloaded(Boolean downloaded) {
+        this.downloaded = downloaded;
     }
 
     public String getContent() {

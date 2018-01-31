@@ -45,6 +45,7 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
         Chat chat = new Chat();
         chat.setCreateAt(System.currentTimeMillis());
         chat.setContent(content);
+        chat.setDownloaded(false);
         chat.setType(ChatTypePlainText);
         chat.setSeq(room.getChats() + 1);
         chat.setRoom(room);
