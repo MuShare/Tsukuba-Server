@@ -29,6 +29,9 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
             return null;
         }
         Room room = roomDao.getBySenderAndReceiver(sender, receiver);
+        if (room == null) {
+            room = roomDao.getBySenderAndReceiver(receiver, sender);
+        }
         // Create a new room if there is no chat room between the sender and the reciver.
         if (room == null) {
             room = new Room();

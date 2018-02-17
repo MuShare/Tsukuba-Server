@@ -38,7 +38,7 @@ public interface BaseDao<T extends Serializable> {
     void delete(String id);
 
     /**
-     * Fins all entities.
+     * Find all entities.
      * @return
      */
     List<T> findAll();

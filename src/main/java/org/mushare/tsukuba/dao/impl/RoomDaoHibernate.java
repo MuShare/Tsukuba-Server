@@ -17,8 +17,8 @@ public class RoomDaoHibernate extends BaseHibernateDaoSupport<Room> implements R
     }
 
     public Room getBySenderAndReceiver(User sender, User receiver) {
-        String hql = "from Room where sender = ? and receiver = ? or receiver = ? and sender = ?";
-        List<Room> rooms = (List<Room>)getHibernateTemplate().find(hql, sender, receiver, receiver, sender);
+        String hql = "from Room where sender = ? and receiver = ?";
+        List<Room> rooms = (List<Room>)getHibernateTemplate().find(hql, sender, receiver);
         if (rooms.size() == 0) {
             return null;
         }
