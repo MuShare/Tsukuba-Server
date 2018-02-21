@@ -1,5 +1,6 @@
 package org.mushare.tsukuba.service.common;
 
+import org.mushare.tsukuba.component.APNsComponent;
 import org.mushare.tsukuba.component.ConfigComponent;
 import org.mushare.tsukuba.component.MailComponent;
 import org.mushare.tsukuba.dao.*;
@@ -15,6 +16,9 @@ public class ManagerTemplate {
 
     @Autowired
     protected MailComponent mailComponent;
+
+    @Autowired
+    protected APNsComponent apNsComponent;
 
     @Autowired
     protected UserDao userDao;
