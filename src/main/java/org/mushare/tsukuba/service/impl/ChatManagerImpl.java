@@ -3,6 +3,7 @@ package org.mushare.tsukuba.service.impl;
 import org.mushare.common.util.Debug;
 import org.mushare.tsukuba.bean.ChatBean;
 import org.mushare.tsukuba.domain.Chat;
+import org.mushare.tsukuba.domain.Device;
 import org.mushare.tsukuba.domain.Room;
 import org.mushare.tsukuba.domain.User;
 import org.mushare.tsukuba.service.ChatManager;
@@ -60,6 +61,13 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
         room.setUpdateAt(System.currentTimeMillis());
         room.setChats(room.getChats() + 1);
         roomDao.update(room);
+        // Push remote notification
+        for (Device device : deviceDao.findByUser(receiver)) {
+            if (device.getDeviceToken() == null || device.getDeviceToken().equals("")) {
+                continue;
+            }
+            apnsComponent.push(device.getDeviceToken(), sender.getName() + "\n" + content, "chat:" + senderId);
+        }
         return new ChatBean(chat, true, false);
     }
 

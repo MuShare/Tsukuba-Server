@@ -18,7 +18,7 @@ public class ManagerTemplate {
     protected MailComponent mailComponent;
 
     @Autowired
-    protected APNsComponent apNsComponent;
+    protected APNsComponent apnsComponent;
 
     @Autowired
     protected UserDao userDao;

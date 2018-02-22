@@ -8,6 +8,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "tsukuba_device")
 public class Device implements Serializable {
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
@@ -131,4 +132,5 @@ public class Device implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
 }
