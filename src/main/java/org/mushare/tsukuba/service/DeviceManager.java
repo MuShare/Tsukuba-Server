@@ -26,4 +26,13 @@ public interface DeviceManager {
      */
     boolean isLegalDevice(String os);
 
+
+    /**
+     * Update device's device token of a user.
+     *
+     * @param deviceToken
+     * @param token
+     */
+    boolean updateDeviceToken(String deviceToken, String token);
+
 }

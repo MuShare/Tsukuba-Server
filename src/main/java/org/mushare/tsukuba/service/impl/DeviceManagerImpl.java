@@ -53,4 +53,15 @@ public class DeviceManagerImpl extends ManagerTemplate implements DeviceManager 
         return os.equals(iOSDevice) || os.equals(AndroidDevice);
     }
 
+    @Transactional
+    public boolean updateDeviceToken(String deviceToken, String token) {
+        Device device = deviceDao.getByToken(token);
+        if (device == null) {
+            return false;
+        }
+        device.setDeviceToken(deviceToken);
+        deviceDao.update(device);
+        return true;
+    }
+
 }
