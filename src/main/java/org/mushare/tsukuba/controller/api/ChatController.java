@@ -1,6 +1,7 @@
 package org.mushare.tsukuba.controller.api;
 
 import org.mushare.tsukuba.bean.ChatBean;
+import org.mushare.tsukuba.bean.RoomBean;
 import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
 import org.mushare.tsukuba.controller.common.ErrorCode;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("api/chat")
@@ -50,6 +52,19 @@ public class ChatController extends ControllerTemplate {
         final List<ChatBean> chatBeans = chatManager.getByRidWithSeq(rid, seq);
         return generateOK(new HashMap<String, Object>(){{
             put("chats", chatBeans);
+        }});
+    }
+
+    @RequestMapping(value = "/room/status", method = RequestMethod.GET)
+    public ResponseEntity getRoomStatus(@RequestParam final List<String> rids, HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
+        final Map<String, List<RoomBean>> roomBeans = roomManager.getByRidsForUser(rids, userBean.getUid());
+        return generateOK(new HashMap<String, Object>(){{
+            put("exist", (List<RoomBean>)roomBeans.get("exist"));
+            put("new", (List<RoomBean>)roomBeans.get("new"));
         }});
     }
 

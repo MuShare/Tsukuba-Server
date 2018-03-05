@@ -61,6 +61,9 @@ public class ControllerTemplate {
     @Autowired
     protected ChatManager chatManager;
 
+    @Autowired
+    protected RoomManager roomManager;
+
     protected ResponseEntity generateOK(Map<String, Object> result) {
         return generateResponseEntity(result, HttpStatus.OK, null, null);
     }

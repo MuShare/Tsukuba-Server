@@ -1,6 +1,7 @@
 package org.mushare.tsukuba.bean;
 
 import org.mushare.tsukuba.domain.Chat;
+import org.mushare.tsukuba.domain.User;
 
 import java.util.Date;
 
@@ -70,14 +71,23 @@ public class ChatBean {
         this.room = room;
     }
 
-    public ChatBean(Chat chat, boolean withRoom, boolean withContent) {
+    public ChatBean(Chat chat) {
         this.cid = chat.getCid();
         this.createAt = new Date(chat.getCreateAt());
-        this.content = withContent ? chat.getContent() : null;
+        this.content = chat.getContent();
         this.type = chat.getType();
         this.seq = chat.getSeq();
         this.direction = chat.getDirection();
-        this.room = withRoom ? new RoomBean(chat.getRoom()) : null;
+    }
+
+    public ChatBean(Chat chat, boolean creator) {
+        this.cid = chat.getCid();
+        this.createAt = new Date(chat.getCreateAt());
+        this.content = chat.getContent();
+        this.type = chat.getType();
+        this.seq = chat.getSeq();
+        this.direction = chat.getDirection();
+        this.room =  new RoomBean(chat.getRoom(), RoomBean.RoomBeanNew, creator);
     }
 
 }

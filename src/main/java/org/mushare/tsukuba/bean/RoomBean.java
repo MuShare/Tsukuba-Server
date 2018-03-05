@@ -6,10 +6,15 @@ import java.util.Date;
 
 public class RoomBean {
 
+    public final static int RoomBeanNew = 0;
+    public final static int RoomBeanStatus = 1;
+
     private String rid;
     private Date createAt;
     private Date updateAt;
     private int chats;
+    private Boolean creator;
+    private String lastMessage;
     private SimpleUserBean sender;
     private SimpleUserBean receiver;
 
@@ -61,13 +66,41 @@ public class RoomBean {
         this.receiver = receiver;
     }
 
-    public RoomBean(Room room) {
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
+    public static int getRoomBeanNew() {
+        return RoomBeanNew;
+    }
+
+    public static int getRoomBeanStatus() {
+        return RoomBeanStatus;
+    }
+
+    public Boolean getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Boolean creator) {
+        this.creator = creator;
+    }
+
+    public RoomBean(Room room, int type, boolean creator) {
         this.rid = room.getRid();
-        this.createAt = new Date(room.getCreateAt());
         this.updateAt = new Date(room.getUpdateAt());
         this.chats = room.getChats();
-        this.sender = new SimpleUserBean(room.getSender());
-        this.receiver = new SimpleUserBean(room.getReceiver());
+        this.lastMessage = room.getLastMessage();
+        this.creator = creator;
+        if (type == RoomBeanNew) {
+            this.createAt = new Date(room.getCreateAt());
+            this.sender = new SimpleUserBean(room.getSender());
+            this.receiver = new SimpleUserBean(room.getReceiver());
+        }
     }
 
 }

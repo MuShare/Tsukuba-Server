@@ -23,6 +23,9 @@ public class Room implements Serializable {
     @Column(nullable = false)
     private Integer chats;
 
+    @Column(nullable = false)
+    private String lastMessage;
+
     @ManyToOne
     @JoinColumn(name = "sender_uid", nullable = false)
     private User sender;
@@ -77,6 +80,23 @@ public class Room implements Serializable {
 
     public void setReceiver(User receiver) {
         this.receiver = receiver;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Room)) {
+            return false;
+        }
+        Room room = (Room)obj;
+        return this.rid.equals(room.getRid());
     }
 
 }

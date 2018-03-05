@@ -39,6 +39,7 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
             room.setCreateAt(System.currentTimeMillis());
             room.setUpdateAt(room.getCreateAt());
             room.setChats(0);
+            room.setLastMessage(content);
             room.setSender(sender);
             room.setReceiver(receiver);
             if (roomDao.save(room) == null) {
@@ -60,6 +61,7 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
         }
         room.setUpdateAt(System.currentTimeMillis());
         room.setChats(room.getChats() + 1);
+        room.setLastMessage(content);
         roomDao.update(room);
         // Push remote notification
         for (Device device : deviceDao.findByUser(receiver)) {
@@ -68,7 +70,7 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
             }
             apnsComponent.push(device.getDeviceToken(), sender.getName() + "\n" + content, "chat:" + senderId);
         }
-        return new ChatBean(chat, true, false);
+        return new ChatBean(chat, room.getSender().equals(sender));
     }
 
     public List<ChatBean> getByRidWithSeq(String rid, int seq) {
@@ -79,7 +81,7 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
         }
         List<ChatBean> chatBeans = new ArrayList<ChatBean>();
         for (Chat chat : chatDao.findInRoomBySeq(room, seq)) {
-            chatBeans.add(new ChatBean(chat, false, true));
+            chatBeans.add(new ChatBean(chat));
         }
         return chatBeans;
     }
