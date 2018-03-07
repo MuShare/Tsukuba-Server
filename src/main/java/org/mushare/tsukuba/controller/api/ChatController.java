@@ -56,7 +56,7 @@ public class ChatController extends ControllerTemplate {
     }
 
     @RequestMapping(value = "/room/status", method = RequestMethod.GET)
-    public ResponseEntity getRoomStatus(@RequestParam final List<String> rids, HttpServletRequest request) {
+    public ResponseEntity getRoomStatus(@RequestParam(required = false) final List<String> rids, HttpServletRequest request) {
         UserBean userBean = auth(request);
         if (userBean == null) {
             return generateBadRequest(ErrorCode.ErrorToken);

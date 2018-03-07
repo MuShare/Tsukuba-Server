@@ -23,14 +23,15 @@ public class RoomManagerImpl extends ManagerTemplate implements RoomManager {
             return null;
         }
         List<Room> rooms = roomDao.findBySenderOrReceiver(user);
-
         final List<RoomBean> existingRooms = new ArrayList<RoomBean>();
-        for (Room room : roomDao.findByRids(rids)) {
-            if (!room.getReceiver().equals(user) && !room.getSender().equals(user)) {
-                continue;
+        if (rids != null && rids.size() > 0) {
+            for (Room room : roomDao.findByRids(rids)) {
+                if (!room.getReceiver().equals(user) && !room.getSender().equals(user)) {
+                    continue;
+                }
+                rooms.remove(room);
+                existingRooms.add(new RoomBean(room, RoomBean.RoomBeanStatus, room.getSender().equals(user)));
             }
-            rooms.remove(room);
-            existingRooms.add(new RoomBean(room, RoomBean.RoomBeanStatus, room.getSender().equals(user)));
         }
         final List<RoomBean> newRooms = new ArrayList<RoomBean>();
         for (Room room : rooms) {
