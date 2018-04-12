@@ -320,3 +320,15 @@
     - seq(String): the sequence number of the newest chat message
   - return:
     - chats(List\<ChatBean>): the chats with the larger sequence number than seq of this chat room 
+
+(3)`api/chat/room/status`
+   
+  - Check status of rooms. 
+  - method: GET
+  - header: 
+    - token(String): access token
+  - param: 
+    - rids(List\<String>): room ids of the rooms
+  - return:
+    - exist(List\<ChatBean>): the room status of the existing rooms
+    - new(List\<ChatBean>): the room status of the new rooms
