@@ -5,20 +5,27 @@ import org.mushare.tsukuba.bean.RoomBean;
 import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
 import org.mushare.tsukuba.controller.common.ErrorCode;
+import org.mushare.tsukuba.service.UserManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.socket.server.standard.SpringConfigurator;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequestMapping("api/chat")
+@ServerEndpoint(value = "/websocket/chat", configurator = SpringConfigurator.class)
 public class ChatController extends ControllerTemplate {
 
     @RequestMapping(value = "/text", method = RequestMethod.POST)
@@ -66,6 +73,38 @@ public class ChatController extends ControllerTemplate {
             put("exist", (List<RoomBean>)roomBeans.get("exist"));
             put("new", (List<RoomBean>)roomBeans.get("new"));
         }});
+    }
+
+    private static final Map<String, Session> sessions = new HashMap<String, Session>();
+
+    @OnOpen
+    public void onOpen(Session session) {
+        String token = (String) session.getRequestParameterMap().get("token").get(0);
+
+        UserBean userBean = userManager.authByToken(token);
+        if (userBean == null) {
+            try {
+                session.close(new CloseReason(CloseReason.CloseCodes.CANNOT_ACCEPT, "auth_failed"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        sessions.put(userBean.getUid(), session);
+    }
+
+    @OnClose
+    public void onClose() {
+
+    }
+
+    @OnMessage
+    public void onMessage(String message) {
+        System.out.println("on message received: " + message);
+    }
+
+    @OnError
+    public void onError(Throwable t) throws Throwable {
+
     }
 
 }
