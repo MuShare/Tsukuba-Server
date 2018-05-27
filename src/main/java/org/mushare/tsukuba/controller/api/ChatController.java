@@ -2,6 +2,7 @@ package org.mushare.tsukuba.controller.api;
 
 import org.mushare.tsukuba.bean.ChatBean;
 import org.mushare.tsukuba.bean.RoomBean;
+import org.mushare.tsukuba.bean.SimpleUserBean;
 import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
 import org.mushare.tsukuba.controller.common.ErrorCode;
@@ -37,6 +38,15 @@ public class ChatController extends ControllerTemplate {
         final ChatBean chatBean = chatManager.sendPlainText(userBean.getUid(), receiver, content);
         if (chatBean == null) {
             return generateBadRequest(ErrorCode.ErrorSendPlainText);
+        }
+        SimpleUserBean receiverBean = chatBean.isDirection() ? chatBean.getRoom().getReceiver() : chatBean.getRoom().getSender();
+        Session receiverSession = sessions.get(receiverBean.getUid());
+        if (receiverSession != null) {
+            try {
+                receiverSession.getBasicRemote().sendText(chatBean.getContent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return generateOK(new HashMap<String, Object>(){{
             put("chat", chatBean);
