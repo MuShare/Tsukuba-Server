@@ -1,5 +1,6 @@
 package org.mushare.tsukuba.controller.api;
 
+import net.sf.json.JSONObject;
 import org.mushare.tsukuba.bean.ChatBean;
 import org.mushare.tsukuba.bean.RoomBean;
 import org.mushare.tsukuba.bean.SimpleUserBean;
@@ -43,7 +44,7 @@ public class ChatController extends ControllerTemplate {
         Session receiverSession = sessions.get(receiverBean.getUid());
         if (receiverSession != null) {
             try {
-                receiverSession.getBasicRemote().sendText(chatBean.getContent());
+                receiverSession.getBasicRemote().sendText(JSONObject.fromObject(chatBean).toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
