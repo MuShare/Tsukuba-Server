@@ -63,13 +63,17 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
         room.setChats(room.getChats() + 1);
         room.setLastMessage(content);
         roomDao.update(room);
+
         // Push remote notification
-        for (Device device : deviceDao.findByUser(receiver)) {
-            if (device.getDeviceToken() == null || device.getDeviceToken().equals("")) {
-                continue;
+        new Thread(() -> {
+            for (Device device : deviceDao.findByUser(receiver)) {
+                if (device.getDeviceToken() == null || device.getDeviceToken().equals("")) {
+                    continue;
+                }
+                apnsComponent.push(device.getDeviceToken(), sender.getName() + "\n" + content, "chat:" + senderId);
             }
-            apnsComponent.push(device.getDeviceToken(), sender.getName() + "\n" + content, "chat:" + senderId);
-        }
+        }).start();
+
         return new ChatBean(chat, room.getSender().equals(sender));
     }
 
