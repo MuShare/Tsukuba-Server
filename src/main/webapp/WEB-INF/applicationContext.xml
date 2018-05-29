@@ -25,6 +25,7 @@
         <property name="minPoolSize" value="1"></property>
         <property name="initialPoolSize" value="1"></property>
         <property name="maxIdleTime" value="20"></property>
+        <property name="connectionCustomizerClassName" value="org.mushare.common.hibernate.UTF8MB4ConnectionCustomizer"></property>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">

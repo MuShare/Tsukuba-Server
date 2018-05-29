@@ -133,6 +133,11 @@
             <artifactId>spring-websocket</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -143,6 +148,14 @@
                 <configuration>
                     <url>http://localhost:8080/</url>
                     <server>Tomcat</server>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
