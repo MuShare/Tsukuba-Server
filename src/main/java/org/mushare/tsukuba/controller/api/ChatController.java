@@ -1,10 +1,7 @@
 package org.mushare.tsukuba.controller.api;
 
 import net.sf.json.JSONObject;
-import org.mushare.tsukuba.bean.ChatBean;
-import org.mushare.tsukuba.bean.RoomBean;
-import org.mushare.tsukuba.bean.SimpleUserBean;
-import org.mushare.tsukuba.bean.UserBean;
+import org.mushare.tsukuba.bean.*;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
 import org.mushare.tsukuba.controller.common.ErrorCode;
 import org.mushare.tsukuba.service.UserManager;
@@ -40,15 +37,38 @@ public class ChatController extends ControllerTemplate {
         if (chatBean == null) {
             return generateBadRequest(ErrorCode.ErrorSendPlainText);
         }
-        SimpleUserBean receiverBean = chatBean.isDirection() ? chatBean.getRoom().getReceiver() : chatBean.getRoom().getSender();
-        Session receiverSession = sessions.get(receiverBean.getUid());
-        if (receiverSession != null) {
+
+        List<DeviceBean> deviceBeans = deviceManager.getDevicesByUid(receiver);
+        // Send JSON string by web socket
+        for (DeviceBean deviceBean: deviceBeans) {
+            Session receiverSession = sessions.get(deviceBean.getDid());
+            if (receiverSession == null) {
+                continue;
+            }
+            if (!receiverSession.isOpen()) {
+                sessions.remove(deviceBean.getDid());
+                continue;
+            }
             try {
                 receiverSession.getBasicRemote().sendText(JSONObject.fromObject(chatBean).toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
+        // Push remote notification.
+        new Thread(() -> {
+            for (DeviceBean deviceBean : deviceBeans) {
+                if (deviceBean.getDeviceToken() == null || deviceBean.getDeviceToken().equals("")) {
+                    continue;
+                }
+                apnsComponent.push(deviceBean.getDeviceToken(),
+                        userBean.getName() + "\n" + content,
+                        "chat:" + userBean.getUid());
+            }
+        }).start();
+
+
         return generateOK(new HashMap<String, Object>(){{
             put("chat", chatBean);
         }});
@@ -91,21 +111,22 @@ public class ChatController extends ControllerTemplate {
     @OnOpen
     public void onOpen(Session session) {
         String token = (String) session.getRequestParameterMap().get("token").get(0);
-
-        UserBean userBean = userManager.authByToken(token);
-        if (userBean == null) {
+        DeviceBean deviceBean = deviceManager.authDevice(token);
+        if (deviceBean == null) {
             try {
                 session.close(new CloseReason(CloseReason.CloseCodes.CANNOT_ACCEPT, "auth_failed"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        sessions.put(userBean.getUid(), session);
+        sessions.put(deviceBean.getDid(), session);
+        System.out.println(sessions.size() + " devices, " + deviceBean.getDid() + " has been connected.");
     }
 
     @OnClose
-    public void onClose() {
-
+    public void onClose(Session session, CloseReason reason) {
+        sessions.values().removeIf(v -> v.equals(session));
+        System.out.println(sessions.size() + " devices.");
     }
 
     @OnMessage

@@ -6,6 +6,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.mushare.common.util.FileTool;
 import org.mushare.tsukuba.bean.UserBean;
+import org.mushare.tsukuba.component.APNsComponent;
 import org.mushare.tsukuba.component.ConfigComponent;
 import org.mushare.tsukuba.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class ControllerTemplate {
 
     @Autowired
     protected ConfigComponent configComponent;
+
+    @Autowired
+    protected APNsComponent apnsComponent;
 
     @Autowired
     protected AdminManager adminManager;

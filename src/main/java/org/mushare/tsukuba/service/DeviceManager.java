@@ -1,5 +1,9 @@
 package org.mushare.tsukuba.service;
 
+import org.mushare.tsukuba.bean.DeviceBean;
+
+import java.util.List;
+
 public interface DeviceManager {
 
     public static final String iOSDevice = "iOS";
@@ -34,5 +38,21 @@ public interface DeviceManager {
      * @param token
      */
     boolean updateDeviceToken(String deviceToken, String token);
+
+    /**
+     * Auth and return the did for a device.
+     *
+     * @param token
+     * @return
+     */
+    DeviceBean authDevice(String token);
+
+    /**
+     * Get all devices of a user by user id.
+     *
+     * @param uid
+     * @return
+     */
+    List<DeviceBean> getDevicesByUid(String uid);
 
 }
