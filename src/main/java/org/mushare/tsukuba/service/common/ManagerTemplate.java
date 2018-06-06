@@ -56,6 +56,9 @@ public class ManagerTemplate {
     @Autowired
     protected ChatDao chatDao;
 
+    @Autowired
+    protected QuqueDao ququeDao;
+
     public boolean checkAdminSession(HttpSession session) {
         return session.getAttribute(AdminManager.AdminFlag) != null;
     }
