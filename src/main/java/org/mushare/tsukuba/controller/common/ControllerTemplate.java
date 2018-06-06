@@ -68,6 +68,9 @@ public class ControllerTemplate {
     @Autowired
     protected RoomManager roomManager;
 
+    @Autowired
+    protected QueueManager queueManager;
+
     protected ResponseEntity generateOK(Map<String, Object> result) {
         return generateResponseEntity(result, HttpStatus.OK, null, null);
     }

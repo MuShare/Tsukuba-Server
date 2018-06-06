@@ -18,11 +18,11 @@ public class Queue implements Serializable {
     private Long createAt;
 
     @ManyToOne
-    @JoinColumn(name = "rid", nullable = false)
+    @JoinColumn(name = "cid", nullable = false)
     private Chat chat;
 
     @ManyToOne
-    @JoinColumn(name = "rid", nullable = false)
+    @JoinColumn(name = "did", nullable = false)
     private Device device;
 
     public String getQid() {
