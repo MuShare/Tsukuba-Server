@@ -43,7 +43,7 @@ public class QueueManagerImpl extends ManagerTemplate implements QueueManager {
         }
         List<ChatBean> chatBeans = new ArrayList<>();
         for (Queue queue: ququeDao.findByDevice(device)) {
-            chatBeans.add(new ChatBean(queue.getChat()));
+            chatBeans.add(new ChatBean(queue.getChat(), false));
         }
         return chatBeans;
     }

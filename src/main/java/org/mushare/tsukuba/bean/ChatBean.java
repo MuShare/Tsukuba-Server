@@ -87,7 +87,7 @@ public class ChatBean {
         this.type = chat.getType();
         this.seq = chat.getSeq();
         this.direction = chat.getDirection();
-        this.room =  new RoomBean(chat.getRoom(), RoomBean.RoomBeanNew, creator);
+        this.room = new RoomBean(chat.getRoom(), RoomBean.RoomBeanNew, creator);
     }
 
 }
