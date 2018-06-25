@@ -6,6 +6,9 @@ import com.turo.pushy.apns.PushNotificationResponse;
 import com.turo.pushy.apns.util.ApnsPayloadBuilder;
 import com.turo.pushy.apns.util.SimpleApnsPushNotification;
 import com.turo.pushy.apns.util.concurrent.PushNotificationFuture;
+import org.mushare.common.util.Debug;
+import org.mushare.tsukuba.dao.DeviceDao;
+import org.mushare.tsukuba.domain.Device;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
@@ -16,6 +19,9 @@ public class APNsComponent {
 
     @Autowired
     private ConfigComponent config;
+
+    @Autowired
+    private DeviceDao deviceDao;
 
     private String p12;
     private String password;
@@ -50,13 +56,13 @@ public class APNsComponent {
         return apnsClient;
     }
 
-    public void push(String deviceToken, String alertBody, String category) {
+    public void push(String deviceToken, String title, String alertBody, String category) {
         if (deviceToken == null || deviceToken.equals("")) {
             return;
         }
         final ApnsPayloadBuilder payloadBuilder = new ApnsPayloadBuilder();
         payloadBuilder.setAlertBody(alertBody);
-        payloadBuilder.setAlertTitle("Meng Li");
+        payloadBuilder.setAlertTitle(title);
         payloadBuilder.setSound("default");
         payloadBuilder.setCategoryName(category);
         final SimpleApnsPushNotification pushNotification =  new SimpleApnsPushNotification(deviceToken, "org.mushare.Tsukuba-iOS", payloadBuilder.buildWithDefaultMaximumLength());
@@ -67,20 +73,25 @@ public class APNsComponent {
             final PushNotificationResponse<SimpleApnsPushNotification> pushNotificationResponse =
                     sendNotificationFuture.get();
 
-            if (pushNotificationResponse.isAccepted()) {
-                System.out.println("Push notification accepted by APNs gateway.");
-            } else {
-                System.out.println("Notification rejected by the APNs gateway: " +
-                        pushNotificationResponse.getRejectionReason());
+            if (!pushNotificationResponse.isAccepted()) {
+                Debug.error("Notification rejected by the APNs gateway: " + pushNotificationResponse.getRejectionReason());
 
                 if (pushNotificationResponse.getTokenInvalidationTimestamp() != null) {
-                    System.out.println("\t…and the token is invalid as of " +
-                            pushNotificationResponse.getTokenInvalidationTimestamp());
+                    System.out.println("\t…and the token is invalid as of " + pushNotificationResponse.getTokenInvalidationTimestamp());
+                }
+
+                // Clear device token if it is a bad device token.
+                if (pushNotificationResponse.getRejectionReason().equals("BadDeviceToken")) {
+                    Device device = deviceDao.getByToken(deviceToken);
+                    if (device != null) {
+                        device.setDeviceToken(null);
+                        deviceDao.update(device);
+                    }
                 }
 
             }
         } catch (final InterruptedException | ExecutionException e) {
-            System.err.println("Failed to send push notification.");
+            Debug.error("Failed to send push notification.");
             e.printStackTrace();
         }
 
