@@ -49,7 +49,9 @@ public class DeviceManagerImpl extends ManagerTemplate implements DeviceManager 
             device.setIp(ip);
             device.setUser(user);
             device.setToken(UUID.randomUUID().toString());
-            deviceDao.update(device);
+
+            // Clear all chat queue of old user.
+            ququeDao.deleteByDevice(device);
         }
         return device.getToken();
     }

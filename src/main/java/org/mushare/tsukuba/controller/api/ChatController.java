@@ -1,5 +1,6 @@
 package org.mushare.tsukuba.controller.api;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.mushare.tsukuba.bean.*;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
@@ -43,17 +44,22 @@ public class ChatController extends ControllerTemplate {
         for (DeviceBean deviceBean: deviceBeans) {
             Session receiverSession = sessions.get(deviceBean.getDid());
             if (receiverSession == null) {
+                queueManager.enqueue(deviceBean.getDid(), chatBean.getCid());
                 continue;
             }
-            if (!receiverSession.isOpen()) {
+            if (receiverSession.isOpen()) {
+                try {
+                    String text = "[" + JSONObject.fromObject(chatBean).toString() +"]";
+                    receiverSession.getBasicRemote().sendText(text);
+                } catch (IOException e) {
+                    queueManager.enqueue(deviceBean.getDid(), chatBean.getCid());
+                    e.printStackTrace();
+                }
+            } else {
+                queueManager.enqueue(deviceBean.getDid(), chatBean.getCid());
                 sessions.remove(deviceBean.getDid());
-                continue;
             }
-            try {
-                receiverSession.getBasicRemote().sendText(JSONObject.fromObject(chatBean).toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
         }
 
         // Push remote notification.
@@ -120,6 +126,18 @@ public class ChatController extends ControllerTemplate {
             }
         }
         sessions.put(deviceBean.getDid(), session);
+        List<ChatBean> chatBeans = queueManager.getChatsByDid(deviceBean.getDid());
+        if (chatBeans != null && chatBeans.size() > 0) {
+            String text = JSONArray.fromObject(chatBeans).toString();
+            if (session.isOpen()) {
+                try {
+                    session.getBasicRemote().sendText(text);
+                    queueManager.removeByDid(deviceBean.getDid());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         System.out.println(sessions.size() + " devices, " + deviceBean.getDid() + " has been connected.");
     }
 
