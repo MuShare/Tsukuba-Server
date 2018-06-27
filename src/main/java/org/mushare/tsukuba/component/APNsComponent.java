@@ -10,6 +10,7 @@ import org.mushare.common.util.Debug;
 import org.mushare.tsukuba.dao.DeviceDao;
 import org.mushare.tsukuba.domain.Device;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,6 +57,7 @@ public class APNsComponent {
         return apnsClient;
     }
 
+    @Transactional
     public void push(String deviceToken, String title, String alertBody, String category) {
         if (deviceToken == null || deviceToken.equals("")) {
             return;
@@ -82,7 +84,7 @@ public class APNsComponent {
 
                 // Clear device token if it is a bad device token.
                 if (pushNotificationResponse.getRejectionReason().equals("BadDeviceToken")) {
-                    Device device = deviceDao.getByToken(deviceToken);
+                    Device device = deviceDao.getByDeviceToken(deviceToken);
                     if (device != null) {
                         device.setDeviceToken(null);
                         deviceDao.update(device);
