@@ -19,6 +19,8 @@ public interface ChatManager {
      */
     ChatBean sendPlainText(String senderId, String receiverId, String content);
 
+    ChatBean sendPicture(String senderId, String receiverId, String filename);
+
     /**
      * Get chats of a room with squence number larger than seq.
      * 

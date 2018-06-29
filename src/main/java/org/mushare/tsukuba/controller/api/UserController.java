@@ -135,7 +135,7 @@ public class UserController extends ControllerTemplate {
         if (userBean == null) {
             return generateBadRequest(ErrorCode.ErrorToken);
         }
-        // Reveive avatar and get file name.
+        // Receive avatar and get file name.
         String fileName = upload(request, configComponent.rootPath + configComponent.AvatarPath);
         // Handle uploaded user avatar.
         final String avatar = userManager.handleUploadedAvatar(userBean.getUid(), fileName);
