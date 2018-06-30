@@ -5,6 +5,7 @@ import net.sf.json.JSONObject;
 import org.mushare.tsukuba.bean.*;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
 import org.mushare.tsukuba.controller.common.ErrorCode;
+import org.mushare.tsukuba.service.ChatManager;
 import org.mushare.tsukuba.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,28 @@ public class ChatController extends ControllerTemplate {
         if (chatBean == null) {
             return generateBadRequest(ErrorCode.ErrorSendPlainText);
         }
+        notifyReciver(userBean, receiver, chatBean);
+        return generateOK(new HashMap<String, Object>(){{
+            put("chat", chatBean);
+        }});
+    }
 
+    @RequestMapping(value = "/picture", method = RequestMethod.POST)
+    public ResponseEntity sendPicture(@RequestParam String receiver, HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
+        // Receive picture and get file name.
+        String filename = upload(request, configComponent.rootPath + configComponent.PicturePath);
+        ChatBean chatBean = chatManager.sendPicture(userBean.getUid(), receiver, filename);
+        notifyReciver(userBean, receiver, chatBean);
+        return generateOK(new HashMap<String, Object>(){{
+            put("chat", chatBean);
+        }});
+    }
+
+    private void notifyReciver(UserBean sender, String receiver, ChatBean chatBean) {
         List<DeviceBean> deviceBeans = deviceManager.getDevicesByUid(receiver);
         // Send JSON string by web socket
         for (DeviceBean deviceBean: deviceBeans) {
@@ -66,34 +88,19 @@ public class ChatController extends ControllerTemplate {
 
         // Push remote notification.
         new Thread(() -> {
+            String content = chatBean.getContent();
+            if (chatBean.getType() == ChatManager.ChatTypePicture) {
+                content = sender.getName() + " sends a picture to you.";
+            }
             for (DeviceBean deviceBean : deviceBeans) {
                 if (deviceBean.getDeviceToken() == null || deviceBean.getDeviceToken().equals("")) {
                     continue;
                 }
                 apnsComponent.push(deviceBean.getDeviceToken(),
-                        userBean.getName(), content,
-                        "chat:" + userBean.getUid());
+                        sender.getName(), content,
+                        "chat:" + sender.getUid());
             }
         }).start();
-
-
-        return generateOK(new HashMap<String, Object>(){{
-            put("chat", chatBean);
-        }});
-    }
-
-    @RequestMapping(value = "/picture", method = RequestMethod.POST)
-    public ResponseEntity sendPicture(@RequestParam String receiver, HttpServletRequest request) {
-        UserBean userBean = auth(request);
-        if (userBean == null) {
-            return generateBadRequest(ErrorCode.ErrorToken);
-        }
-        // Receive picture and get file name.
-        String filename = upload(request, configComponent.rootPath + configComponent.PicturePath);
-        ChatBean chatBean = chatManager.sendPicture(userBean.getUid(), receiver, filename);
-        return generateOK(new HashMap<String, Object>(){{
-            put("chat", chatBean);
-        }});
     }
 
     @RequestMapping(value = "/picture/{cid}", method = RequestMethod.GET)

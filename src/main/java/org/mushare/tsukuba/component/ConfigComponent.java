@@ -1,5 +1,6 @@
 package org.mushare.tsukuba.component;
 
+import org.mushare.common.util.FileTool;
 import org.mushare.common.util.JsonTool;
 import org.mushare.tsukuba.component.config.Facebook;
 import org.mushare.tsukuba.component.config.Global;
@@ -25,6 +26,11 @@ public class ConfigComponent {
 
     public ConfigComponent() {
         rootPath = this.getClass().getClassLoader().getResource("/").getPath().split("WEB-INF")[0];
+        FileTool.createDirectoryIfNotExsit(rootPath + "/files");
+        FileTool.createDirectoryIfNotExsit(rootPath + "/WEB-INF/files");
+        FileTool.createDirectoryIfNotExsit(rootPath + CategoryIconPath);
+        FileTool.createDirectoryIfNotExsit(rootPath + AvatarPath);
+        FileTool.createDirectoryIfNotExsit(rootPath + PicturePath);
         load();
     }
 
