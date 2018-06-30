@@ -4,6 +4,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.mushare.common.util.Debug;
 import org.mushare.common.util.FileTool;
 import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.component.APNsComponent;
@@ -13,8 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -205,6 +210,23 @@ public class ControllerTemplate {
             ip = request.getRemoteAddr();
         }
         return ip;
+    }
+
+    public void getPicture(String store, HttpServletResponse response) throws IOException {
+        response.setContentType("image/jpeg");
+        try {
+            File file = new File(store);
+            if (!file.exists()) {
+                Debug.error("File is not found in " + store);
+                return;
+            }
+            BufferedImage image = ImageIO.read(file);
+            OutputStream out = response.getOutputStream();
+            ImageIO.write(image, "jpg", out);
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

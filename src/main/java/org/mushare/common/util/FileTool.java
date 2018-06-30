@@ -80,8 +80,9 @@ public class FileTool {
      */
     public static void createDirectoryIfNotExsit(String path) {
         File dir = new File(path);
-        if (!dir.exists())
+        if (!dir.exists()) {
             dir.mkdir();
+        }
     }
 
     /**

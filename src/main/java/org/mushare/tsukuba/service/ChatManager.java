@@ -10,6 +10,13 @@ public interface ChatManager {
     public static final int ChatTypePicture = 1;
 
     /**
+     *
+     * @param cid
+     * @return
+     */
+    String getPictureStorage(String cid, String uid);
+
+    /**
      * Sender sends a plain text message to a reveiver.
      *
      * @param senderId
@@ -19,6 +26,13 @@ public interface ChatManager {
      */
     ChatBean sendPlainText(String senderId, String receiverId, String content);
 
+    /**
+     *
+     * @param senderId
+     * @param receiverId
+     * @param filename
+     * @return
+     */
     ChatBean sendPicture(String senderId, String receiverId, String filename);
 
     /**

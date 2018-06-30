@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.socket.server.standard.SpringConfigurator;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -81,17 +83,32 @@ public class ChatController extends ControllerTemplate {
     }
 
     @RequestMapping(value = "/picture", method = RequestMethod.POST)
-    public ResponseEntity sendPicture(@RequestParam String uid, HttpServletRequest request) {
+    public ResponseEntity sendPicture(@RequestParam String receiver, HttpServletRequest request) {
         UserBean userBean = auth(request);
         if (userBean == null) {
             return generateBadRequest(ErrorCode.ErrorToken);
         }
         // Receive picture and get file name.
-        String fileName = upload(request, configComponent.rootPath + configComponent.PicturePath);
-
+        String filename = upload(request, configComponent.rootPath + configComponent.PicturePath);
+        ChatBean chatBean = chatManager.sendPicture(userBean.getUid(), receiver, filename);
         return generateOK(new HashMap<String, Object>(){{
-
+            put("chat", chatBean);
         }});
+    }
+
+    @RequestMapping(value = "/picture/{cid}", method = RequestMethod.GET)
+    public void getChatPicture(@PathVariable String cid, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            response.getWriter().write("Token error.");
+            return;
+        }
+        String storage = chatManager.getPictureStorage(cid, userBean.getUid());
+        if (storage == null) {
+            response.getWriter().write("Chat id is not found, or no privilege to access this picture");
+            return;
+        }
+        getPicture(configComponent.rootPath + storage, response);
     }
 
     @RequestMapping(value = "/list/{rid}", method = RequestMethod.GET)

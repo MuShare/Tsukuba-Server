@@ -1,9 +1,10 @@
 package org.mushare.tsukuba.bean;
 
 import org.mushare.tsukuba.domain.Chat;
-import org.mushare.tsukuba.domain.User;
+import org.mushare.tsukuba.service.ChatManager;
 
 import java.util.Date;
+
 
 public class ChatBean {
 
@@ -72,22 +73,28 @@ public class ChatBean {
     }
 
     public ChatBean(Chat chat) {
-        this.cid = chat.getCid();
-        this.createAt = new Date(chat.getCreateAt());
-        this.content = chat.getContent();
-        this.type = chat.getType();
-        this.seq = chat.getSeq();
-        this.direction = chat.getDirection();
+        fill(chat);
     }
 
     public ChatBean(Chat chat, boolean creator) {
+        fill(chat);
+        this.room = new RoomBean(chat.getRoom(), RoomBean.RoomBeanNew, creator);
+    }
+
+    private void fill(Chat chat) {
         this.cid = chat.getCid();
         this.createAt = new Date(chat.getCreateAt());
-        this.content = chat.getContent();
         this.type = chat.getType();
         this.seq = chat.getSeq();
         this.direction = chat.getDirection();
-        this.room = new RoomBean(chat.getRoom(), RoomBean.RoomBeanNew, creator);
+        switch (chat.getType()) {
+            case ChatManager.ChatTypePlainText:
+                this.content = chat.getContent();
+                break;
+            case ChatManager.ChatTypePicture:
+                this.content = "/api/chat/picture/" + chat.getCid();
+                break;
+        }
     }
 
 }

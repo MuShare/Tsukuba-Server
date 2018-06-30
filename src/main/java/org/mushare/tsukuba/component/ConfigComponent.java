@@ -15,7 +15,7 @@ public class ConfigComponent {
     public String DefaultAvatar = "/static/images/avatar.png";
     public String CategoryIconPath = "/files/category";
     public String AvatarPath = "/files/avatar";
-    public String PicturePath = "/files/picture";
+    public String PicturePath = "/WEB-INF/files/picture";
 
     public String rootPath;
     public JsonTool configTool = null;

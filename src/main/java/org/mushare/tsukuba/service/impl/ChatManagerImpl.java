@@ -20,10 +20,30 @@ import java.util.UUID;
 @Service
 public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
 
+    public String getPictureStorage(String cid, String uid) {
+        Chat chat = chatDao.get(cid);
+        if (chat == null) {
+            Debug.error("Cannot find a chat by this cid.");
+            return null;
+        }
+        User user = userDao.get(uid);
+        if (user == null) {
+            Debug.error("Cannot find an user by this uid.");
+        }
+        if (!chat.getRoom().getSender().equals(user) && !chat.getRoom().getReceiver().equals(user)) {
+            return null;
+        }
+        if (chat.getType() != ChatManager.ChatTypePicture) {
+            return null;
+        }
+        return chat.getContent();
+    }
+
     @Transactional
     public ChatBean sendPlainText(String senderId, String receiverId, String content) {
         Room room = getChatRoom(senderId, receiverId);
         if (room == null) {
+            Debug.error("Cannot find a room by this rid.");
             return null;
         }
         Chat chat = new Chat();
@@ -49,6 +69,7 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
     public ChatBean sendPicture(String senderId, String receiverId, String filename) {
         Room room = getChatRoom(senderId, receiverId);
         if (room == null) {
+            Debug.error("Cannot find a room by this rid.");
             return null;
         }
         // Move file.
@@ -62,7 +83,7 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
         chat.setCreateAt(System.currentTimeMillis());
         chat.setContent(path + File.separator + storeFilename);
         chat.setDownloaded(false);
-        chat.setType(ChatTypePlainText);
+        chat.setType(ChatTypePicture);
         chat.setSeq(room.getChats() + 1);
         chat.setRoom(room);
         chat.setDirection(room.getSender().getUid().equals(senderId));
@@ -75,6 +96,7 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
         room.setChats(room.getChats() + 1);
         room.setLastMessage("[picture]");
         roomDao.update(room);
+
         return new ChatBean(chat, room.getSender().getUid().equals(senderId));
     }
 
