@@ -11,6 +11,8 @@ public class ChatBean {
     private String cid;
     private Date createAt;
     private String content;
+    private double pictureWidth;
+    private double pictureHeight;
     private int type;
     private int seq;
     private boolean direction;
@@ -72,6 +74,22 @@ public class ChatBean {
         this.room = room;
     }
 
+    public double getPictureWidth() {
+        return pictureWidth;
+    }
+
+    public void setPictureWidth(double pictureWidth) {
+        this.pictureWidth = pictureWidth;
+    }
+
+    public double getPictureHeight() {
+        return pictureHeight;
+    }
+
+    public void setPictureHeight(double pictureHeight) {
+        this.pictureHeight = pictureHeight;
+    }
+
     public ChatBean(Chat chat) {
         fill(chat);
     }
@@ -93,6 +111,8 @@ public class ChatBean {
                 break;
             case ChatManager.ChatTypePicture:
                 this.content = "/api/chat/picture/" + chat.getCid();
+                this.pictureWidth = chat.getPictureWidth() == null ? 0 : chat.getPictureWidth();
+                this.pictureHeight = chat.getPictureHeight() == null ? 0 : chat.getPictureHeight();
                 break;
         }
     }

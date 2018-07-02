@@ -48,14 +48,15 @@ public class ChatController extends ControllerTemplate {
     }
 
     @RequestMapping(value = "/picture", method = RequestMethod.POST)
-    public ResponseEntity sendPicture(@RequestParam String receiver, HttpServletRequest request) {
+    public ResponseEntity sendPicture(@RequestParam String receiver, @RequestParam(defaultValue = "0") double width,
+                                      @RequestParam(defaultValue = "0") double height, HttpServletRequest request) {
         UserBean userBean = auth(request);
         if (userBean == null) {
             return generateBadRequest(ErrorCode.ErrorToken);
         }
         // Receive picture and get file name.
         String filename = upload(request, configComponent.rootPath + configComponent.PicturePath);
-        ChatBean chatBean = chatManager.sendPicture(userBean.getUid(), receiver, filename);
+        ChatBean chatBean = chatManager.sendPicture(userBean.getUid(), receiver, filename, width, height);
         notifyReciver(userBean, receiver, chatBean);
         return generateOK(new HashMap<String, Object>(){{
             put("chat", chatBean);

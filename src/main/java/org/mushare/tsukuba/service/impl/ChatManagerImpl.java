@@ -66,7 +66,7 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
     }
 
     @Transactional
-    public ChatBean sendPicture(String senderId, String receiverId, String filename) {
+    public ChatBean sendPicture(String senderId, String receiverId, String filename, double width, double height) {
         Room room = getChatRoom(senderId, receiverId);
         if (room == null) {
             Debug.error("Cannot find a room by this rid.");
@@ -82,6 +82,8 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
         Chat chat = new Chat();
         chat.setCreateAt(System.currentTimeMillis());
         chat.setContent(path + File.separator + storeFilename);
+        chat.setPictureWidth(width);
+        chat.setPictureHeight(height);
         chat.setDownloaded(false);
         chat.setType(ChatTypePicture);
         chat.setSeq(room.getChats() + 1);

@@ -20,6 +20,12 @@ public class Chat implements Serializable {
     @Column(nullable = false)
     private String content;
 
+    @Column
+    private Double pictureWidth;
+
+    @Column
+    private Double pictureHeight;
+
     @Column(nullable = false)
     private Boolean downloaded;
 
@@ -66,6 +72,22 @@ public class Chat implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Double getPictureWidth() {
+        return pictureWidth;
+    }
+
+    public void setPictureWidth(Double pictureWidth) {
+        this.pictureWidth = pictureWidth;
+    }
+
+    public Double getPictureHeight() {
+        return pictureHeight;
+    }
+
+    public void setPictureHeight(Double pictureHeight) {
+        this.pictureHeight = pictureHeight;
     }
 
     public Integer getType() {
