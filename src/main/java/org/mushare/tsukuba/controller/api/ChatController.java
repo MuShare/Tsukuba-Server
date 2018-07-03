@@ -55,7 +55,7 @@ public class ChatController extends ControllerTemplate {
             return generateBadRequest(ErrorCode.ErrorToken);
         }
         // Receive picture and get file name.
-        String filename = upload(request, configComponent.rootPath + configComponent.PicturePath);
+        String filename = upload(request, configComponent.rootPath + configComponent.ChatPicturePath);
         ChatBean chatBean = chatManager.sendPicture(userBean.getUid(), receiver, filename, width, height);
         notifyReciver(userBean, receiver, chatBean);
         return generateOK(new HashMap<String, Object>(){{

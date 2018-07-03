@@ -28,13 +28,13 @@ public class PictureManagerImpl extends ManagerTemplate implements PictureManage
             return null;
         }
         // Modify file name.
-        String path = configComponent.rootPath + configComponent.PicturePath + File.separator + mid;
+        String path = configComponent.rootPath + configComponent.MessagePicturePath + File.separator + mid;
         String newName = UUID.randomUUID().toString() + ".jpg";
         FileTool.modifyFileName(path, fileName, newName);
         // Save picture store path to persistent store.
         Picture picture = new Picture();
         picture.setCreateAt(System.currentTimeMillis());
-        picture.setPath(configComponent.PicturePath + File.separator + mid + File.separator + newName);
+        picture.setPath(configComponent.MessagePicturePath + File.separator + mid + File.separator + newName);
         picture.setMessage(message);
         if (pictureDao.save(picture) == null) {
             // Delete picture file if save to persistent store failed.

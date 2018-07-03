@@ -17,7 +17,8 @@ public class ConfigComponent {
     public String DefaultAvatar = "/static/images/avatar.png";
     public String CategoryIconPath = "/files/category";
     public String AvatarPath = "/files/avatar";
-    public String PicturePath = "/WEB-INF/files/picture";
+    public String MessagePicturePath = "/files/picture";
+    public String ChatPicturePath = "/WEB-INF/files/picture";
 
     public String rootPath;
     public JsonTool configTool = null;
@@ -32,7 +33,8 @@ public class ConfigComponent {
         FileTool.createDirectoryIfNotExsit(rootPath + "/WEB-INF/files");
         FileTool.createDirectoryIfNotExsit(rootPath + CategoryIconPath);
         FileTool.createDirectoryIfNotExsit(rootPath + AvatarPath);
-        FileTool.createDirectoryIfNotExsit(rootPath + PicturePath);
+        FileTool.createDirectoryIfNotExsit(rootPath + MessagePicturePath);
+        FileTool.createDirectoryIfNotExsit(rootPath + ChatPicturePath);
         load();
     }
 

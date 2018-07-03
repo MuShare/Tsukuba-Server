@@ -73,10 +73,10 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
             return null;
         }
         // Move file.
-        String path = configComponent.PicturePath + File.separator + room.getRid();
+        String path = configComponent.ChatPicturePath + File.separator + room.getRid();
         String storeFilename = UUID.randomUUID().toString() + ".jpg";
         FileTool.createDirectoryIfNotExsit(configComponent.rootPath + path);
-        FileTool.moveFile(configComponent.rootPath + configComponent.PicturePath + File.separator + filename, configComponent.rootPath + path + File.separator + storeFilename);
+        FileTool.moveFile(configComponent.rootPath + configComponent.ChatPicturePath + File.separator + filename, configComponent.rootPath + path + File.separator + storeFilename);
 
         // Create new chat object.
         Chat chat = new Chat();

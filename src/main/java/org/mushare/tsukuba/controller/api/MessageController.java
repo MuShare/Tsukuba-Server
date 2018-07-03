@@ -103,7 +103,7 @@ public class MessageController extends ControllerTemplate {
         if (result == Result.MessageModifyNoPrevilege) {
             return generateBadRequest(ErrorCode.ErrorModifyMessageNoPrivilege);
         }
-        String fileNname = upload(request, createUploadDirectory(configComponent.PicturePath + File.separator + mid));
+        String fileNname = upload(request, createUploadDirectory(configComponent.MessagePicturePath + File.separator + mid));
         final PictureBean pictureBean = pictureManager.handleUploadedPicture(mid, fileNname);
         if (pictureBean == null) {
             return generateBadRequest(ErrorCode.ErrorSavePicture);
