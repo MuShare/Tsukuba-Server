@@ -46,9 +46,4 @@
     </bean>
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean class="org.mushare.tsukuba.component.APNsComponent">
-        <property name="p12" value="${apns.p12}"/>
-        <property name="password" value="${apns.password}"/>
-        <property name="distribution" value="${apns.distribution}"/>
-    </bean>
 </beans>

@@ -2,6 +2,7 @@ package org.mushare.tsukuba.component;
 
 import org.mushare.common.util.FileTool;
 import org.mushare.common.util.JsonTool;
+import org.mushare.tsukuba.component.config.APNs;
 import org.mushare.tsukuba.component.config.Facebook;
 import org.mushare.tsukuba.component.config.Global;
 import org.mushare.tsukuba.component.config.Mail;
@@ -23,6 +24,7 @@ public class ConfigComponent {
     public Mail mail;
     public Global global;
     public Facebook facebook;
+    public APNs apns;
 
     public ConfigComponent() {
         rootPath = this.getClass().getClassLoader().getResource("/").getPath().split("WEB-INF")[0];
@@ -40,6 +42,7 @@ public class ConfigComponent {
         global = new Global(configTool.getJSONObject("global"));
         mail = new Mail(configTool.getJSONObject("mail"));
         facebook = new Facebook(configTool.getJSONObject("facebook"));
+        apns = new APNs(configTool.getJSONObject("apns"));
     }
 
 }

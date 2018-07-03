@@ -1,18 +1,23 @@
 {
-  "global": {
-    "languages": "en/zh",
-    "httpProtocol": "http",
-    "domain": "localhost:8080",
-    "validity": 600,
-    "resetTitles": "Reset your password/重置密码"
-  },
-  "mail": {
-    "sender": "test@mushare.cn",
-    "smtp": "smtp.ym.163.com",
-    "username": "test@mushare.cn",
-    "password": "test_account"
-  },
-  "facebook": {
-    "appId": ""
-  }
+    "global": {
+        "languages": "en/zh",
+        "httpProtocol": "http",
+        "domain": "localhost:8080",
+        "validity": 600,
+        "resetTitles": "Reset your password/重置密码"
+    },
+    "mail": {
+        "sender": "test@mushare.cn",
+        "smtp": "smtp.ym.163.com",
+        "username": "test@mushare.cn",
+        "password": "test_account"
+    },
+    "facebook": {
+        "appId": ""
+    },
+    "apns": {
+        "p12": "/WEB-INF/aps.p12",
+        "password": "",
+        "distribution": true
+    }
 }
