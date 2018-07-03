@@ -118,9 +118,9 @@
             <version>1.4.9</version>
         </dependency>
         <dependency>
-            <groupId>com.notnoop.apns</groupId>
-            <artifactId>apns</artifactId>
-            <version>1.0.0.Beta6</version>
+            <groupId>com.turo</groupId>
+            <artifactId>pushy</artifactId>
+            <version>0.13.3</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>

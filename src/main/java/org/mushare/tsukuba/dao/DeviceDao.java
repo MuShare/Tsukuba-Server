@@ -23,6 +23,14 @@ public interface DeviceDao extends BaseDao<Device> {
     Device getByToken(String token);
 
     /**
+     * Get a device by device token.
+     *
+     * @param deviceToken
+     * @return
+     */
+    Device getByDeviceToken(String deviceToken);
+
+    /**
      * Find all devices of a user.
      *
      * @param user

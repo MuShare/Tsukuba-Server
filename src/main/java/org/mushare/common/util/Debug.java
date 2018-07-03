@@ -9,4 +9,9 @@ public class Debug {
         System.err.println(new Date() + " " + method + ": " + message);
     }
 
+    public static void log(String message) {
+        String method = Thread.currentThread().getStackTrace()[2].toString();
+        System.out.println(new Date() + " " + method + ": " + message);
+    }
+
 }

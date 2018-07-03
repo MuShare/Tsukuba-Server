@@ -1,5 +1,6 @@
 package org.mushare.tsukuba.controller.api;
 
+import org.mushare.common.util.Debug;
 import org.mushare.tsukuba.bean.UserBean;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
 import org.mushare.tsukuba.controller.common.ErrorCode;
@@ -150,6 +151,7 @@ public class UserController extends ControllerTemplate {
             return generateBadRequest(ErrorCode.ErrorToken);
         }
         String token = request.getHeader("token");
+        Debug.log(userBean.getName() + ", deviceToken = " + deviceToken);
         final boolean success = deviceManager.updateDeviceToken(deviceToken, token);
         return generateOK(new HashMap<String, Object>() {{
             put("success", success);

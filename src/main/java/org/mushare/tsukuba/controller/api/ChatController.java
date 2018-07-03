@@ -69,7 +69,7 @@ public class ChatController extends ControllerTemplate {
                     continue;
                 }
                 apnsComponent.push(deviceBean.getDeviceToken(),
-                        userBean.getName() + "\n" + content,
+                        userBean.getName(), content,
                         "chat:" + userBean.getUid());
             }
         }).start();
