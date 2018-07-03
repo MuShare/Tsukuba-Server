@@ -18,6 +18,7 @@
     "apns": {
         "p12": "/WEB-INF/aps.p12",
         "password": "",
+        "topic": "org.mushare.Tsukuba-iOS",
         "distribution": true
     }
 }

@@ -56,7 +56,7 @@ public class APNsComponent {
         payloadBuilder.setAlertTitle(title);
         payloadBuilder.setSound("default");
         payloadBuilder.setCategoryName(category);
-        final SimpleApnsPushNotification pushNotification =  new SimpleApnsPushNotification(deviceToken, "org.mushare.Tsukuba-iOS", payloadBuilder.buildWithDefaultMaximumLength());
+        final SimpleApnsPushNotification pushNotification =  new SimpleApnsPushNotification(deviceToken, config.apns.topic, payloadBuilder.buildWithDefaultMaximumLength());
         final PushNotificationFuture<SimpleApnsPushNotification, PushNotificationResponse<SimpleApnsPushNotification>>
                 sendNotificationFuture = getApnsClient().sendNotification(pushNotification);
 
