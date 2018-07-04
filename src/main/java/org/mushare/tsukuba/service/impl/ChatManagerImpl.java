@@ -138,6 +138,7 @@ public class ChatManagerImpl extends ManagerTemplate implements ChatManager {
             room.setChats(0);
             room.setSender(sender);
             room.setReceiver(receiver);
+            room.setLastMessage("");
             if (roomDao.save(room) == null) {
                 Debug.error("Room cannot be saved.");
                 return null;
