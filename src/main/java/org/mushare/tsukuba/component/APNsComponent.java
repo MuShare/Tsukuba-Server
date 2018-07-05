@@ -10,12 +10,14 @@ import org.mushare.common.util.Debug;
 import org.mushare.tsukuba.dao.DeviceDao;
 import org.mushare.tsukuba.domain.Device;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+@Component
 public class APNsComponent {
 
     @Autowired
@@ -24,35 +26,22 @@ public class APNsComponent {
     @Autowired
     private DeviceDao deviceDao;
 
-    private String p12;
-    private String password;
-    private boolean distribution;
-
-    public void setP12(String p12) {
-        this.p12 = p12;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setDistribution(boolean distribution) {
-        this.distribution = distribution;
-    }
-
     private ApnsClient apnsClient = null;
+
+    public void load() {
+        try {
+            apnsClient = new ApnsClientBuilder()
+                    .setApnsServer(config.apns.distribution ? ApnsClientBuilder.PRODUCTION_APNS_HOST : ApnsClientBuilder.DEVELOPMENT_APNS_HOST)
+                    .setClientCredentials(new File(config.rootPath + config.apns.p12), config.apns.password)
+                    .build();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public ApnsClient getApnsClient() {
         if (apnsClient == null) {
-            try {
-                apnsClient = new ApnsClientBuilder()
-                        .setApnsServer(distribution ? ApnsClientBuilder.PRODUCTION_APNS_HOST : ApnsClientBuilder.DEVELOPMENT_APNS_HOST)
-                        .setClientCredentials(new File(config.rootPath + p12), password)
-                        .build();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
+            load();
         }
         return apnsClient;
     }
@@ -67,7 +56,7 @@ public class APNsComponent {
         payloadBuilder.setAlertTitle(title);
         payloadBuilder.setSound("default");
         payloadBuilder.setCategoryName(category);
-        final SimpleApnsPushNotification pushNotification =  new SimpleApnsPushNotification(deviceToken, "org.mushare.Tsukuba-iOS", payloadBuilder.buildWithDefaultMaximumLength());
+        final SimpleApnsPushNotification pushNotification =  new SimpleApnsPushNotification(deviceToken, config.apns.topic, payloadBuilder.buildWithDefaultMaximumLength());
         final PushNotificationFuture<SimpleApnsPushNotification, PushNotificationResponse<SimpleApnsPushNotification>>
                 sendNotificationFuture = getApnsClient().sendNotification(pushNotification);
 

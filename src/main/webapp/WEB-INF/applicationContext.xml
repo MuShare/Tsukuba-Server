@@ -13,7 +13,7 @@
     <context:component-scan base-package="org.mushare.tsukuba.component"/>
     <context:component-scan base-package="org.mushare.tsukuba.dao"/>
     <context:component-scan base-package="org.mushare.tsukuba.service"/>
-    <context:property-placeholder location="WEB-INF/config.properties"/>
+    <context:property-placeholder location="WEB-INF/hibernate.properties"/>
     <import resource="dwr.xml"/>
 
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
@@ -46,9 +46,4 @@
     </bean>
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean class="org.mushare.tsukuba.component.APNsComponent">
-        <property name="p12" value="${apns.p12}"/>
-        <property name="password" value="${apns.password}"/>
-        <property name="distribution" value="${apns.distribution}"/>
-    </bean>
 </beans>

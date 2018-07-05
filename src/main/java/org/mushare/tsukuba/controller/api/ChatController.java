@@ -5,6 +5,7 @@ import net.sf.json.JSONObject;
 import org.mushare.tsukuba.bean.*;
 import org.mushare.tsukuba.controller.common.ControllerTemplate;
 import org.mushare.tsukuba.controller.common.ErrorCode;
+import org.mushare.tsukuba.service.ChatManager;
 import org.mushare.tsukuba.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.socket.server.standard.SpringConfigurator;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +41,29 @@ public class ChatController extends ControllerTemplate {
         if (chatBean == null) {
             return generateBadRequest(ErrorCode.ErrorSendPlainText);
         }
+        notifyReciver(userBean, receiver, chatBean);
+        return generateOK(new HashMap<String, Object>(){{
+            put("chat", chatBean);
+        }});
+    }
 
+    @RequestMapping(value = "/picture", method = RequestMethod.POST)
+    public ResponseEntity sendPicture(@RequestParam String receiver, @RequestParam(defaultValue = "0") double width,
+                                      @RequestParam(defaultValue = "0") double height, HttpServletRequest request) {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            return generateBadRequest(ErrorCode.ErrorToken);
+        }
+        // Receive picture and get file name.
+        String filename = upload(request, configComponent.rootPath + configComponent.ChatPicturePath);
+        ChatBean chatBean = chatManager.sendPicture(userBean.getUid(), receiver, filename, width, height);
+        notifyReciver(userBean, receiver, chatBean);
+        return generateOK(new HashMap<String, Object>(){{
+            put("chat", chatBean);
+        }});
+    }
+
+    private void notifyReciver(UserBean sender, String receiver, ChatBean chatBean) {
         List<DeviceBean> deviceBeans = deviceManager.getDevicesByUid(receiver);
         // Send JSON string by web socket
         for (DeviceBean deviceBean: deviceBeans) {
@@ -68,23 +93,42 @@ public class ChatController extends ControllerTemplate {
                 if (deviceBean.getDeviceToken() == null || deviceBean.getDeviceToken().equals("")) {
                     continue;
                 }
+
+                String content = "";
+                switch (chatBean.getType()) {
+                    case ChatManager.ChatTypePlainText:
+                        content = chatBean.getContent();
+                        break;
+                    case ChatManager.ChatTypePicture:
+                        String lan = deviceBean.getLan();
+                        if (!configComponent.global.pictureNotification.containsKey(lan)) {
+                            lan = configComponent.global.languages[0];
+                        }
+                        content = configComponent.global.pictureNotification.get(lan).replace("{name}", sender.getName());
+                        break;
+                    default:
+                        break;
+                }
                 apnsComponent.push(deviceBean.getDeviceToken(),
-                        userBean.getName(), content,
-                        "chat:" + userBean.getUid());
+                        sender.getName(), content,
+                        "chat:" + sender.getUid());
             }
         }).start();
-
-
-        return generateOK(new HashMap<String, Object>(){{
-            put("chat", chatBean);
-        }});
     }
 
-    @RequestMapping(value = "/picture", method = RequestMethod.POST)
-    public ResponseEntity sendPicture(@RequestParam String uid, HttpServletRequest request) {
-        return generateOK(new HashMap<String, Object>(){{
-
-        }});
+    @RequestMapping(value = "/picture/{cid}", method = RequestMethod.GET)
+    public void getChatPicture(@PathVariable String cid, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        UserBean userBean = auth(request);
+        if (userBean == null) {
+            response.getWriter().write("Token error.");
+            return;
+        }
+        String storage = chatManager.getPictureStorage(cid, userBean.getUid());
+        if (storage == null) {
+            response.getWriter().write("Chat id is not found, or no privilege to access this picture");
+            return;
+        }
+        getPicture(configComponent.rootPath + storage, response);
     }
 
     @RequestMapping(value = "/list/{rid}", method = RequestMethod.GET)

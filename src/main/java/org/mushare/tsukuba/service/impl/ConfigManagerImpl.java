@@ -21,7 +21,11 @@ public class ConfigManagerImpl extends ManagerTemplate implements ConfigManager 
         if (!checkAdminSession(session)) {
             return false;
         }
+        // Reload config.
         configComponent.load();
+
+        // Reload APNs.
+        apnsComponent.load();
         return true;
     }
 
