@@ -89,13 +89,25 @@ public class ChatController extends ControllerTemplate {
 
         // Push remote notification.
         new Thread(() -> {
-            String content = chatBean.getContent();
-            if (chatBean.getType() == ChatManager.ChatTypePicture) {
-                content = sender.getName() + " sends a picture to you.";
-            }
             for (DeviceBean deviceBean : deviceBeans) {
                 if (deviceBean.getDeviceToken() == null || deviceBean.getDeviceToken().equals("")) {
                     continue;
+                }
+
+                String content = "";
+                switch (chatBean.getType()) {
+                    case ChatManager.ChatTypePlainText:
+                        content = chatBean.getContent();
+                        break;
+                    case ChatManager.ChatTypePicture:
+                        String lan = deviceBean.getLan();
+                        if (!configComponent.global.pictureNotification.containsKey(lan)) {
+                            lan = configComponent.global.languages[0];
+                        }
+                        content = configComponent.global.pictureNotification.get(lan).replace("{name}", sender.getName());
+                        break;
+                    default:
+                        break;
                 }
                 apnsComponent.push(deviceBean.getDeviceToken(),
                         sender.getName(), content,

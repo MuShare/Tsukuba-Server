@@ -157,19 +157,10 @@ public class UserManagerImpl extends ManagerTemplate implements UserManager {
             return false;
         }
         // If lan is not existed in supported languages list, set English as default.
-        String [] lans = configComponent.global.languages;
-        String [] titles = configComponent.global.resetTitles;
-        String title = null;
-        for (int i = 0; i < lans.length; i++) {
-            if (lans[i].equals(lan)) {
-                title = titles[i];
-                break;
-            }
+        if (!configComponent.global.resetTitle.containsKey(lan)) {
+            lan = configComponent.global.languages[0];
         }
-        if (title == null) {
-            lan = lans[0];
-            title = titles[0];
-        }
+        String title = configComponent.global.resetTitle.get(lan);
         // Send mail
         MengularDocument document = new MengularDocument(configComponent.rootPath, 0,
                 "mail/" + lan + "/password.html", null);

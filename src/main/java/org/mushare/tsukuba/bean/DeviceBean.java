@@ -11,6 +11,7 @@ public class DeviceBean {
     private Date updateAt;
     private String identifier;
     private String deviceToken;
+    private String lan;
 
     public String getDid() {
         return did;
@@ -52,12 +53,21 @@ public class DeviceBean {
         this.deviceToken = deviceToken;
     }
 
+    public String getLan() {
+        return lan;
+    }
+
+    public void setLan(String lan) {
+        this.lan = lan;
+    }
+
     public DeviceBean(Device device) {
         this.did = device.getDid();
         this.createAt = new Date(device.getCreateAt());
         this.updateAt = new Date(device.getUpdateAt());
         this.identifier = device.getIdentifier();
         this.deviceToken = device.getDeviceToken();
+        this.lan = device.getLan();
     }
 
 }

@@ -1,10 +1,11 @@
 {
     "global": {
-        "languages": "en/zh",
+        "languages": "en/zh/ja",
         "httpProtocol": "http",
         "domain": "localhost:8080",
         "validity": 600,
-        "resetTitles": "Reset your password/重置密码"
+        "resetTitle": "Reset your password/重置密码/パスワードをリセット",
+        "pictureNotification": "{name} has sent you a picture/{name}向你发送了一张图片/{name}さんから写真が届きました"
     },
     "mail": {
         "sender": "test@mushare.cn",
